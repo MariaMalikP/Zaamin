@@ -4,6 +4,7 @@ import {BrowserRouter} from 'react-router-dom';
 import Login from './components/login';
 import Home from './components/home';
 import ProfileHome from './components/profilehome';
+// import EditProfile from './components/editprofile';
 
 function App() {
 
@@ -12,7 +13,8 @@ function App() {
         <Routes>
             <Route path="/" element={<Login/>}/>
             <Route path="/home" element={<Home/>}/>
-            <Route path="profilehome" element={<ProfileHome/>}/>
+            <Route path="/profilehome/:email" element={<ProfileHome/>}/>
+            {/* <Route path="/editprofile" element={<EditProfile/>}/> */}
         </Routes>
       </BrowserRouter>
     
