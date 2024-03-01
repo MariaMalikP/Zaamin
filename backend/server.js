@@ -59,4 +59,3 @@ app.post('/viewprofile', async (req, res) => {
 });
 
 export default app;
-
