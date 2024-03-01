@@ -1,24 +1,61 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://everyonegrp13:wehateselmao@zaamin.ylj8gad.mongodb.net/?retryWrites=true&w=majority&appName=Zaamin";
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from 'cors';
+dotenv.config();
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+
+mongoose.connect(process.env.MONG_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log(`Listening on port ${process.env.PORT}`);
+    console.log("Connected to Database");
+});
+})
+.catch((error) => {
+  console.log(error);
+});
+
+
+const emptySchema = new mongoose.Schema({});
+
+const Employee = mongoose.model('Employee', emptySchema, 'Employee');
+
+
+app.post('/viewprofile', async (req, res) => {
+  try {
+    const { email, role } = req.body;
+    console.log(role);
+    if(role === 'admin') {
+      const profile = await Admin.findOne({ Email: email });
+      return res.json({ status: "profile exists", profile_deets: profile });
+    } else if(role === 'employee') {
+      console.log(email)
+      const profile = await Employee.findOne({ Email: email });
+      console.log(profile);
+      return res.json({ status: "profile exists", profile_deets: profile });
+    } else if(role === 'manager') {
+      const profile = await Manager.findOne({ Email: email });
+      return res.json({ status: "profile exists", profile_deets: profile });
+    } else {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+export default app;
