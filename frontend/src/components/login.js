@@ -24,7 +24,7 @@ const Login = (prop) => {
                 console.log('Login failed');
                 if (response.data.status === 'failed') {
                     console.error('Invalid email or password');
-                    // setError('Invalid email or password');
+                    setError('Invalid email or password');
                     alert('Invalid email or password');
                 } else {
                     setError('Server error');

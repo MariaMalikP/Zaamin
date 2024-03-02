@@ -156,3 +156,16 @@ button[type="login-button"] {
     transform: translate(-50%, -50%);
     position: absolute;
 }
+
+.error-message
+{
+    color:red;
+    font-family: 'Inter';
+    font-size: 20px;
+    text-align: center;
+    top: 90%;
+    left: 50%;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
