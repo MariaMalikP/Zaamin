@@ -27,6 +27,6 @@ const managerSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-const Manager = mongoose.model('Manager', managerSchema);
+const Manager = mongoose.model('Manager', managerSchema, 'Manager');
 
 export default Manager;
