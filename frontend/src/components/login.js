@@ -4,15 +4,12 @@ import axios from 'axios';
 import '../styles/login.css'; // Import your CSS file
 
 const Login = (prop) => {
-    const history = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const home = () => {
-        history(`/home`);
-    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -67,7 +64,7 @@ const Login = (prop) => {
             <div className="signup-link">
                 <p>Don’t have an account yet? <Link to="/signuplanding">Sign up</Link></p>
             </div>
-            <button className="sub-button" type="button" onClick={home}>Home</button>
+            {/* <button className="sub-button" type="button" onClick={home}>Home</button> */}
         </div>
     );
     
