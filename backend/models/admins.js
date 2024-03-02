@@ -37,6 +37,10 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Date_of_Birth: {
+        type: Date,
+        required: true,
+    },
 }, { timestamps: true });
 
 const Admin = mongoose.model('Admin', adminSchema, 'Admin');

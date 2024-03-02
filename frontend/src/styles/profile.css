@@ -7,10 +7,10 @@
 
 .profile-circle {
     position: absolute;
-    left: 160px;
-    top: 190px;
-    width: 50px;
-    height: 50px;
+    left: 150px;
+    top: 185px;
+    width: 55px;
+    height: 55px;
     background: #E8E1E2;
     border-radius: 50%;
 }
@@ -100,6 +100,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 color: #E8E1E2;
+cursor: pointer;
 }
 
 .output {
@@ -271,6 +272,7 @@ border-radius: 20px;
     background: #E8E1E2;
     color: #13476F;
     border: none;
+    cursor: pointer;
 }
 
 .financial-page {
@@ -279,6 +281,7 @@ border-radius: 20px;
     background: #E8E1E2;
     color: #13476F;
     border: none;
+    cursor: pointer;
 }
 
 .password-change {
@@ -287,6 +290,7 @@ border-radius: 20px;
     background: #E8E1E2;
     color: #13476F;
     border: none;
+    cursor: pointer;
 }
 
 .icon {
@@ -305,6 +309,7 @@ border-radius: 20px;
     background: #F18550;
     border-radius: 50%;
     box-shadow: 0 0 0 10px #F18550;
+    cursor: pointer;
 }
 
 .info {
@@ -312,10 +317,85 @@ border-radius: 20px;
     width: 24px;
     height: 24px;
     left: 1270px;
-    top: 592px;
+    top: 480px;
+    cursor: pointer;
 }
-.date-picker-container {
+
+.info-tooltip {
+    position: relative; /* Change from absolute to relative */
+    display: inline-block;
+}
+
+.info-tooltip .description-box {
     position: absolute;
-    left: 0;
-    top: 100%; /* Drop down right below the icon */
+    top: 400;
+    left: 1300px;
+    top: 425px;
+    width: 200px;
+    padding: 10px;
+    background-color: #F18550;
+    color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    display: none;
+}
+
+.info-tooltip:hover .description-box {
+    display: block;
+}
+
+.date-picker {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 1165px;
+    top: 450px;
+    /* z-index: 2; */
+    /* opacity: 0; */
+}
+.pop-up {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: #E8E1E2;
+    max-width: 400px;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
+    max-width: 1000px;
+    height: 300px;
+    font-family: 'Inter'; 
+    font-style: normal; 
+    font-weight: 700; 
+    font-size: 16px; 
+    line-height: 24px; 
+    color: #13476F; 
+}
+
+.close-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: #F18550;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #E8E1E2;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
 }
