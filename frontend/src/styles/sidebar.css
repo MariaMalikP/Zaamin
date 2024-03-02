@@ -1,0 +1,40 @@
+/* sidebar.css */
+
+.sidebar {
+    background-color: rgba(22, 138, 173, 0.82);; /* Background color of the sidebar */
+    /* color:  #bb6d36;  */
+    color:E8E1E2;
+    width: 200px; /* Width of the sidebar */
+    height: calc(100vh - 100px); /* Full height of the viewport minus the height of the header */
+    position: fixed; /* Fixes the sidebar position */
+    top: 100px; /* Aligns the sidebar below the header */
+    right: 0; /* Aligns the sidebar to the right of the viewport */
+    padding-top: 20px; /* Adds padding to the top */
+    transform: translateX(100%); /* Initially hides the sidebar off-screen */
+    transition: transform 0.3s ease-in-out; /* Adds smooth transition effect */
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Moves the sidebar into view when open */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Removes bullet points from the list */
+    padding: 0; /* Removes default padding */
+    display: flex; /* Use flexbox layout */
+    flex-direction: column; /* Arrange items vertically */
+}
+
+.sidebar li {
+    padding: 10px; /* Adds padding to list items */
+}
+
+.sidebar li a {
+    color: #E8E1E2; 
+    text-decoration: none;
+}
+
+
+.sidebar li a:hover {
+    background-color:  rgba(22, 138, 173, 0.82); /* Background color on hover */
+}
