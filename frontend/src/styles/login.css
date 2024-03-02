@@ -124,7 +124,7 @@ button[type="login-button"] {
 .logo {
     /* background-image: ('../public/images/Logo.png'); */
     width: 234px;
-    height: 150px;
+    height: 250px;
     top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);

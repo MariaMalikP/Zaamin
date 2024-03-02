@@ -24,7 +24,8 @@ const Login = (prop) => {
                 console.log('Login failed');
                 if (response.data.status === 'failed') {
                     console.error('Invalid email or password');
-                    setError('Invalid email or password');
+                    // setError('Invalid email or password');
+                    alert('Invalid email or password');
                 } else {
                     setError('Server error');
                 }
@@ -38,7 +39,7 @@ const Login = (prop) => {
     return (
         <div className='login-page'>
             <div className="gradient-box">
-            <img src="/images/Logo.png" alt="Logo" className="logo" />                <div className="login-title">Login</div>
+            <img src="/images/Logo.png" alt="Logo" className="logo"  />                <div className="login-title">Login</div>
                 <form onSubmit={handleSubmit} className='loginForm'>
                     <label className="email">Email:</label>
                     <input className="user-inp"
