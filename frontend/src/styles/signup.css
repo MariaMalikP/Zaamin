@@ -1,0 +1,401 @@
+body {
+    position: relative;
+    width: 100%;
+    height: 1000px;
+    background: linear-gradient(246.77deg, #B5E48C 13.03%, rgba(22, 138, 173, 0.82) 84.31%); /*Linear gradient background*/
+   } 
+
+  .gradient-box {
+    top : 50%;
+    left : 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 1300px;
+    height: 700px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    border-radius: 56px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+/* button type=submit */
+button[type="login-button"] {
+    background-color: #F18550;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    width: 250px; 
+    height: 50px;
+    border-radius: 100px;
+    cursor: pointer;
+    top: 85%;
+    font-family: 'Inter';
+    font-size: 20px;
+    font-weight: bold;
+    left: 67%;
+    transform: translate(-50%, 0%);
+    position: absolute;
+
+  } 
+  button[type="login-button"]:hover {
+    background-color: #D78B44;
+  }
+  .first-name
+  {
+      top: 45%;
+      left: 15%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      width: 200px;
+      height: 25px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      border: none;
+      background-color: #F0F0F0;
+      color: #BCBEC0;
+      text-align: left;
+  }
+  .last-name
+  {
+      top: 45%;
+      left: 35%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      width: 200px;
+      height: 25px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      border: none;
+      background-color: #F0F0F0;
+      color: #BCBEC0;
+      text-align: left;
+  }
+  .name
+  {
+      display: block;
+      margin-bottom: 10px; /* Add space below each label */
+      font-family: 'Inter';
+      font-size: 18px;
+      color: #fff;
+      text-align: left;  
+      top: 39%;
+      left: 8%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+  }
+.email-inp
+{
+    top: 58%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 462px;
+    height: 25px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    border: none;
+    background-color: #F0F0F0;
+    color: #BCBEC0;
+    text-align: left;
+}
+.email
+{
+    display: block;
+    margin-bottom: 10px; /* Add space below each label */
+    font-family: 'Inter';
+    font-size: 18px;
+    color: #fff;
+    text-align: left;  
+    top: 52%;
+    left: 8%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.pass-inp
+{
+  top: 71%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 462px;
+  height: 25px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  background-color: #F0F0F0;
+  color: #BCBEC0;
+  text-align: left;
+}
+.password {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 65%;
+  left: 9%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.confpass-inp
+{
+  top: 84%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 462px;
+  height: 25px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  background-color: #F0F0F0;
+  color: #BCBEC0;
+  text-align: left;
+}
+.confirm-password {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 78%;
+  left: 11.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.securityQ-inp
+{
+  top: 40%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 462px;
+  height: 25px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  background-color: #F0F0F0;
+  color: #BCBEC0;
+  text-align: left;
+}
+.security-question {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 34%;
+  left: 61%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.address-inp
+{
+  top: 56%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 462px;
+  height: 65px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  background-color: #F0F0F0;
+  color: #BCBEC0;
+  text-align: left;
+}
+.address {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 47.5%;
+  left: 58.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.dob-inp
+{
+  top: 73%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 462px;
+  height: 25px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  border: none;
+  background-color: #F0F0F0;
+  color: #BCBEC0;
+  text-align: left;
+}
+.dob {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 66.5%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.age {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top:21%;
+  left: 57.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.phone {
+  display: block;
+  margin-bottom: 10px; /* Add space below each label */
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top:21%;
+  left: 76.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.age-inp
+  {
+      top: 27%;
+      left: 62.5%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      width: 130px;
+      height: 25px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      border: none;
+      background-color: #F0F0F0;
+      color: #BCBEC0;
+      text-align: left;
+  }
+  .phone-inp
+  {
+      top: 27%;
+      left: 83%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      width: 250px;
+      height: 25px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      border: none;
+      background-color: #F0F0F0;
+      color: #BCBEC0;
+      text-align: left;
+  }
+
+
+.logo {
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 234px;
+    height: 150px;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+
+}
+    
+.login-title
+{
+    font-family: 'Inter';
+    font-size: 39px;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    top: 27%;
+    left: 11%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.signup-link {
+  text-align: left;
+  margin-top: 219px;
+  margin-left: 82px;
+  font-size: 14px;
+}
+
+.signup-link p {
+  margin: 0;
+}
+
+.signup-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+

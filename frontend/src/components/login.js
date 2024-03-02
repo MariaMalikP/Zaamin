@@ -13,9 +13,18 @@ const Login= (prop)=>{
             console.error('Error during login, try again', error);
         }
     };
+    const signup = async () => {
+        try {
+            history(`/signuplanding`);
+        }
+        catch (error) {
+            console.error('Error during sugnup, try again', error);
+        }
+    };
     return (        
-        <div className='login-page'>
+        <div>
          <button className="sub-button" type="button" onClick={home}>Home</button>
+         <button className="sub-button" type="button" onClick={signup}>Signup</button>
         </div>
     )
 
