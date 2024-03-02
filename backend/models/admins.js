@@ -13,6 +13,18 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Department: {
+        type: String,
+        required: true,
+    },
+    Address: {
+        type: String,
+        required: true,
+    },
+    Age: {
+        type: Number,
+        required: true,
+    },
     Email: {
         type: String,
         required: true,
@@ -21,8 +33,12 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Profile_Image: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 
-const Admin = mongoose.model('Admin', adminSchema);
+const Admin = mongoose.model('Admin', adminSchema, 'Admin');
 
 export default Admin;

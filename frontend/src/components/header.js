@@ -29,7 +29,7 @@ export const Header = () => {
     return (
         <div>
         <nav>
-            <img src="/images/logo.jpg" alt="Logo" className="logo" />
+            <img src="/images/logo.png" alt="Logo" className="logo" />
             <ul>
                 <li>
                     <input type="text" id="search-bar" placeholder="Search..." />

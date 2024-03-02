@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/profile.css'; // Import your CSS file
 import Header from './header';
 
+
 const ProfileHome = () => {
   const { email } = useParams();
   const navigate = useNavigate();
@@ -27,17 +28,19 @@ const ProfileHome = () => {
   }, []);
 
   const handleEditProfileClick = () => {
-    navigate(`/editprofile`);
+    navigate(`/editprofile/${email}`);
   };
 
   return (
     <div className='profile'>
       <div><Header /></div>
       <div className='heading'>Profile</div>
+      <img src='/ppl.jpg' className='profile-circle'/>
       {returnStatus === "profile exists" && userProfile && (
         <>
          <div className='ellipse-27'>
           <img src={userProfile.Profile_Image} alt='Profile' className='profile-picture'/>
+          {/* <img src='/img.png' className='img-icon'/> */}
         </div>
           <div className='title firstname'>First Name:</div>
           <div className='output-box output output1'>{userProfile.First_Name}</div>
@@ -45,10 +48,12 @@ const ProfileHome = () => {
           <div className='output-box output output2'>{userProfile.Last_Name}</div>
           <div className='title age'>Age:</div>
           <div className='mini-box output'>{userProfile.Age}</div>
-          <div className='title dob'>Date of Birth</div>
-          <div className='title phoneno'>Phone:</div>
+          <div className='title dob'>Date of Birth:</div>
+          <img src='/calender.png' alt='calender' className='icon'/>
+          <div className='title phoneno'>Phone Number:</div>
           <div className='output-box output output5'>{userProfile.Phone_Number}</div>
           <div className='title occupation'>Occupation:</div>
+          <img src='/info.png' className='info'/>
           <div className='output-box output output6'>Employee</div>
           <div className='title address'>Address:</div>
           <div className='big-output leftoutput output7'>{userProfile.Address}</div>

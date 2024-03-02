@@ -5,6 +5,16 @@
     background: #E8E1E2;
 }
 
+.profile-circle {
+    position: absolute;
+    left: 160px;
+    top: 190px;
+    width: 50px;
+    height: 50px;
+    background: #E8E1E2;
+    border-radius: 50%;
+}
+
 .heading {
     position: absolute;
     width: 207px;
@@ -19,6 +29,7 @@
     display: flex;
     align-items: center;
     color: #13476F;
+    white-space: nowrap;
 }
 
 .title {
@@ -33,6 +44,7 @@
     display: flex;
     align-items: center;
     color: #13476F;
+    white-space: nowrap;
 }
 .firstname {
     left: 600px;
@@ -46,12 +58,12 @@
 
 .age {
     left: 600px;
-    top: 430px;
+    top: 450px;
 }
 
 .dob {
     left: 1000px;
-    top: 430px;
+    top: 450px;
 }
 
 .phoneno {
@@ -124,37 +136,37 @@ color: #13476F;
 
 .output1 {
 left: 600px;
-top: 300px;
+top: 302px;
 }
 
 .output2 {
 left: 1000px;
-top: 300px;
+top: 302px;
 }
 
 .output3 {
 left: 600px;
-top: 450px;
+top: 452px;
 }
 
 .output4 {
 left: 1000px;
-top: 450px;
+top: 452px;
 }
 
 .output5 {
 left: 600px;
-top: 620px;
+top: 622px;
 }
 
 .output6 {
 left: 1000px;
-top: 620px;
+top: 622px;
 }
 
 .output7 {
 left: 600px;
-top: 780px;
+top: 782px;
 }
 
 .output-box {
@@ -177,7 +189,7 @@ border-radius: 20px;
     width: 73px;
     height: 53px;
     left: 665px;
-    top: 415px;
+    top: 435px;
     background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
     border-radius: 20px;
 }
@@ -204,10 +216,10 @@ border-radius: 20px;
 
 .profile-picture {
     position: absolute;
-    width: 320px;
-    height: 320px;
-    left: 15px;
-    top: 15px;
+    width: 310px;
+    height: 310px;
+    left: 20px;
+    top: 20px;
     border-radius: 50%; 
 }
 
@@ -218,7 +230,7 @@ border-radius: 20px;
     height: 350px;
     left: 100px;
     top: 290px; 
-    background: #D9D9D9;
+    background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
     border-radius: 50%; 
 }
 
@@ -277,13 +289,33 @@ border-radius: 20px;
     border: none;
 }
 
-/* Rectan
-/* .rectangle-1385 {
-    width: 364px;
-    height: 410px;
-    background: url(WhatsApp Image 2024-01-27 at 3.27.jpg);
-    /* Inside auto layout */
-    /* flex: none;
-    order: 0;
-    flex-grow: 0;
- } */
+.icon {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 1165px;
+    top: 440px;
+}
+.img-icon {
+    position: absolute;
+    width: 39px;
+    height: 39px;
+    left: 275px;
+    top: 275px;
+    background: #F18550;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #F18550;
+}
+
+.info {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 1270px;
+    top: 592px;
+}
+.date-picker-container {
+    position: absolute;
+    left: 0;
+    top: 100%; /* Drop down right below the icon */
+}

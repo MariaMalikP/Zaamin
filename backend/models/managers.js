@@ -17,6 +17,14 @@ const managerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Address: {
+        type: String,
+        required: true,
+    },
+    Age: {
+        type: Number,
+        required: true,
+    },
     Email: {
         type: String,
         required: true,
@@ -25,8 +33,12 @@ const managerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Profile_Image: {
+        type: String,
+        required: true,
+    },
 }, { timestamps: true });
 
-const Manager = mongoose.model('Manager', managerSchema);
+const Manager = mongoose.model('Manager', managerSchema, 'Manager');
 
 export default Manager;
