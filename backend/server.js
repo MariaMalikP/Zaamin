@@ -5,6 +5,8 @@ import cors from 'cors';
 import Employee from './models/employees.js';
 import Admin from './models/admins.js';
 import Manager from './models/managers.js';
+import Login from './models/userlogin.js';
+import bcrypt from 'bcrypt';
 dotenv.config();
 
 const app = express();
@@ -26,6 +28,47 @@ mongoose.connect(process.env.MONG_URI, {
 })
 .catch((error) => {
   console.log(error);
+});
+
+
+app.post('/login', async (req, res) => {
+  try {
+    console.log("bhere")
+    const { email, password } = req.body;
+    console.log('Email:', email);
+
+    // Find user by email
+    const user = await Login.findOne({ email });
+
+    if (!user) {
+      // If user not found, respond with 401 Unauthorized
+      return res.json({ status: 'failed'});
+    }
+
+    // Compare passwords using bcrypt
+    const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+
+    if (passwordMatch) {
+      // Passwords match, determine user role
+      let role = '';
+      if (user.id.startsWith('A')) {
+        role = 'admin';
+      } else if (user.id.startsWith('M')) {
+        role = 'manager';
+      } else if (user.id.startsWith('E')) {
+        role = 'employee';
+      }
+      console.log('Login successful');
+      return res.json({ status: 'success', role });
+    } else {
+      // Passwords don't match, respond with 401 Unauthorized
+      console.log('Login failed');
+      return res.json({ status: 'failed' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.status(500).json({ error: 'Server error' });
+  }
 });
 
 
