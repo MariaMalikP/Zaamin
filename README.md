@@ -40,7 +40,7 @@ The folder "Zaamin" consists of two subfolders:
 
 ## Setup Instructions
 
-1. Clone the repository:
+1. Use Github Desktop or the CLI (command given) to clone the repository:
    ```
    git clone https://github.com/MariaMalikP/Zaamin.git
    ```
