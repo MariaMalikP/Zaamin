@@ -58,7 +58,7 @@ The folder "Zaamin" consists of two subfolders:
    cd backend
    npm install bcryptjs
    ```
-- In order to use APIs (e.g for us hunter.io) you need to install `axios`. Please ensure the package is installed. The package is included as a dependency in package.json, so the `npm install` command should install it manually, but if any issues are faced, the below script will install the package. 
+- In order to use APIs (e.g hunter.io in this project) you need to install `axios`. Please ensure the package is installed. The package is included as a dependency in package.json, so the `npm install` command should install it manually, but if any issues are faced, the below script will install the package. 
    ``` bash
    cd frontend
    npm install axios
