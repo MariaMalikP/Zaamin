@@ -87,81 +87,99 @@ app.post('/empsignup',async(req,res)=>
 {
 console.log("hereee")
 const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus} = req.body;
-console.log("aaaa",req.body)
-const hashedPassword = bcrypt.hashSync(password, 10);
-const allIds = await Login.find({}).select('id').lean();
-console.log("ids", allIds);
-const ids = allIds.map(item => item.id);
-console.log('IDs:', ids);
-const numericParts = ids
-  .map(id => (id.match(/\d+/) || [])[0])  //Extracting numeric part using regex
-  .filter(Boolean)  
-  .map(Number); 
-const maxNumericPart = Math.max(...numericParts);
-
-console.log('Max Numeric Part:', maxNumericPart);
-
-let newId;
-if(maxNumericPart.length===0|| maxNumericPart===-Infinity)
+const emailExists= await Login.findOne({email:email})
+if(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) 
+{ 
+    res.json("pass problem")
+}
+else if (password!==confpassword)
 {
-  newId='1';
+  res.json("password mismatch")
+}
+else if (emailExists)
+{
+  res.json("email exists")
 }
 else
 {
-  newId= (maxNumericPart+1).toString()
-}
+  console.log("aaaa",req.body)
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const allIds = await Login.find({}).select('id').lean();
+  console.log("ids", allIds);
+  const ids = allIds.map(item => item.id);
+  console.log('IDs:', ids);
+  const numericParts = ids
+    .map(id => (id.match(/\d+/) || [])[0])  //Extracting numeric part using regex
+    .filter(Boolean)  
+    .map(Number); 
+  const maxNumericPart = Math.max(...numericParts);
 
-let finalId;
+  console.log('Max Numeric Part:', maxNumericPart);
 
-if(employeeStatus==="employee")
-{
-  finalId=`EMP${newId}`
-}
-else if (employeeStatus==="admin")
-{
-  finalId=`ADM${newId}`
-}
-else if(employeeStatus==="manager")
-{
-  finalId=`MNR${newId}`
-}
-
-console.log("finalId", finalId);
-
-  const data=
+  let newId;
+  if(maxNumericPart.length===0|| maxNumericPart===-Infinity)
   {
-      email: email,
-      hashedPassword: hashedPassword,
-      id:finalId,
+    newId='1';
   }
-  const empData=
+  else
   {
-      First_Name: firstname,
-      Last_Name: lastname,
-      Email: email,
-      Age: age,
-      Phone_Number: phone,
-      Address: address,
-      Employee_ID: finalId,
-      Department: department,
-      Profile_Image: "default.png",
-      Date_of_Birth: selectedDate,
-    
+    newId= (maxNumericPart+1).toString()
   }
-  console.log("employee", empData)
-  console.log(hashedPassword);
-  console.log(email);
-try
-{
-  await Login.insertMany(data)
-  await Employee.insertMany(empData)
-  console.log("data", data);
-  res.json("yay")
-}
-catch(e)
+
+  let finalId;
+
+  if(employeeStatus==="employee")
+  {
+    finalId=`EMP${newId}`
+  }
+  else if (employeeStatus==="admin")
+  {
+    finalId=`ADM${newId}`
+  }
+  else if(employeeStatus==="manager")
+  {
+    finalId=`MNR${newId}`
+  }
+
+  console.log("finalId", finalId);
+
+    const data=
     {
-        console.log("smth happened")
-        res.json("ohooo")
+        email: email,
+        hashedPassword: hashedPassword,
+        id:finalId,
     }
+    const empData=
+    {
+        First_Name: firstname,
+        Last_Name: lastname,
+        Email: email,
+        Age: age,
+        Phone_Number: phone,
+        Address: address,
+        Employee_ID: finalId,
+        Department: department,
+        Profile_Image: "default.png",
+        Date_of_Birth: selectedDate,
+      
+    }
+    console.log("employee", empData)
+    console.log(hashedPassword);
+    console.log(email);
+
+
+  try
+  {
+    await Login.insertMany(data)
+    await Employee.insertMany(empData)
+    console.log("data", data);
+    res.json("yay")
+  }
+  catch(e)
+      {
+          console.log("smth happened")
+          res.json("ohooo")
+      }
+  }
 });
 export default app;

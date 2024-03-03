@@ -31,6 +31,13 @@ const EmployeeSignup= (prop)=>{
     };
     async function logincheck(e) {
         e.preventDefault();
+        if(password!==confpassword)
+        {
+            setError("mismatched passwords");
+        }
+
+        else
+        {
         try {
                 await axios
                     .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
@@ -39,18 +46,25 @@ const EmployeeSignup= (prop)=>{
                         {
                             setSuccess('Successfully signed up');
                             history(`/login`)
-                           
                         } 
+                        else if (res.data=== "email exists")
+                        {
+                            alert("This email is already in use");
+                        }
                     })
                     .catch((e) => {
-                        alert('wrong deets');
+                        alert('Something went wrong, try again');
                         console.log(e);
+                        // setError('Something went wrong');
+                        // console.error(error);
                     });
         } catch (e) {
             console.log(e);
         }
     }
+    }
     return (
+
         <div className='login-page'>
             <div className="gradient-box">
                 <div>
@@ -93,6 +107,8 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
+                        (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and special characters.</div>)}
                         <label className="confirm-password">Confirm Password:</label>
                         <input className="confpass-inp"
                             type="password"
@@ -101,6 +117,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setConfrimPassword(e.target.value)}
                             required
                         />
+                        {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)}
                         {/* <label className="security-question">Security Question</label>
                         <input className="securityQ-inp"
                             type="text"
@@ -165,6 +182,7 @@ const EmployeeSignup= (prop)=>{
                         />
                         <button type="login-button" > Signup </button>
                     </form>
+                    
             </div>
         </div>
     );
