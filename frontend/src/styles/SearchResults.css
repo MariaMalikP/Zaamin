@@ -1,0 +1,116 @@
+.srb {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color: #E8E1E2;
+    color: #13476F;
+}
+
+.search-results-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Style for the heading */
+.heading-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
+    padding: 10px;
+    color: #13476F; 
+    margin-bottom: 30px;
+}
+.back-arrow {
+    width: 40px;
+    height: 40px; 
+}
+
+
+.search-results-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin: 0;
+    flex: 1; /* Ensure the heading takes up remaining space */
+    text-align: center; 
+}
+.search-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #F18550;
+    border-image: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
+    background-color: transparent;
+}
+
+.search-results-table th {
+    border-top: none;
+    border-bottom: 2px solid #F18550;
+    padding: 8px;
+    text-align: left;
+    background: #F18550;
+    color: #E8E1E2; /* Text color for table headers */
+}
+
+.search-results-table td {
+    border: 1px solid #491010;
+    padding: 8px;
+}
+
+/* Style for each individual result */
+.search-result {
+    background-color: #E8E1E2;
+}
+
+/* Style for alternating rows */
+.search-result:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style for profile picture */
+.profile-pic {
+    border-radius: 50%;
+    height: 40px;
+    background-color: #E8E1E2;
+    margin: 0 auto;
+}
+
+/* Custom alert */
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
+    max-width: 1000px;
+    height: 30px;
+    font-family: 'Inter'; 
+    font-style: normal; 
+    font-weight: 700; 
+    font-size: 16px; 
+    line-height: 24px; 
+    color: #13476F; 
+}
+
+.custom-alert p {
+    margin: 0;
+}
+
+.custom-alert button {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #F18550; 
+    color: #fff; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-alert button:hover {
+    background-color: #cc5500; 
+}
