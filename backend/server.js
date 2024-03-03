@@ -85,63 +85,64 @@ app.post('/edit_profile', async (req, res) => {
 
 app.post('/empsignup',async(req,res)=>
 {
-console.log("hereee")
-const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus} = req.body;
-const emailExists= await Login.findOne({email:email})
-if(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) 
-{ 
-    res.json("pass problem")
-}
-else if (password!==confpassword)
-{
-  res.json("password mismatch")
-}
-else if (emailExists)
-{
-  res.json("email exists")
-}
-else
-{
-  console.log("aaaa",req.body)
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const allIds = await Login.find({}).select('id').lean();
-  console.log("ids", allIds);
-  const ids = allIds.map(item => item.id);
-  console.log('IDs:', ids);
-  const numericParts = ids
-    .map(id => (id.match(/\d+/) || [])[0])  //Extracting numeric part using regex
-    .filter(Boolean)  
-    .map(Number); 
-  const maxNumericPart = Math.max(...numericParts);
+  const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus} = req.body;
 
-  console.log('Max Numeric Part:', maxNumericPart);
+  //Checking to see if email already exists
+  const emailExists= await Login.findOne({email:email}) 
 
-  let newId;
-  if(maxNumericPart.length===0|| maxNumericPart===-Infinity)
-  {
-    newId='1';
+  //check for valid password entry to ensure a strong password
+  if(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) 
+  { 
+      res.json("pass problem")
   }
+
+  //check to make sure confirm password and password are the same
+  else if (password!==confpassword)
+  {
+    res.json("password mismatch")
+  }
+  else if (emailExists)
+  {
+    res.json("email exists")
+  }
+
   else
   {
-    newId= (maxNumericPart+1).toString()
-  }
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-  let finalId;
+    //finding the max id number, and assiging a new id accordingly, by incrementing the id value
+    const allIds = await Login.find({}).select('id').lean();
+    const ids = allIds.map(item => item.id);
+    const numericParts = ids
+      .map(id => (id.match(/\d+/) || [])[0])  //Extracting numeric part using regex
+      .filter(Boolean)  
+      .map(Number); 
+    const maxNumericPart = Math.max(...numericParts);
 
-  if(employeeStatus==="employee")
-  {
-    finalId=`EMP${newId}`
-  }
-  else if (employeeStatus==="admin")
-  {
-    finalId=`ADM${newId}`
-  }
-  else if(employeeStatus==="manager")
-  {
-    finalId=`MNR${newId}`
-  }
+    let newId;
+    if(maxNumericPart.length===0|| maxNumericPart===-Infinity)
+    {
+      newId='1';
+    }
+    else
+    {
+      newId= (maxNumericPart+1).toString()
+    }
 
-  console.log("finalId", finalId);
+    //id assigned according to the role of the user
+    let finalId;
+    if(employeeStatus==="employee")
+    {
+      finalId=`EMP${newId}`
+    }
+    else if (employeeStatus==="admin")
+    {
+      finalId=`ADM${newId}`
+    }
+    else if(employeeStatus==="manager")
+    {
+      finalId=`MNR${newId}`
+    }
 
     const data=
     {
@@ -149,37 +150,69 @@ else
         hashedPassword: hashedPassword,
         id:finalId,
     }
-    const empData=
+
+    try
     {
-        First_Name: firstname,
-        Last_Name: lastname,
-        Email: email,
-        Age: age,
-        Phone_Number: phone,
-        Address: address,
-        Employee_ID: finalId,
-        Department: department,
-        Profile_Image: "default.png",
-        Date_of_Birth: selectedDate,
-      
-    }
-    console.log("employee", empData)
-    console.log(hashedPassword);
-    console.log(email);
-
-
-  try
-  {
-    await Login.insertMany(data)
-    await Employee.insertMany(empData)
-    console.log("data", data);
-    res.json("yay")
-  }
-  catch(e)
+      //inserting the data recieved in the login table, as well as the user table, according to the role of the user.
+      await Login.insertMany(data)
+      if(employeeStatus==="employee")
       {
-          console.log("smth happened")
-          res.json("ohooo")
+        const empData=
+        {
+            First_Name: firstname,
+            Last_Name: lastname,
+            Email: email,
+            Age: age,
+            Phone_Number: phone,
+            Address: address,
+            Employee_ID: finalId,
+            Department: department,
+            Profile_Image: "default.png",
+            Date_of_Birth: selectedDate,
+        }
+        await Employee.insertMany(empData)
       }
-  }
+      else if (employeeStatus==="admin")
+      {
+        const empData=
+        {
+            First_Name: firstname,
+            Last_Name: lastname,
+            Email: email,
+            Age: age,
+            Phone_Number: phone,
+            Address: address,
+            Admin_ID: finalId,
+            Department: department,
+            Profile_Image: "default.png",
+            Date_of_Birth: selectedDate,
+        }
+        await Admin.insertMany(empData)
+      }
+      else if(employeeStatus==="manager")
+      {
+        const empData=
+        {
+            First_Name: firstname,
+            Last_Name: lastname,
+            Email: email,
+            Age: age,
+            Phone_Number: phone,
+            Address: address,
+            Manager_ID: finalId,
+            Department: department,
+            Profile_Image: "default.png",
+            Date_of_Birth: selectedDate,
+        }
+        await Manager.insertMany(empData)
+      }
+      res.json("yay")
+    }
+    catch(e)
+        {
+            console.log("smth happened",e)
+            res.json("ohooo")
+        }
+    }
 });
 export default app;

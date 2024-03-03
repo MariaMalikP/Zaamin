@@ -462,14 +462,16 @@ button[type="login-button"] {
   color: rgb(180, 45, 45);;
   font-size: 12px;
   font-weight: 500;
-  margin-top: 80px;
+  margin-top: 230px;
   margin-left: 80px;
+  position: fixed;
 }
 
 .strong-message {
   color: rgb(180, 45, 45);
   font-size: 12px;
   font-weight: 500;
-  margin-top: 125px;
+  margin-top: 115px;
   margin-left: 80px;
+  position: fixed;
 }

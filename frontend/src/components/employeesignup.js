@@ -19,10 +19,8 @@ const EmployeeSignup= (prop)=>{
     const [phone, setPhone] = useState('');
     const [department, setDeparment] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
-    const [id, setId] = useState('');
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
 
     const location = useLocation();
     const employeeStatus = location.state?.employeeStatus;
@@ -38,33 +36,54 @@ const EmployeeSignup= (prop)=>{
 
         else
         {
-        try {
-                await axios
-                    .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
-                    .then((res) => {
-                        if (res.data === "yay") 
-                        {
-                            setSuccess('Successfully signed up');
-                            history(`/login`)
-                        } 
-                        else if (res.data=== "email exists")
-                        {
-                            alert("This email is already in use");
-                        }
-                    })
-                    .catch((e) => {
-                        alert('Something went wrong, try again');
-                        console.log(e);
-                        // setError('Something went wrong');
-                        // console.error(error);
-                    });
-        } catch (e) {
-            console.log(e);
+        try 
+        {
+            //verifying whether the email entered is a valid one, by using the hunter.io email verifier api
+            const hunterApiKey = '4d1a599ad61555710ae5c7ab241d9a220f905855';
+            const emailToVerify = email;
+            const response = await axios.get(`https://api.hunter.io/v2/email-verifier?email=${emailToVerify}&api_key=${hunterApiKey}`);
+            
+            //if email is valid, proceed, else give an error
+            if (response.data.data.result === 'deliverable') 
+            {
+            await axios
+                .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
+                .then((res) => {
+                    if (res.data === "yay") 
+                    {
+                        setSuccess('Successfully signed up');
+                        history(`/login`)
+                    } 
+                    else if (res.data=== "email exists")
+                    {
+                        alert("This email is already in use");
+                    }
+                    else if (res.json==="ohooo")
+                    {
+                        alert("An error occured when signing up");
+                    }
+                })
+                .catch((e) => {
+                    alert('Something went wrong, try again');
+                    console.log(e);
+                });
+            }
+            else
+            {
+                setError('Invalid email address. Please provide a valid email.');
+                alert("Email entered is invalid, please enter a valid email");
+            }
+        } 
+        catch (e) 
+        {
+            console.error('Error verifying email:', error);
+            setError('Something went wrong while verifying the email. Please try again.');
+            alert("Something went wrong while verifying the email. Please try again.")
         }
     }
     }
     return (
-
+        //login page setup, containing all the inputs, and buttons needed. 
         <div className='login-page'>
             <div className="gradient-box">
                 <div>
@@ -108,7 +127,7 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
-                        (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and special characters.</div>)}
+                        (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
                         <label className="confirm-password">Confirm Password:</label>
                         <input className="confpass-inp"
                             type="password"
@@ -117,7 +136,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setConfrimPassword(e.target.value)}
                             required
                         />
-                        {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)}
+                        {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)} {/*displays error if there is a password mismatch*/}
                         {/* <label className="security-question">Security Question</label>
                         <input className="securityQ-inp"
                             type="text"
@@ -134,14 +153,6 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setAddress(e.target.value)}
                             required
                         />
-                        {/* <label className="dob">Date Of Birth</label>
-                        <input className="dob-inp"
-                            type="text"
-                            placeholder="dd/mm/yy"
-                            value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.target.value)}
-                            required
-                        /> */}
                         <div className='dob'>Date of Birth:</div>
                         <div className='dob-picker'>
                         <DatePicker
@@ -181,8 +192,7 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                         <button type="login-button" > Signup </button>
-                    </form>
-                    
+                    </form>   
             </div>
         </div>
     );
