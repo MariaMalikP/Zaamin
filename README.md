@@ -52,12 +52,13 @@ The folder "Zaamin" consists of two subfolders:
    cd ../backend
    npm install
    ```
-3. As we are currently utilizing `bcryptjs` as our encryption method for securely storing passwords (with the option to choose different encryption methods in future sprints), please ensure the bcryptjs package is installed. 
+3. **Troubleshooting**
+- As we are currently utilizing `bcryptjs` as our encryption method for securely storing passwords (with the option to choose different encryption methods in future sprints), please ensure the bcryptjs package is installed. The package is included as a dependency in package.json, so the `npm install` command should install it manually, but if any issues are faced, the below script will install the package.
    ``` bash
    cd backend
    npm install bcryptjs
    ```
-4. In order to use APIs (e.g for us hunter.io) you need to install `axios`. Please ensure the package is installed. You can follow this route below:
+- In order to use APIs (e.g for us hunter.io) you need to install `axios`. Please ensure the package is installed. The package is included as a dependency in package.json, so the `npm install` command should install it manually, but if any issues are faced, the below script will install the package. 
    ``` bash
    cd frontend
    npm install axios
