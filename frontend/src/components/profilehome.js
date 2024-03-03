@@ -4,13 +4,13 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Header from './header';
-import '../styles/profile.css'; // Import your CSS file
+import '../styles/profile.css'; 
 
 const ProfileHome = () => {
-    const { email } = useParams();
+    const { email , role} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
-    const [role, setRole] = useState("employee");
+    // const [role, setRole] = useState("employee");
     const [returnStatus, setReturnStatus] = useState('');
     const [showDescription, setShowDescription] = useState(false);
 
@@ -30,7 +30,7 @@ const ProfileHome = () => {
     }, []);
 
     const handleEditProfileClick = () => {
-        navigate(`/editprofile/${email}`);
+        navigate(`/editprofile/${email}/${role}`);
     };
 
     const handleInfoClick = () => {

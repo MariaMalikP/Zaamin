@@ -2,9 +2,12 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import {BrowserRouter} from 'react-router-dom';
 import Login from './components/login';
-import Home from './components/home';
+import EmployeeHome from './components/employeehome';
+import AdminHome from './components/adminhome';
+import ManagerHome from './components/managerhome';
 import ProfileHome from './components/profilehome';
 import EditProfile from './components/editprofile';
+import ErrorPage from './components/errorpage';
 
 function App() {
 
@@ -12,9 +15,12 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Login/>}/>
-            <Route path="/home" element={<Home/>}/>
-            <Route path="/profilehome/:email" element={<ProfileHome/>}/>
-            <Route path="/editprofile/:email" element={<EditProfile/>}/>
+            <Route path="/employeehome/:email" element={<EmployeeHome/>}/>
+            <Route path="/profilehome/:email/:role" element={<ProfileHome/>}/>
+            <Route path="/editprofile/:email/:role" element={<EditProfile/>}/>
+            <Route path="/adminhome/:email" element={<AdminHome/>}/>
+            <Route path="/managerhome/:email" element={<ManagerHome/>}/>
+            <Route path="/errorpage" element={<ErrorPage/>}/> 
         </Routes>
       </BrowserRouter>
     

@@ -17,8 +17,27 @@ const Login = (prop) => {
         // Rest of your code...
             console.log('RESPOSNE FROM SERVER',response.data.status)
             if (response.data.status === 'success') {
-                console.log('Login successful');
-                navigate('/profilehome/${email}');
+                alert(response.data.userrole)
+                if(response.data.userrole === 'employee'){
+                    alert("here")
+                    navigate(`/employeehome/${email}`);
+                }
+                else if (response.data.userrole === 'manager'){
+                    navigate(`/managerhome/${email}`);
+                }
+                else if (response.data.userrole === 'admin'){
+                    navigate(`/adminhome/${email}`);
+                }
+                else {
+                    console.log('Login failed');
+                    if (response.data.status === 'failed') {
+                        console.error('Invalid email or password');
+                        setError('Invalid email or password');
+                        alert('Invalid email or password');
+                    } else {
+                        setError('Server error');
+                    }
+                }
             } 
             else {
                 console.log('Login failed');

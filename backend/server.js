@@ -59,7 +59,7 @@ app.post('/login', async (req, res) => {
         role = 'employee';
       }
       console.log('Login successful');
-      return res.json({ status: 'success', role });
+      return res.json({ status: 'success', userrole: role });
     } else {
       // Passwords don't match, respond with 401 Unauthorized
       console.log('Login failed');
@@ -105,7 +105,7 @@ app.post('/edit_profile', async (req, res) => {
 
     let profile;
     if(role === 'admin') {
-      profile = await Admin.findOne({ Email: email }, {$set: editedProfile });
+      profile = await Admin.updateOne({ Email: email }, {$set: editedProfile });
     } else if(role === 'employee') {
       console.log(editedProfile);
       console.log(email)
@@ -120,6 +120,30 @@ app.post('/edit_profile', async (req, res) => {
     return res.json({ status: "profile updated", profile_deets: profile });
   } catch (error) {
     console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/getname', async (req, res) => {
+  try {
+    const { email, role } = req.body;
+    console.log(role);
+    let profile;
+    if(role === 'admin') {
+      profile = await Admin.findOne({ Email: email });
+    } else if(role === 'employee') {
+      profile = await Employee.findOne({ Email: email });
+    } else if(role === 'manager') {
+      profile = await Manager.findOne({ Email: email });
+    } else {
+      return res.status(404).json({ error: 'Invalid role' });
+    }
+    if (profile === null) {
+      return res.json({ status: "profile not found"});
+    }
+    return res.json({ status: "profile exists", firstname: profile.First_Name, lastname: profile.Last_Name });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Server error' });
   }
 });

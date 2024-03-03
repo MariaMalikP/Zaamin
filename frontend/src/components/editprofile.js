@@ -8,10 +8,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 
 const EditProfile = () => {
-    const { email } = useParams();
+    const { email, role} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
-    const [role, setRole] = useState("employee");
+    // const [role, setRole] = useState("employee");
     const [returnStatus, setReturnStatus] = useState('');
     const [editedProfile, setEditedProfile] = useState({});
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -34,7 +34,7 @@ const EditProfile = () => {
     }, []);
 
     const handleEditProfileClick = () => {
-        navigate(`/profilehome/${email}`);
+        navigate(`/profilehome/${email}/${role}`);
     };
 
     const handleInputChange = (e) => {
