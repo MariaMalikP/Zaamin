@@ -75,8 +75,3 @@ The folder "Zaamin" consists of two subfolders:
 2. The email will be authenticated and verified before the sign up is proceeded (will be checked using the `hunter` api).
 3. Emails should be unique and not already taken by another user.
 5. Your web application will now be hosted on port number you provided in your `.env` file (for this specific case it is port 3000).
-
-## General Rules
-1. The length of the password should be atleast 8 characters long and should be a mix of uppercase, lowercase and special characters.
-2. The email will be authenticated and verified before the sign up is proceeded (will be checked using the `hunter` api).
-3. Emails should be unique and not already taken by another user.
