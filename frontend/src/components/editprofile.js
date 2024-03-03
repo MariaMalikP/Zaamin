@@ -17,6 +17,7 @@ const EditProfile = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
+    const [Image, setImage] = useState();
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -32,6 +33,11 @@ const EditProfile = () => {
         }
         fetchProfile();
     }, []);
+
+    const onImageChosen = (e) => {
+        console.log(e.target.files[0])
+        setImage(e.target.files[0])
+    }
 
     const handleEditProfileClick = () => {
         navigate(`/profilehome/${email}`);
@@ -81,8 +87,11 @@ const EditProfile = () => {
         {returnStatus === "profile exists" && userProfile && (
             <>
                 <div className='ellipse-27'>
-                    <img src={userProfile.Profile_Image} alt='Profile' className='profile-picture' />
-                    <img src='/img.png' className='img-icon'/>
+                    <img src="https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg" alt='Profile' className='profile-picture' />
+                    <div className="file-input-wrapper">
+                        <img src='/img.png'/>
+                        <input type="file" accept="image/*" onChange={onImageChosen} id="fileInput"></input>
+                    </div>
                 </div>
                 <div className='title firstname'>First Name:</div>
                 <input
