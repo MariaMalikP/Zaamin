@@ -122,6 +122,9 @@ button[type="login-button"] {
     position: absolute;
 }
 .logoo {
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 235px;
+    height: 54px;
     top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);

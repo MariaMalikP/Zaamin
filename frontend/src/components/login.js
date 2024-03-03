@@ -58,7 +58,7 @@ const Login = (prop) => {
     return (
         <div className='login-page'>
             <div className="gradient-box">
-            <img src="/images/Logo.png" alt="Logo" width={235} height={54} className="logoo" />                
+            <img src="/images/Logo.png" alt="Logo" className="logoo" />                
             <div className="login-title">Login</div>
                 <form onSubmit={handleSubmit} className='loginForm'>
                     <label className="email">Email:</label>
