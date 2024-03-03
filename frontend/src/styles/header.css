@@ -7,7 +7,7 @@ nav {
   height: 100px;
 }
 
-.logo {
+.headerlogo {
   padding: 10px 20px;
   margin-left: 30px; 
   margin-right: auto; 
@@ -32,7 +32,7 @@ li a {
 
 li button {
   border: none;
-  background: none; /* Remove background color */
+  background: none; 
   cursor: pointer;
 }
 
@@ -73,22 +73,6 @@ li:hover {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
-.custom-alert {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid #ccc;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  z-index: 9999; /* Set a high z-index */
-}
-
-.custom-alert p {
-  margin: 0;
-  color: #333;
-}
 
 .custom-alert {
   position: fixed;
@@ -118,20 +102,14 @@ li:hover {
   display: block;
   margin-top: 10px;
   padding: 5px 10px;
-  background-color: #F18550; /* Orange background color */
-  color: #fff; /* White text color */
+  background-color: #F18550; 
+  color: #fff; 
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.custom-alert button:hover {
-  background-color: #cc5500; 
-}
 
-.custom-alert button:hover {
-  background-color: #0056b3;
-}
 
 
 

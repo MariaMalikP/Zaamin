@@ -11,6 +11,8 @@ import EditProfile from './components/editprofile';
 import SearchRes from './components/searchres'; 
 import ViewProfile from './components/viewprofile';
 import EmployeeHome from './components/employeehome';
+import Signuplanding from './components/signuplanding';
+import EmployeeSignup from './components/employeesignup'
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Login/>}/>
+            <Route path="/login" element={<Login/>}/>
             <Route path="/home" element={<Home/>}/>
             <Route path="/employeehome/:email" element={<EmployeeHome/>}/>
             <Route path="/profilehome/:email/:role" element={<ProfileHome/>}/>
@@ -28,6 +31,8 @@ function App() {
             <Route path="/errorpage" element={<ErrorPage/>}/> 
             <Route path="/searchres/:email/:searchTerm" element={<SearchRes/>} />
             <Route path="/viewprofile/:email/:visitingEmail" element={<ViewProfile />} />
+            <Route path ="/signuplanding" element = {<Signuplanding/>}/>
+            <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
         </Routes>
       </BrowserRouter>
     

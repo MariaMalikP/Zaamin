@@ -11,7 +11,6 @@
     text-align: center;
 }
 
-/* Style for the heading */
 .heading-container {
     display: flex;
     justify-content: space-between;
@@ -33,7 +32,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     margin: 0;
-    flex: 1; /* Ensure the heading takes up remaining space */
+    flex: 1; 
     text-align: center; 
 }
 .search-results-table {
@@ -50,7 +49,7 @@
     padding: 8px;
     text-align: left;
     background: #F18550;
-    color: #E8E1E2; /* Text color for table headers */
+    color: #E8E1E2; 
 }
 
 .search-results-table td {
@@ -58,17 +57,14 @@
     padding: 8px;
 }
 
-/* Style for each individual result */
 .search-result {
     background-color: #E8E1E2;
 }
 
-/* Style for alternating rows */
 .search-result:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-/* Style for profile picture */
 .profile-pic {
     border-radius: 50%;
     height: 40px;
@@ -76,7 +72,6 @@
     margin: 0 auto;
 }
 
-/* Custom alert */
 .custom-alert {
     position: fixed;
     top: 50%;
@@ -111,6 +106,8 @@
     cursor: pointer;
 }
 
+
 .custom-alert button:hover {
-    background-color: #cc5500; 
-}
+    background-color: #0056b3;
+  }
+  
