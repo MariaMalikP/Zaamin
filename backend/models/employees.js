@@ -36,8 +36,12 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    Date_of_Birth: {
+        type: Date,
+        required: true,
+    },
 }, { timestamps: true });
 
-const Employee = mongoose.model('Employee', employeeSchema);
+const Employee = mongoose.model('Employee', employeeSchema, 'Employee');
 
 export default Employee;

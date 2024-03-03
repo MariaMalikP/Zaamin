@@ -19,40 +19,13 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
 
-/* button 
-{
-    background-color: #F18550;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    width: 500px; 
-    height: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    top: 70%;
-    font-family: 'Inter';
+  .emp-button {
+    font-family: 'Inter',sans-serif;
     font-size: 20px;
     font-weight: bold;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    position: absolute;
-} */
-/* button type=submit*/
-.button-container 
-{
-    display: flex;
-    justify-content: center;
-    margin-top: 400px;
-
-}
-
-button[type="login-button"] {
-    font-family: 'Inter';
-    font-size: 20px;
-    font-weight: bold;
-    width: 500px;
+    width: 250px;
     margin-right: 100px;
-    margin-left: 100px;
+    margin-left: 185px;
     background-color: #F18550;
     color: #fff;
     padding: 10px 20px;
@@ -60,99 +33,100 @@ button[type="login-button"] {
     height: 50px;
     border-radius: 100px;
     cursor: pointer;
+    margin-top: 200px;
+    position: relative;
 
   } 
-  button[type="login-button"]:hover {
+  .emp-button :hover {
     background-color: #D78B44;
   }
 
-/*
-.user-inp
-{
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 500px;
-    height: 25px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
+  .hr-button {
+    font-family: 'Inter',sans-serif;
     font-size: 20px;
+    font-weight: bold;
+    width: 250px;
+    margin-right: 100px;
+    /* margin-left: 170px; */
+    background-color: #F18550;
+    color: #fff;
+    padding: 10px 20px;
     border: none;
-    background-color: #F0F0F0;
-    color: #BCBEC0;
-    text-align: center;
-}
+    height: 50px;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-top: 525px;
+    
 
-.pass-inp
-{
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 500px;
-    height: 25px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
+  } 
+
+  .manager-button {
+    font-family: 'Inter', sans-serif;
     font-size: 20px;
+    font-weight: bold;
+    width: 250px;
+    margin-right: 100px;
+    /* margin-left: 170px; */
+    background-color: #F18550;
+    color: #fff;
+    padding: 10px 20px;
     border: none;
-    background-color: #F0F0F0;
-    color: #BCBEC0;
-    text-align: center;
-}
-.email
-{
-    display: block;
-    margin-bottom: 10px; /* Add space below each label 
-    font-family: 'Inter';
-    font-size: 18px;
-    color: #fff;
-    text-align: left;  
-    top: 39%;
-    left: 16%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-}
-.password {
-    display: block;
-    margin-bottom: 10px; /* Add space below each label 
-    font-family: 'Inter';
-    font-size: 18px;
-    color: #fff;
-    text-align: left;  
-    top: 54%;
-    left: 19%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-}
+    height: 50px;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-top: 525px;
+
+  } 
+
 .logo {
-    /* background-image: ('../public/images/Logo.png');
-    width: 234px;
-    height: 150px;
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 235px;
+    height: auto;
     top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
+}  
+.manager {
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 170px;
+    height: auto;
+    top: 50%;
+    left: 77.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}  
 
-}
+.admin {
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 300px;
+    height: auto;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}  
+.employee {
+    /* background-image: ('../public/images/Logo.png'); */
+    width: 220px;
+    height: auto;
+    top: 54%;
+    left: 23.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}  
+
+
     
-.login-title
+.signup-title
 {
-    font-family: 'Inter';
-    font-size: 39px;
+    font-family: 'Inter', sans-serif;
+    font-size: 31px;
     font-weight: bold;
     color: #fff;
     text-align: left;
-    top: 30%;
-    left: 20%;
+    top: 28%;
+    left: 49.5%;
     transform: translate(-50%, -50%);
     position: absolute;
-} */
+} 
