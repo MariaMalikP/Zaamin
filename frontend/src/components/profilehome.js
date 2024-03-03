@@ -23,7 +23,7 @@ const ProfileHome = () => {
                     setProfile(response.data.profile_deets);
                 }
             } catch (error) {
-                console.error('Error fetching Profile Information', error);
+                alert('Error fetching Profile Information', error);
             }
         }
         fetchProfile();

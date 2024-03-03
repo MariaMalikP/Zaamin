@@ -24,7 +24,7 @@ const ManagerHome = (prop) => {
                 history('/errorpage');
             }
         } catch (error) {
-            console.error('Error retrieving full name', error);
+            alert('Error retrieving full name', error);
         }
     };
 
@@ -36,7 +36,7 @@ const ManagerHome = (prop) => {
         try {
             history(`/profilehome/${email}/${role}`);
         } catch (error) {
-            console.error('Error during login, try again', error);
+            alert('Error during login, try again', error);
         }
     };
 

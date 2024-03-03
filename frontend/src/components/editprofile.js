@@ -27,7 +27,7 @@ const EditProfile = () => {
                     setProfile(response.data.profile_deets);
                 }
             } catch (error) {
-                console.error('Error fetching Profile Information', error);
+                alert('Error fetching Profile Information', error);
             }
         }
         fetchProfile();
@@ -46,7 +46,7 @@ const EditProfile = () => {
     };
 
     const onImageChosen = (e) => {
-        console.log(e.target.files[0])
+        alert(e.target.files[0])
         setImage(e.target.files[0])
     }
 
@@ -66,7 +66,7 @@ const EditProfile = () => {
         const response = await axios.post('http://localhost:3000/edit_profile', { email, role, editedProfile });
         setIsSuccessModalOpen(true);
     } catch (error) {
-        console.error('Error editing Profile', error);
+        alert('Error editing Profile', error);
     }
     };
 
