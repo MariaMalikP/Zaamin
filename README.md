@@ -68,6 +68,7 @@ The folder "Zaamin" consists of two subfolders:
    npm start
    ```
 **Note:** In our current implementation, the backend **must** be started first and then the frontend must be started, with y being entered when asked to proceed on a different port. We aim to make the code more interoperable in future sprints. 
+
 5. Your web application will now be hosted on port number you provided in your `.env` file (for this specific case it is port 3000).
 
 ## General Rules
