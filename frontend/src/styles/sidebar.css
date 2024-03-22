@@ -1,11 +1,9 @@
-/* sidebar.css */
 
 .sidebar {
-    background-color: rgba(22, 138, 173, 0.82); /* Background color of the sidebar */
-    /* color:  #bb6d36;  */
+    background-color: rgba(22, 138, 173, 0.82);; 
     color:E8E1E2;
-    width: 200px; /* Width of the sidebar */
-    height: calc(100vh - 100px); /* Full height of the viewport minus the height of the header */
+    width: 200px;
+    height: calc(100vh - 100px); 
     position: fixed; /* Fixes the sidebar position */
     top: 100px; /* Aligns the sidebar below the header */
     right: 0; /* Aligns the sidebar to the right of the viewport */
@@ -36,5 +34,5 @@
 
 
 .sidebar li a:hover {
-    background-color:  rgba(22, 138, 173, 0.82); /* Background color on hover */
+    background-color:  rgba(22, 138, 173, 0.82); 
 }

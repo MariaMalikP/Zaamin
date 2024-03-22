@@ -18,7 +18,7 @@ const Home = (prop)=>{
     };
     return (    
         <div className='home'>
-        <div><Header /></div>
+        {/* <div><Header /></div> */}
         <form className='form'>
         <div>
             <input

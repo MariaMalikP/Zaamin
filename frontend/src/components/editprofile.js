@@ -8,10 +8,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 
 const EditProfile = () => {
-    const { email } = useParams();
+    const { email, role} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
-    const [role, setRole] = useState("employee");
     const [returnStatus, setReturnStatus] = useState('');
     const [editedProfile, setEditedProfile] = useState({});
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -19,6 +18,10 @@ const EditProfile = () => {
     const [showDescription, setShowDescription] = useState(false);
     const [Image, setImage] = useState();
 
+    // this function is called when the component is loaded and is used to fetch the user profile information 
+    //based on the email and role(that defines schema) of the user
+    //if the profile does exist in given role it sets the profile state to the profile details 
+    //which is then used to print all the details in the input buttons beforehand so that the user can edit them
     useEffect(() => {
         const fetchProfile = async () => {
             try {
@@ -28,21 +31,19 @@ const EditProfile = () => {
                     setProfile(response.data.profile_deets);
                 }
             } catch (error) {
-                console.error('Error fetching Profile Information', error);
+                alert('Error fetching Profile Information');
             }
         }
         fetchProfile();
     }, []);
 
-    const onImageChosen = (e) => {
-        console.log(e.target.files[0])
-        setImage(e.target.files[0])
-    }
-
+    //this function is called when the edit profile button is clicked and it navigates to the edit profile page
     const handleEditProfileClick = () => {
-        navigate(`/profilehome/${email}`);
+        navigate(`/profilehome/${email}/${role}`);
     };
 
+    //this function is called when the input fields are changed and it sets the editedProfile state to the new value
+    // thus it only includes the changed user profile fields and not all the fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditedProfile(prevProfile => ({
@@ -51,6 +52,14 @@ const EditProfile = () => {
         }));
     };
 
+    //this function is called when the image is chosen and it sets the Image state to the chosen image
+    const onImageChosen = (e) => {
+        console.log(e.target.files[0])
+        setImage(e.target.files[0])
+    }
+
+    //this function is called when the date is changed and it sets the editedProfile state to the new date 
+    //and also sets the user profile state to the new date so that the change is immediately visible to the user
     const handleDateChange = (date) => {
         setEditedProfile(prevProfile => ({
             ...prevProfile,
@@ -62,6 +71,8 @@ const EditProfile = () => {
             }));
     };
 
+    //this function is called when the save profile button is clicked and it sends the editedProfile along with the email and role to the server
+    //to update the user profile in the database for the given email and role to this edited profile
     const UpdateProfile = async () => {
     try {
         const response = await axios.post('http://localhost:3000/edit_profile', { email, role, editedProfile });
@@ -71,10 +82,14 @@ const EditProfile = () => {
     }
     };
 
+    //this function is called when the close button is clicked 
+    //and it sets the isSuccessModalOpen state to false to close the modal to close the notification popup
     const closeModal = () => {
     setIsSuccessModalOpen(false);
     };
 
+    // this function is called when the info icon is clicked and 
+    //it sets the showDescription state to true(initialised to false) to display the description box
     const handleInfoClick = () => {
         setShowDescription(!showDescription);
     };
@@ -84,6 +99,9 @@ const EditProfile = () => {
         <div><Header /></div>
         <div className='heading'>Edit Profile</div>
         <img src='/ppl.jpg' className='profile-circle'/>
+         {/* showing user information if the profile exists.
+            In case of Date of Birth, used DatePicker to highlight the date on the calender
+             and in this case if a new date is clicked on, handleDateChange is called to add changed field to editedProfile*/}
         {returnStatus === "profile exists" && userProfile && (
             <>
                 <div className='ellipse-27'>
@@ -97,7 +115,10 @@ const EditProfile = () => {
                 <input
                     type="text"
                     name="First_Name"
-                    value={editedProfile?.First_Name || userProfile.First_Name}
+                    //if the user has already edited the field, it shows the edited value else it shows the original value
+                    //while also allowing the user to make changes to complete field
+                    //this has been done for all the fields
+                    value={editedProfile.First_Name !== undefined ? editedProfile.First_Name : userProfile.First_Name}
                     onChange={handleInputChange}
                     className='output-box output output1'
                 />
@@ -105,7 +126,7 @@ const EditProfile = () => {
                 <input
                     type="text"
                     name="Last_Name"
-                    value={editedProfile?.Last_Name || userProfile.Last_Name}
+                    value={editedProfile.Last_Name !== undefined ? editedProfile.Last_Name : userProfile.Last_Name}
                     onChange={handleInputChange}
                     className='output-box output output2'
                 />
@@ -113,7 +134,7 @@ const EditProfile = () => {
                 <input
                     type="text"
                     name="Age"
-                    value={editedProfile?.Age || userProfile.Age}
+                    value={editedProfile.Age !== undefined ? editedProfile.Age : userProfile.Age}
                     onChange={handleInputChange}
                     className='mini-box output'
                 />
@@ -129,7 +150,7 @@ const EditProfile = () => {
                 <input
                     type="text"
                     name="Phone_Number"
-                    value={editedProfile?.Phone_Number || userProfile.Phone_Number}
+                    value={editedProfile.Phone_Number !== undefined ? editedProfile.Phone_Number: userProfile.Phone_Number}
                     onChange={handleInputChange}
                     className='output-box output output5'
                 />
@@ -144,7 +165,7 @@ const EditProfile = () => {
                 <div className='title address'>Address:</div>
                 <textarea
                     name="Address"
-                    value={editedProfile?.Address || userProfile.Address}
+                    value={editedProfile.Address !== undefined ? editedProfile.Address: userProfile.Address}
                     onChange={handleInputChange}
                     className='big-output leftoutput output7'
                 />
@@ -170,4 +191,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-

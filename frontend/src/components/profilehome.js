@@ -4,15 +4,15 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Header from './header';
-import '../styles/profile.css'; // Import your CSS file
+import '../styles/profile.css'; 
 
 const ProfileHome = () => {
-    const { email } = useParams();
+    const { email , role} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
-    const [role, setRole] = useState("employee");
     const [returnStatus, setReturnStatus] = useState('');
     const [showDescription, setShowDescription] = useState(false);
+    
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -23,14 +23,14 @@ const ProfileHome = () => {
                     setProfile(response.data.profile_deets);
                 }
             } catch (error) {
-                console.error('Error fetching Profile Information', error);
+                alert('Error fetching Profile Information', error);
             }
         }
         fetchProfile();
     }, []);
 
     const handleEditProfileClick = () => {
-        navigate(`/editprofile/${email}`);
+        navigate(`/editprofile/${email}/${role}`);
     };
 
     const handleInfoClick = () => {
@@ -45,8 +45,7 @@ const ProfileHome = () => {
             {returnStatus === "profile exists" && userProfile && (
                 <>
                     <div className='ellipse-27'>
-                        <img src={userProfile.Profile_Image} alt='Profile' className='profile-picture' />
-                        {/* <img src='/img.png' className='img-icon'/> */}
+                        <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='profile-picture' />
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{userProfile.First_Name}</div>
@@ -59,7 +58,6 @@ const ProfileHome = () => {
                     <DatePicker
                         selected={userProfile.Date_of_Birth}
                         dateFormat="dd/MM/yyyy"
-                        // readOnly // Set the readOnly prop to true
                     />
                     </div>
                     <div className='title phoneno'>Phone Number:</div>

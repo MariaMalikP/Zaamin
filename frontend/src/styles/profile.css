@@ -224,36 +224,6 @@ border-radius: 20px;
     border-radius: 50%; 
 }
 
-.file-input-wrapper {
-position: relative;
-display: inline-block;
-width: 39px;
-height: 39px;
-left: 275px;
-top: 275px;
-}
-
-.file-input-wrapper input[type=file] {
-position: absolute;
-top: 0;
-left: 0;
-opacity: 0;
-width: 100%;
-height: 100%;
-cursor: pointer;
-}
-
-.file-input-wrapper img {
-width: 39px;
-height: 39px;
-left: 275px;
-top: 275px;
-background: #F18550;
-border-radius: 50%;
-box-shadow: 0 0 0 10px #F18550;
-cursor: pointer;
-}
-
 /* Ellipse 27 */
 .ellipse-27 {
     position: absolute;
@@ -429,3 +399,33 @@ cursor: pointer;
     font-size: 16px;
     cursor: pointer;
 }
+
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 39px;
+    height: 39px;
+    left: 275px;
+    top: 275px;
+    }
+    
+    .file-input-wrapper input[type=file] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    }
+    
+    .file-input-wrapper img {
+    width: 39px;
+    height: 39px;
+    left: 275px;
+    top: 275px;
+    background: #F18550;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #F18550;
+    cursor: pointer;
+    }
