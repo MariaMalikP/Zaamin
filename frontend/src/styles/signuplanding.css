@@ -9,7 +9,7 @@
     top : 50%;
     left : 50%;
     transform: translate(-50%, -50%);
-    position: absolute;
+    position: relative;
     width: 1200px;
     height: 650px;
     background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
@@ -19,65 +19,30 @@
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
 
-  .emp-button {
-    font-family: 'Inter';
-    font-size: 20px;
-    font-weight: bold;
-    width: 250px;
-    margin-right: 100px;
-    margin-left: 120px;
-    background-color: #F18550;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    height: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    margin-top: 200px;
-    position: relative;
-
-  } 
-  .emp-button :hover {
-    background-color: #D78B44;
+  .container_signup {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
 
-  .hr-button {
-    font-family: 'Inter';
-    font-size: 20px;
-    font-weight: bold;
-    width: 250px;
-    margin-right: 100px;
-    /* margin-left: 170px; */
-    background-color: #F18550;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    height: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    margin-top: 525px;
-    
-
-  } 
-
-  .manager-button {
-    font-family: 'Inter';
-    font-size: 20px;
-    font-weight: bold;
-    width: 250px;
-    margin-right: 100px;
-    /* margin-left: 170px; */
-    background-color: #F18550;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    height: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    margin-top: 525px;
-
-  } 
-
+.emp-button,
+.hr-button,
+.manager-button {
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  width: 250px;
+  background-color: #F18550;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  height: 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  margin: 50px 37px -350px;  /**/
+}
 .signuplandlogo {
     /* background-image: ('../public/images/Logo.png'); */
     width: 235px;
@@ -87,27 +52,28 @@
     transform: translate(-50%, -50%);
     position: absolute;
 }  
+
 .manager {
     /* background-image: ('../public/images/Logo.png'); */
     width: 170px;
     height: auto;
     top: 50%;
-    left: 77.5%;
+    left: 74.5%;
     transform: translate(-50%, -50%);
     position: absolute;
+    margin: 50px 37px -350px;
 }  
 
 .admin {
-    /* background-image: ('../public/images/Logo.png'); */
+
     width: 300px;
     height: auto;
-    top: 56%;
+    top: 62%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
 }  
 .employee {
-    /* background-image: ('../public/images/Logo.png'); */
     width: 220px;
     height: auto;
     top: 54%;
@@ -130,3 +96,146 @@
     transform: translate(-50%, -50%);
     position: absolute;
 } 
+
+
+
+
+
+
+
+/* .sul {
+  position: relative;
+  width: 100%;
+  height: 1000px;
+  background: linear-gradient(246.77deg, #B5E48C 13.03%, rgba(22, 138, 173, 0.82) 84.31%); 
+ } 
+
+.sulgradient-box {
+  top : 50%;
+  left : 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 1200px;
+  height: 650px;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  border-radius: 56px;
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.container_signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.emp-button {
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  width: 250px;
+  margin-right: 100px;
+  margin-left: 120px;
+  background-color: #F18550;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  height: 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  margin-top: 200px;
+  position: relative;
+
+} 
+.emp-button :hover {
+  background-color: #D78B44;
+}
+
+.hr-button {
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  width: 250px;
+  margin-right: 100px;
+
+  background-color: #F18550;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  height: 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  margin-top: 525px;
+  
+
+} 
+
+.manager-button {
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  width: 250px;
+  margin-right: 100px;
+
+  background-color: #F18550;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  height: 50px;
+  border-radius: 100px;
+  cursor: pointer;
+  margin-top: 525px;
+
+} 
+
+.signuplandlogo {
+  width: 235px;
+  height: auto;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}  
+.manager {
+  width: 170px;
+  height: auto;
+  top: 50%;
+  left: 77.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}  
+
+.admin {
+  width: 300px;
+  height: auto;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}  
+.employee {
+  width: 220px;
+  height: auto;
+  top: 54%;
+  left: 23.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}  
+
+
+  
+.signupLand-title
+{
+  font-family: 'Inter';
+  font-size: 31px;
+  font-weight: bold;
+  color: #fff;
+  text-align: left;
+  top: 28%;
+  left: 49.5%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}  */

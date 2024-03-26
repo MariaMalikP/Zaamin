@@ -33,6 +33,7 @@ const Signuplanding= (prop)=>{
     return (        
         <div className='sul'>
             <div className='sulgradient-box'>
+                <div className='container_signup'>
                 <div>
                 <img src="/images/Logo.png" alt="Logo" width={235} height={54} className='signuplandlogo' /> 
                 </div>
@@ -51,6 +52,7 @@ const Signuplanding= (prop)=>{
                 </div>
                 <div>
                 <img src="/images/employee.png" alt="employee" className='employee' /> 
+                </div>
                 </div>
             </div>
         </div>

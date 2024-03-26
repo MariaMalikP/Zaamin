@@ -94,9 +94,12 @@ const EmployeeSignup= (prop)=>{
                     <div className="login-link">
                     <p>Already have an account? <Link to="/login">Login</Link></p>
                     </div>
+                    <div className="required-signup">
+                    <p>* Indicates required field</p>
+                    </div>
                     <hr class="separator"></hr>
                     <form onSubmit={logincheck} className='loginForm'>
-                        <label className="name">Name:</label>
+                        <label className="name">Name:<span class="required-star"></span></label>
                         <input className="first-name"
                             type="text"
                             placeholder="First Name"
@@ -111,7 +114,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setLasttName(e.target.value)}
                             required
                         />
-                        <label className="signupemail">Email:</label>
+                        <label className="signupemail">Email:<span class="required-star"></span></label>
                         <input className="signupemail-inp"
                             type="email"
                             placeholder="Email"
@@ -119,7 +122,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <label className="signuppassword">Password:</label>
+                        <label className="signuppassword">Password:<span class="required-star"></span></label>
                         <input className="signuppass-inp"
                             type="password"
                             placeholder="Password"
@@ -129,7 +132,7 @@ const EmployeeSignup= (prop)=>{
                         />
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
-                        <label className="confirm-password">Confirm Password:</label>
+                        <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
                         <input className="confpass-inp"
                             type="password"
                             placeholder="Confrim Password"
@@ -146,7 +149,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setSecurityQ(e.target.value)}
                             required
                         /> */}
-                        <label className="signupaddress">Address</label>
+                        <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
                             type="text"
                             placeholder="Address"
@@ -154,10 +157,10 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setAddress(e.target.value)}
                             required
                         />
-                        <div className='signupdob'>Date of Birth:</div>
+                        <div className='signupdob'>Date of Birth:<span class="required-star"></span></div>
                         <div className='dob-picker'>
                         <DatePicker
-                            className='dob-input'
+                            className='dob-inp'
                             selected={selectedDate}
                             onChange={(date) => setSelectedDate(date)}
                             placeholderText="Select Date"
@@ -168,7 +171,7 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                     </div>
-                        <label className="signupage">Age</label>
+                        <label className="signupage">Age<span class="required-star"></span></label>
                         <input className="age-inp"
                             type="text"
                             placeholder="Age"
@@ -176,7 +179,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setAge(e.target.value)}
                             required
                         />
-                        <label className="signupphone">Phone Number</label>
+                        <label className="signupphone">Phone Number<span class="required-star"></span></label>
                         <input className="phone-inp"
                             type="text"
                             placeholder="Phone Number"
@@ -184,7 +187,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setPhone(e.target.value)}
                             required
                         />
-                        <label className="department">Department</label>
+                        <label className="department">Department<span class="required-star"></span></label>
                         <input className="department-inp"
                             type="text"
                             placeholder="Department"
@@ -192,6 +195,12 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setDeparment(e.target.value)}
                             required
                         />
+                        <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
+                        <select class="dropdown-inp" required>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                        </select>
                         <button type="signup-button" > Signup </button>
                     </form>   
             </div>
