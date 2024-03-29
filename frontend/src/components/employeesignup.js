@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { enc } from 'crypto-js';
 
 const EmployeeSignup= (prop)=>{
 
@@ -20,6 +21,7 @@ const EmployeeSignup= (prop)=>{
     const [department, setDeparment] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [success, setSuccess] = useState('');
+    const [encryption, setEncryption] = useState('');
     const [error, setError] = useState('');
 
     const location = useLocation();
@@ -47,17 +49,22 @@ const EmployeeSignup= (prop)=>{
             if (response.data.data.result === 'deliverable') 
             {
             await axios
-                .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
+                .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption})
                 .then((res) => {
                     if (res.data === "yay") 
                     {
                         setSuccess('Successfully signed up');
                         history(`/login`)
                     } 
+                    else if (res.data === "choose encryption")
+                    {
+                        alert("select encryption method")
+                    }
                     else if (res.data=== "email exists")
                     {
                         alert("This email is already in use");
                     }
+                
                     else if (res.json==="ohooo")
                     {
                         alert("An error occured when signing up");
@@ -141,14 +148,6 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                         {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)} {/*displays error if there is a password mismatch*/}
-                        {/* <label className="security-question">Security Question</label>
-                        <input className="securityQ-inp"
-                            type="text"
-                            placeholder="Some Question"
-                            value={securityQ}
-                            onChange={(e) => setSecurityQ(e.target.value)}
-                            required
-                        /> */}
                         <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
                             type="text"
@@ -196,7 +195,8 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                         <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
-                        <select class="dropdown-inp" required>
+                        <select class="dropdown-inp" required  onChange={(e) => setEncryption(e.target.value)}>
+                        <option value="default">Encryption Method</option>    
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                         <option value="option3">Option 3</option>
