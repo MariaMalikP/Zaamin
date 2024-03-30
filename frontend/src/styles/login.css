@@ -72,7 +72,7 @@ button[type="login-button"] {
     font-size: 20px;
     border: none;
     background-color: #F0F0F0;
-    color: #BCBEC0;
+    color: #202121;
     text-align: center;
 }
 
@@ -93,7 +93,7 @@ button[type="login-button"] {
     font-size: 20px;
     border: none;
     background-color: #F0F0F0;
-    color: #BCBEC0;
+    color: #202121;
     text-align: center;
 }
 .email
@@ -163,9 +163,9 @@ button[type="login-button"] {
     font-family: 'Inter';
     font-size: 20px;
     text-align: center;
-    top: 90%;
-    left: 50%;
-    font-weight: bold;
+    top: 50%;
+    left: 40%;
     transform: translate(-50%, -50%);
+    font-weight: bold;
     position: absolute;
 }
