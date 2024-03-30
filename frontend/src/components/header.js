@@ -89,7 +89,7 @@ const Header = ({ email, userProfile }) => {
                     {userProfile && userProfile.Profile_Image && ( 
                         <li>
                             <Link to={`/profilehome/${email}/${role}`}>
-                                <img src={userProfile.Profile_Image} alt='Profile' className="profile-image"/>
+                                <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className="profile-image"/>
                             </Link>
                         </li>                    
                     )}
