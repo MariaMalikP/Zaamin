@@ -1,3 +1,5 @@
+ /* eslint-disable */
+ 
 // Import necessary dependencies from React and other libraries
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';

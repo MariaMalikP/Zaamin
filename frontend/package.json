@@ -6,18 +6,20 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
     "react": "^18.2.0",
     "react-datepicker": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
+    "react-otp-input": "^3.1.1",
     "react-router-dom": "^6.22.2",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,5 +41,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "browser": {
+    "crypto": false,
+    "stream": false
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

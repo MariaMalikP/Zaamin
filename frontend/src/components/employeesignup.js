@@ -1,3 +1,5 @@
+ /* eslint-disable */
+ 
 import '../styles/signup.css';
 import { useNavigate,Link, useLocation} from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +8,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const EmployeeSignup= (prop)=>{
-
     const history = useNavigate();
     const [email, setEmail] = useState('');
     const [firstname, setFirstName] = useState('');
@@ -39,34 +40,25 @@ const EmployeeSignup= (prop)=>{
         try 
         {
             //verifying whether the email entered is a valid one, by using the hunter.io email verifier api
-            const hunterApiKey = '4d1a599ad61555710ae5c7ab241d9a220f905855';
+            // const hunterApiKey = '4d1a599ad61555710ae5c7ab241d9a220f905855';
+            const hunterApiKey = '9cfcc14ef23fb7987e3db93e33e5054f0f9748be';
             const emailToVerify = email;
             const response = await axios.get(`https://api.hunter.io/v2/email-verifier?email=${emailToVerify}&api_key=${hunterApiKey}`);
             
             //if email is valid, proceed, else give an error
             if (response.data.data.result === 'deliverable') 
             {
-            await axios
-                .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
-                .then((res) => {
-                    if (res.data === "yay") 
-                    {
-                        setSuccess('Successfully signed up');
-                        history(`/login`)
-                    } 
-                    else if (res.data=== "email exists")
-                    {
-                        alert("This email is already in use");
+                const response = await axios.post('http://localhost:3000/sendemail', {email})
+                if (response.status == 500)
+                    alert('Failed to generate OTP. Please try again later')
+                else {
+                    const userData = {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus}
+                    const passThis = {
+                        hashedOTP: response.data,
+                        user: userData
                     }
-                    else if (res.json==="ohooo")
-                    {
-                        alert("An error occured when signing up");
-                    }
-                })
-                .catch((e) => {
-                    alert('Something went wrong, try again');
-                    console.log(e);
-                });
+                    history('/otp', {state:passThis})
+                }
             }
             else
             {
@@ -94,9 +86,12 @@ const EmployeeSignup= (prop)=>{
                     <div className="login-link">
                     <p>Already have an account? <Link to="/login">Login</Link></p>
                     </div>
+                    <div className="required-signup">
+                    <p style={{top:'30%', left:'40%'}}>* Indicates required field</p>
+                    </div>
                     <hr class="separator"></hr>
                     <form onSubmit={logincheck} className='loginForm'>
-                        <label className="name">Name:</label>
+                        <label className="name">Name:<span class="required-star"></span></label>
                         <input className="first-name"
                             type="text"
                             placeholder="First Name"
@@ -111,7 +106,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setLasttName(e.target.value)}
                             required
                         />
-                        <label className="signupemail">Email:</label>
+                        <label className="signupemail">Email:<span class="required-star"></span></label>
                         <input className="signupemail-inp"
                             type="email"
                             placeholder="Email"
@@ -119,7 +114,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <label className="signuppassword">Password:</label>
+                        <label className="signuppassword">Password:<span class="required-star"></span></label>
                         <input className="signuppass-inp"
                             type="password"
                             placeholder="Password"
@@ -129,7 +124,7 @@ const EmployeeSignup= (prop)=>{
                         />
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
-                        <label className="confirm-password">Confirm Password:</label>
+                        <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
                         <input className="confpass-inp"
                             type="password"
                             placeholder="Confrim Password"
@@ -146,7 +141,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setSecurityQ(e.target.value)}
                             required
                         /> */}
-                        <label className="signupaddress">Address</label>
+                        <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
                             type="text"
                             placeholder="Address"
@@ -154,10 +149,10 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setAddress(e.target.value)}
                             required
                         />
-                        <div className='signupdob'>Date of Birth:</div>
+                        <div className='signupdob'>Date of Birth:<span class="required-star"></span></div>
                         <div className='dob-picker'>
                         <DatePicker
-                            className='dob-input'
+                            className='dob-inp'
                             selected={selectedDate}
                             onChange={(date) => setSelectedDate(date)}
                             placeholderText="Select Date"
@@ -168,7 +163,7 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                     </div>
-                        <label className="signupage">Age</label>
+                        <label className="signupage">Age<span class="required-star"></span></label>
                         <input className="age-inp"
                             type="text"
                             placeholder="Age"
@@ -176,7 +171,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setAge(e.target.value)}
                             required
                         />
-                        <label className="signupphone">Phone Number</label>
+                        <label className="signupphone">Phone Number<span class="required-star"></span></label>
                         <input className="phone-inp"
                             type="text"
                             placeholder="Phone Number"
@@ -184,7 +179,7 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setPhone(e.target.value)}
                             required
                         />
-                        <label className="department">Department</label>
+                        <label className="department">Department<span class="required-star"></span></label>
                         <input className="department-inp"
                             type="text"
                             placeholder="Department"
@@ -192,6 +187,12 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setDeparment(e.target.value)}
                             required
                         />
+                        <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
+                        <select class="dropdown-inp" required>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                        </select>
                         <button type="signup-button" > Signup </button>
                     </form>   
             </div>

@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+body {
+    position: relative;
+    width: 100%;
+    background: linear-gradient(246.77deg, #B5E48C 13.03%, rgba(22, 138, 173, 0.82) 84.31%); 
+}
+
+.otp {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.verifyDiv {
+    top : 50%;
+    left : 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    border-radius: 56px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+p {
+    color: white;
+    margin: auto;
+    margin-top:50px;
+    position: absolute;
+    width: 500px;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inputStyle {
+    width: 50% !important;
+    height: 80px;
+    border-radius: 7px;
+    border: 0px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background: #dddddd;
+    font-size: 20px;
+    font-family: 'Inter', normal;
+}
+
+.otpElements {
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.resend {
+    text-decoration: underline;
+    padding-top:10px;
+    font-size: 15px;
+}
+
+.wow {
+    font-family: 'Inter', normal;
+    font-weight: 800;
+    font-size: 40px;
+    top: 10%;
+}
+
+.woow {
+    font-family: 'Inter', normal;
+    font-size: 16px;
+    top:20%;
+    text-align: center;
+}
+
+.woow-also {
+    font-family: 'Inter', normal;
+    font-size: 16px;
+    top:30%;
+    text-align: center;
+}
+
+.verify-button {
+    background-color: #F18550;
+    margin-top:50px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    width: 200px; 
+    height: 50px;
+    border-radius: 100px;
+    cursor: pointer;
+    top: 70%;
+    font-family: 'Inter', normal;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.verify-button:hover {
+    background-color: #d7662d;
+}
+
+  

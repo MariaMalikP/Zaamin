@@ -19,13 +19,15 @@
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
 
-  .emp-button {
+  .hr-button {
+    margin-top:20px;
+    top: 75%;
+    left:30%;
+    transform: translate(-50%, -50%);
     font-family: 'Inter';
     font-size: 20px;
     font-weight: bold;
     width: 250px;
-    margin-right: 100px;
-    margin-left: 120px;
     background-color: #F18550;
     color: #fff;
     padding: 10px 20px;
@@ -33,21 +35,21 @@
     height: 50px;
     border-radius: 100px;
     cursor: pointer;
-    margin-top: 200px;
     position: relative;
 
   } 
-  .emp-button :hover {
+  .hr-button :hover {
     background-color: #D78B44;
   }
 
-  .hr-button {
+  .manager-button {
+    top: 75%;
+    left: 27%;
+    transform: translate(0%, -50%);
     font-family: 'Inter';
     font-size: 20px;
     font-weight: bold;
     width: 250px;
-    margin-right: 100px;
-    /* margin-left: 170px; */
     background-color: #F18550;
     color: #fff;
     padding: 10px 20px;
@@ -55,18 +57,17 @@
     height: 50px;
     border-radius: 100px;
     cursor: pointer;
-    margin-top: 525px;
-    
-
+    position:relative;
   } 
 
-  .manager-button {
+  .emp-button {
+    top: 75%;
+    left: 32%;
+    transform: translate(-100%, -50%);
     font-family: 'Inter';
     font-size: 20px;
     font-weight: bold;
     width: 250px;
-    margin-right: 100px;
-    /* margin-left: 170px; */
     background-color: #F18550;
     color: #fff;
     padding: 10px 20px;
@@ -74,8 +75,7 @@
     height: 50px;
     border-radius: 100px;
     cursor: pointer;
-    margin-top: 525px;
-
+    position:relative;
   } 
 
 .signuplandlogo {
@@ -87,6 +87,7 @@
     transform: translate(-50%, -50%);
     position: absolute;
 }  
+
 .manager {
     /* background-image: ('../public/images/Logo.png'); */
     width: 170px;
@@ -110,13 +111,11 @@
     /* background-image: ('../public/images/Logo.png'); */
     width: 220px;
     height: auto;
-    top: 54%;
-    left: 23.5%;
+    top: 52%;
+    left: 22%;
     transform: translate(-50%, -50%);
     position: absolute;
 }  
-
-
     
 .signupLand-title
 {

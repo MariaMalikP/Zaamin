@@ -1,3 +1,5 @@
+ /* eslint-disable */
+ 
 import '../styles/signuplanding.css';
 import { useNavigate,Link} from 'react-router-dom';
 import axios from 'axios';

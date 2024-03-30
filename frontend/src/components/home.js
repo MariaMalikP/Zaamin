@@ -1,3 +1,5 @@
+ /* eslint-disable */
+ 
 import { useEffect,useState } from 'react'
 import Header from './header';
 import '../styles/home.css'; 

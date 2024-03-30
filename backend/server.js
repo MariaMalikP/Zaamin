@@ -7,6 +7,8 @@ import Admin from './models/admins.js';
 import Manager from './models/managers.js';
 import Login from './models/userlogin.js';
 import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer'
+import otpGenerator from 'otp-generator'
 dotenv.config();
 
 const app = express();
@@ -162,6 +164,41 @@ app.post('/empsignup',async(req,res)=>
         }
     }
 });
+
+app.post('/sendemail', async(req,res) => {
+    function sendEmail(props) {
+      const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+              user: process.env.USER,
+              pass: process.env.APP_PASSWORD
+          }
+      });
+
+      const mailOptions = {
+          from: "Zaamin Admin <donotreply@email.com>",
+          to: props.email,
+          subject: 'Your OTP',
+          html: `<p style="font-size: 16px; color: #333; margin-bottom: 10px;"> Your one-time password (OTP) is: <h2 style="font-size: 24px; color: #F18550;">${props.otp}</h2> Do not share this OTP with anyone. </p>`
+      };
+
+      transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              console.log(error);
+              res.status(500).send('Failed to send OTP');
+          } else {
+              console.log('Email sent: ' + info.response);
+              const hashedOTP = bcrypt.hashSync(otp, 10);
+              res.send(hashedOTP)
+          }
+      });
+  }
+
+  const otp = otpGenerator.generate(4, { digits: true, upperCase: false, specialChars: false });
+  const {email} = req.body
+  console.log(otp, email)
+  sendEmail({otp: otp, email: email, url:'http://localhost:3001/otp'})
+})
 
 app.post('/login', async (req, res) => {
   try {
@@ -357,6 +394,7 @@ app.post('/viewsearchprofile', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 app.post('/findrole', async (req, res) => {
   try {
     const { email } = req.body;

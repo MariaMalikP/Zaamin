@@ -13,6 +13,7 @@ import ViewProfile from './components/viewprofile';
 import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
 import EmployeeSignup from './components/employeesignup'
+import OTPPage from './components/OTPPage'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/viewprofile/:email/:visitingEmail" element={<ViewProfile />} />
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
+            <Route path ="/otp" element = {<OTPPage/>}/>
         </Routes>
       </BrowserRouter>
     
