@@ -39,6 +39,21 @@ const EmployeeHome = (prop) => {
             alert('Error during login, try again', error);
         }
     };
+    const medicalcheck = async () => {    
+        try {
+            history(`/medicalcheck/${email}/${role}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+    const financecheck = async () => {    
+        try {
+            history(`/financecheck/${email}/${role}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+
 
     return (    
         <div className='home'>

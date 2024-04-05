@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import mongoose, { get } from 'mongoose';
 import cors from 'cors';
 import Employee from './models/employees.js';
 import Admin from './models/admins.js';
@@ -9,6 +9,9 @@ import Login from './models/userlogin.js';
 import Encryption from './models/encryption.js';
 import bcrypt from 'bcrypt';
 import CryptoJS from 'crypto-js';
+import crypto from 'crypto';
+import multer from 'multer';
+// import MedicalInfo from './medicalInfo'; 
 
 dotenv.config();
 
@@ -33,168 +36,147 @@ mongoose.connect(process.env.MONG_URI, {
   console.log(error);
 });
 
-const ENCRYPTION_KEY = 'H@pP!Ly5tr0nG&SecuREkEy123!#@%*';
+const ENCRYPTION_KEY_AES = 'H@pP!Ly5tr0nG&SecuREkEy123!#@%*';
 
-function encrypt(text) {
-  return CryptoJS.AES.encrypt(text, ENCRYPTION_KEY).toString();
+function encrypt_aes(text) {
+  return CryptoJS.AES.encrypt(text, ENCRYPTION_KEY_AES).toString();
 }
 
-function decrypt(ciphertext) {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPTION_KEY);
+function decrypt_aes(ciphertext) {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPTION_KEY_AES);
   return bytes.toString(CryptoJS.enc.Utf8);
 }
 
-function decryptProfile(profile) {
-  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age'];
-  const decryptedProfile = {};
-  Object.keys(profile._doc).forEach(key => {
-    if (['id', '_v', ...fieldsToExcludeFromDecryption].includes(key)) {
-      decryptedProfile[key] = profile[key];
-    } else {
-      decryptedProfile[key] = decrypt(profile[key]);
-    }
-  });
+
+const key = crypto.createHash('sha256').update('YourSecretKey').digest('base64').substr(0, 32); // Adjust the length as needed
+
+function encrypt_aes_cbc(data) {
+  console.log("data",data)
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+  let encryptedData = cipher.update(data, 'utf-8', 'hex');
+  encryptedData += cipher.final('hex');
+  return iv.toString('hex') + ':' + encryptedData;
+}
+
+function decrypt_aes_cbc(encryptedData) {
+  console.log("encryptedData",encryptedData)
+  const parts = encryptedData.split(':');
+  const iv = Buffer.from(parts.shift(), 'hex');
+  const encryptedText = Buffer.from(parts.join(':'), 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+  let decryptedData = decipher.update(encryptedText, 'hex', 'utf-8');
+  decryptedData += decipher.final('utf-8');
+  return decryptedData;
+}
+// AES ECB Encryption
+function encrypt_aes_ecb(data) {
+  const cipher = crypto.createCipheriv('aes-256-ecb', Buffer.from(key), null);
+  let encryptedData = cipher.update(data, 'utf-8', 'hex');
+  encryptedData += cipher.final('hex');
+  return encryptedData;
+}
+
+// AES ECB Decryption
+function decrypt_aes_ecb(encryptedData) {
+  const decipher = crypto.createDecipheriv('aes-256-ecb', Buffer.from(key), null);
+  let decryptedData = decipher.update(encryptedData, 'hex', 'utf-8');
+  decryptedData += decipher.final('utf-8');
+  return decryptedData;
+}
+
+// Example usage
+/*
+const ENCRYPTION_KEY_AES_GCM = Buffer.from('0123456789abcdef0123456789abcdef', 'hex'); // 256-bit encryption key
+const IV = Buffer.from('0123456789ab', 'hex'); // 96-bit initialization vector
+
+// Function to encrypt text using AES-GCM
+function encrypt_aes_gcm(text) {
+    console.log("text",text)
+    const cipher = crypto.createCipheriv('aes-256-gcm', ENCRYPTION_KEY_AES_GCM, IV);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const tag = cipher.getAuthTag();
+    return encrypted + ':' + tag.toString('hex');
+}
+
+// Function to decrypt text using AES -GCM
+function decrypt_aes_gcm(encrypted) {
+    const [encData, tag] = encrypted.split(':');
+    const decipher = crypto.createDecipheriv('aes-256-gcm', ENCRYPTION_KEY_AES_GCM, IV);
+    decipher.setAuthTag(Buffer.from(tag, 'hex'));
+    let decrypted = decipher.update(encData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+*/
+
+function decryptProfile(profile, method_encryption) {
+  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','medicalHistory','allergies'];
+  let decryptedProfile = {};
+  
+  if (method_encryption === "AES-CBC") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
+        decryptedProfile[key] = decrypt_aes_cbc(profile[key]);
+      }
+    });
+  } else if (method_encryption === "AES-GCM") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        decryptedProfile[key] = decrypt_aes_ecb(profile[key]);
+      }
+    });
+  } else if (method_encryption === "AES") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        decryptedProfile[key] = decrypt_aes(profile[key]);
+      }
+    });
+  } else {
+    throw new Error("Unsupported encryption method");
+  }
+  
   return decryptedProfile;
 }
-/*
-app.post('/empsignup',async(req,res)=>
-{
-  const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus} = req.body;
+function encryptProfile(element, method_encryption) {
+  if (method_encryption === "AES-CBC") 
+  {return encrypt_aes_cbc(element);} 
+  else if (method_encryption === "AES-GCM") 
+  {return encrypt_aes_ecb(element);} 
+  else if (method_encryption === "AES") 
+  {return encrypt_aes(element);}
+}
 
-  //Checking to see if email already exists
-  const emailExists= await Login.findOne({email:email}) 
-
-  //check for valid password entry to ensure a strong password
-  if(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) 
-  { 
-      res.json("pass problem")
+async function getEncryptionMethodById(id) {
+  try {
+    const encryptionData = await Encryption.findOne({ id: id });
+    if (!encryptionData) {
+      console.log("Encryption data not found for ID:", id);
+      return null;
+    }
+    console.log("Encryption data found:", encryptionData);
+    return encryptionData.encryptionMethod;
+  } catch (error) {
+    console.error("Error while fetching encryption data:", error);
   }
+}
 
-  //check to make sure confirm password and password are the same
-  else if (password!==confpassword)
-  {
-    res.json("password mismatch")
-  }
-  else if (emailExists)
-  {
-    res.json("email exists")
-  }
 
-  else
-  {
-    const hashedPassword = bcrypt.hashSync(password, 10);
-
-    //finding the max id number, and assiging a new id accordingly, by incrementing the id value
-    const allIds = await Login.find({}).select('id').lean();
-    const ids = allIds.map(item => item.id);
-    const numericParts = ids
-      .map(id => (id.match(/\d+/) || [])[0])  //Extracting numeric part using regex
-      .filter(Boolean)  
-      .map(Number); 
-    const maxNumericPart = Math.max(...numericParts);
-
-    let newId;
-    if(maxNumericPart.length===0|| maxNumericPart===-Infinity)
-    {
-      newId='1';
-    }
-    else
-    {
-      newId= (maxNumericPart+1).toString()
-    }
-
-    //id assigned according to the role of the user
-    let finalId;
-    if(employeeStatus==="employee")
-    {
-      finalId=EMP${newId};
-    }
-    else if (employeeStatus==="admin")
-    {
-      finalId=ADM${newId};
-    }
-    else if(employeeStatus==="manager")
-    {
-      finalId=MNR${newId};
-    }
-
-    const data=
-    {
-        email: email,
-        hashedPassword: hashedPassword,
-        id:finalId,
-    }
-
-    try
-    {
-      //inserting the data recieved in the login table, as well as the user table, according to the role of the user.
-      await Login.insertMany(data)
-      if(employeeStatus==="employee")
-      {
-        const empData=
-        {
-            First_Name: firstname,
-            Last_Name: lastname,
-            Email: email,
-            Age: age,
-            Phone_Number: phone,
-            Address: address,
-            Employee_ID: finalId,
-            Department: department,
-            Profile_Image: "default.png",
-            Date_of_Birth: selectedDate,
-        }
-        await Employee.insertMany(empData)
-      }
-      else if (employeeStatus==="admin")
-      {
-        const empData=
-        {
-            First_Name: firstname,
-            Last_Name: lastname,
-            Email: email,
-            Age: age,
-            Phone_Number: phone,
-            Address: address,
-            Admin_ID: finalId,
-            Department: department,
-            Profile_Image: "default.png",
-            Date_of_Birth: selectedDate,
-        }
-        await Admin.insertMany(empData)
-      }
-      else if(employeeStatus==="manager")
-      {
-        const empData=
-        {
-            First_Name: firstname,
-            Last_Name: lastname,
-            Email: email,
-            Age: age,
-            Phone_Number: phone,
-            Address: address,
-            Manager_ID: finalId,
-            Department: department,
-            Profile_Image: "default.png",
-            Date_of_Birth: selectedDate,
-        }
-        await Manager.insertMany(empData)
-      }
-      res.json("yay")
-    }
-    catch(e)
-        {
-            console.log("smth happened",e)
-            res.json("ohooo")
-        }
-    }
-});*/
 app.post('/empsignup',async(req,res)=>
 {
   const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption} = req.body;
-
-  // console.log("here", req.body)
-  //Checking to see if email already exists
+  console.log("here", req.body)
   const emailExists= await Login.findOne({email:email}) 
 
   //check for valid password entry to ensure a strong password
@@ -270,12 +252,33 @@ app.post('/empsignup',async(req,res)=>
       id: finalId,
       encryptionMethod: encryption,
     }
+    
 
     try
     {
       //inserting the data recieved in the login table, as well as the user table, according to the role of the user.
-      await Login.insertMany(data)
       await Encryption.insertMany(encryptionData)
+      console.log("Encryption data inserted:", encryptionData);
+
+      
+      const encryptionMethod = await getEncryptionMethodById(finalId);
+      console.log("encryptionMethod retrieved from table", encryptionMethod);
+      await Login.insertMany(data)
+      console.log("Table Made");
+
+      const medicalData=
+      {
+      id: finalId,
+      email: email,
+      bloodType: encryptProfile("Not Specefied",encryptionMethod),
+      allergies: [],
+      medicalHistory: "",
+      }
+      await MedicalInfo.insertMany(medicalData)
+      console.log("Medical data inserted:", medicalData);
+
+
+      //pass id to function encryptionMethod to get encryption method
       if(employeeStatus==="employee")
       {
         const empData = {
@@ -283,11 +286,11 @@ app.post('/empsignup',async(req,res)=>
           Last_Name: lastname,
           Email: email,
           Age: age,
-          Phone_Number: encrypt(phone),
-          Address: encrypt(address),
+          Phone_Number: encryptProfile(phone,encryptionMethod),
+          Address: encryptProfile(address,encryptionMethod),
           Employee_ID: finalId,
-          Department: encrypt(department),
-          Profile_Image: encrypt("default.png"), // Assuming you want to encrypt this value as well
+          Department: encryptProfile(department,encryptionMethod),
+          Profile_Image: "default.png", // Assuming you want to encrypt this value as well
           Date_of_Birth: selectedDate, // Assuming selectedDate is a string
         };
         await Employee.insertMany(empData)
@@ -300,11 +303,11 @@ app.post('/empsignup',async(req,res)=>
             Last_Name: lastname,
             Email: email,
             Age: age,
-            Phone_Number: encrypt(phone),
-            Address: encrypt(address),
+            Phone_Number: encryptProfile(phone,encryptionMethod),
+            Address: encryptProfile(address,encryptionMethod),
             Admin_ID: finalId,
-            Department: encrypt(department),
-            Profile_Image: encrypt("default.png"),
+            Department: encryptProfile(department,encryptionMethod),
+            Profile_Image: "default.png",
             Date_of_Birth: selectedDate,
         }
         await Admin.insertMany(empData)
@@ -317,11 +320,11 @@ app.post('/empsignup',async(req,res)=>
             Last_Name: lastname,
             Email: email,
             Age: age,
-            Phone_Number: encrypt(phone),
-            Address: encrypt(address),
+            Phone_Number: encryptProfile(phone,encryptionMethod),
+            Address: encryptProfile(address,encryptionMethod),
             Manager_ID: finalId,
-            Department: encrypt(department),
-            Profile_Image: encrypt("default.png"),
+            Department: encryptProfile(department,encryptionMethod),
+            Profile_Image: "default.png",
             Date_of_Birth: selectedDate,
         }
         await Manager.insertMany(empData)
@@ -387,11 +390,14 @@ app.post('/edit_profile', async (req, res) => {
     console.log("edit:",editedProfile);
     //call encrypt on each field in editted profile
     /////CHECK whats wrong with date of birth
-    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age','Department'];
+    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age'];
     const encryptedProfile = {};
+    const getId= await Login.findOne({email:email});
+    console.log("id",getId.id);
+    const encryptionMethod = await getEncryptionMethodById(getId.id);
     Object.keys(editedProfile).forEach(key => {
       if (!fieldsToExcludeFromEncryption.includes(key)) {
-        encryptedProfile[key] = encrypt(editedProfile[key]);
+        encryptedProfile[key] = encryptProfile(editedProfile[key],encryptionMethod);
       } else {
         encryptedProfile[key] = editedProfile[key]; // Keep the field as it is
       }
@@ -480,44 +486,7 @@ app.post('/searchres', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-/*
-app.post('/viewprofile', async (req, res) => {
-  try {
-    const { email, role } = req.body;
-    console.log(role);
-    let profile;
-    if(role === 'admin') {
-      profile = await Admin.findOne({ Email: email });
-    } else if(role === 'employee') {
-      console.log(email)
-      profile = await Employee.findOne({ Email: email });
-      console.log(profile);
-    } else if(role === 'manager') {
-      profile = await Manager.findOne({ Email: email });
-    } else {
-    }
-    if (!profile) {
-      return res.status(404).json({ error: 'User profile not found' });
-    }
-    console.log("profilebfr",profile)
-    const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','Department'];
-    const decryptedProfile = {};
 
-    Object.keys(profile._doc).forEach(key => {
-      if (['id', '_v', ...fieldsToExcludeFromDecryption].includes(key)) {
-        decryptedProfile[key] = profile[key];
-      } else {
-        decryptedProfile[key] = decrypt(profile[key]);
-      }
-    });
-    console.log("profiledecrypt",decryptedProfile)
-    return res.json({ status: "profile exists", profile_deets: decryptedProfile });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-});*/
 app.post('/viewprofile', async (req, res) => {
   try {
     const { email, role } = req.body;
@@ -541,8 +510,13 @@ app.post('/viewprofile', async (req, res) => {
     }
 
     console.log("profile before decryption:", profile);
+    const getId= await Login.findOne({email:email});
+    console.log("id",getId.id);
+    const encryptionMethod = await getEncryptionMethodById(getId.id);
+    console.log("encryption method in view profile %s for email: %s", encryptionMethod, email);
+    
 
-    const decryptedProfile = decryptProfile(profile);
+    const decryptedProfile = decryptProfile(profile, encryptionMethod);
     console.log("profile after decryption:", decryptedProfile);
 
     return res.json({ status: "profile exists", profile_deets: decryptedProfile });
@@ -557,11 +531,15 @@ app.post('/viewsearchprofile', async (req, res) => {
   try {
     const { email } = req.body;
     console.log("result search");
+    const getId= await Login.findOne({email:email});
+    console.log("id",getId.id);
+    const encryptionMethod = await getEncryptionMethodById(getId.id);
+    console.log("encryption method",encryptionMethod);
 
     // Search in Admin table
     let profile = await Admin.findOne({ Email: email });
     if (profile) {
-      const decryptedProfile = decryptProfile(profile);
+      const decryptedProfile = decryptProfile(profile,encryptionMethod);
       console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
@@ -569,7 +547,7 @@ app.post('/viewsearchprofile', async (req, res) => {
     // If not found in Admin, search in Employee table
     profile = await Employee.findOne({ Email: email });
     if (profile) {
-      const decryptedProfile = decryptProfile(profile);
+      const decryptedProfile = decryptProfile(profile,encryptionMethod);
       console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
@@ -577,7 +555,7 @@ app.post('/viewsearchprofile', async (req, res) => {
     // If not found in Employee, search in Manager table
     profile = await Manager.findOne({ Email: email });
     if (profile) {
-      const decryptedProfile = decryptProfile(profile);
+      const decryptedProfile = decryptProfile(profile,encryptionMethod);
       console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
@@ -627,6 +605,52 @@ app.post('/findrole', async (req, res) => {
   }
 });
 
+// app.post('/update-medical-info', async (req, res) => {
+//   try {
+//     const { email, bloodType, allergies, medicalHistory } = req.body;
+    
+//     // Check if medical profile already exists for the given email
+//     let medProfile = await MedicalInfo.findOne({ email });
 
+//     if (!medProfile) {
+//       // If medical profile doesn't exist, create a new one
+//       medProfile = new MedicalInfo({
+//         email,
+//         bloodType,
+//         allergies,
+//         medicalHistory
+//       });
+//     } else {
+//       // If medical profile already exists, update the fields
+//       medProfile.bloodType = bloodType;
+//       medProfile.allergies = allergies;
+//       medProfile.medicalHistory = medicalHistory;
+//     }
+
+//     // Save the updated medical profile
+//     await medProfile.save();
+
+//     res.status(200).json({ message: 'Medical information updated successfully' });
+//   } catch (error) {
+//     console.error('Error updating medical information:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// });
+// const getMedicalProfileByEmail = async (email) => {
+//   try {
+//     const medProfile = await MedicalInfo.findOne({ email });
+//         const encryptionMethod = await getEncryptionMethodById(getId.id);
+//     console.log("encryption method in view profile %s for email: %s", encryptionMethod, email);
+    
+
+//     const decryptedProfile = decryptProfile(profile, encryptionMethod);
+
+//     const decryptedMedProfile = decryptProfile(medProfile);
+//     return medProfile;
+//   } catch (error) {
+//     console.error('Error fetching medical profile:', error);
+//     throw new Error('Failed to fetch medical profile');
+//   }
+// };
 
 export default app;

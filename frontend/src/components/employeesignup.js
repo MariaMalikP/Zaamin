@@ -197,9 +197,9 @@ const EmployeeSignup= (prop)=>{
                         <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
                         <select class="dropdown-inp" required  onChange={(e) => setEncryption(e.target.value)}>
                         <option value="default">Encryption Method</option>    
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                        <option value="AES-CBC">AES-CBC</option>
+                        <option value="AES-GCM">AES-GCM</option>
+                        <option value="AES">AES</option>
                         </select>
                         <button type="signup-button" > Signup </button>
                     </form>   

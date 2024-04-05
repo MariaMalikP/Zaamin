@@ -12,7 +12,9 @@ import SearchRes from './components/searchres';
 import ViewProfile from './components/viewprofile';
 import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
-import EmployeeSignup from './components/employeesignup'
+import EmployeeSignup from './components/employeesignup';
+import MedicalCheck from './components/medicalcheck';
+import FinanceCheck from './components/financialcheck';
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
             <Route path="/home" element={<Home/>}/>
             <Route path="/employeehome/:email" element={<EmployeeHome/>}/>
             <Route path="/profilehome/:email/:role" element={<ProfileHome/>}/>
+            <Route path="/medicalcheck/:email/:role" element={<MedicalCheck/>}/>
+            <Route path="/financecheck/:email/:role" element={<FinanceCheck/>}/>
             <Route path="/editprofile/:email/:role" element={<EditProfile/>}/>
             <Route path="/adminhome/:email" element={<AdminHome/>}/>
             <Route path="/managerhome/:email" element={<ManagerHome/>}/>

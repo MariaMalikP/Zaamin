@@ -4,7 +4,7 @@ const encryptionSchema = new mongoose.Schema({
   id: {
     type: String,
     required: true,
-    unique: true
+    // unique: true
   },
   encryptionMethod: {
     type: String,
