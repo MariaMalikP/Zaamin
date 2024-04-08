@@ -10,13 +10,30 @@ import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
 dotenv.config();
+import expressWinston from 'express-winston'
+import winston from 'winston'
+import winstonMongoDB from 'winston-mongodb';
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.MongoDB({
+      level : 'verbose', 
+      db : process.env.MONG_URI,
+      collection:'logs'
+    })
+  ],
+  format: winston.format.combine (
+    winston.format.json(),
+    winston.format.timestamp(),
+    winston.format.metadata(),
+    winston.format.prettyPrint()
+  )
+}))
 
 mongoose.connect(process.env.MONG_URI, {
   useNewUrlParser: true,
