@@ -14,6 +14,7 @@ import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
 import EmployeeSignup from './components/employeesignup';
 import Compliancerules from './components/compliancerules';
+import Violations from './components/violations';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
             <Route path ="/compliancerules" element = {<Compliancerules/>}/>
+            <Route path ="/violations" element = {<Violations/>}/>
         </Routes>
       </BrowserRouter>
     

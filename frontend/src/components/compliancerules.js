@@ -27,23 +27,22 @@ const Compliancerules =() => {
     }, []);
     
     const fetchRegulations = async () => {
-        try{
-        await axios
-        .post('http://localhost:3000/regulations_get')
-        .then((res) => {
-            setRegulations(res.data);
-            alert(res.data.description)
-        })
-    }
-        catch(error)
-        {
+        try {
+            const res = await axios.get('http://localhost:3000/regulations');
+            setRegulations(res.data.reg); // Assuming regulations are in res.data
+            // alert(res.data.reg)
+            if(res.data==="Internal Server Error")
+            {
+                alert("Internal Server Error")
+            }
+        } catch (error) {
             console.error('Error fetching regulations:', error);
         }
     };
     const handleAddRegulation = () => {
         // Send POST request to add a new regulation
         axios.post('http://localhost:3000/regulations', { name: regulationName, description: regulationDescription })
-            .then(() => {
+            .then((res) => {
                 // Refresh regulations after adding
                 fetchRegulations();
                 // Clear input fields
@@ -57,11 +56,29 @@ const Compliancerules =() => {
             });
     };
 
-    const handleupdate = () => {
-        alert("clicked")
+    // const handledelete = () => {
+    //     alert("clicked")
         
-        console.log(`Button clicked for regulation with ID:`);
-    }
+    //     console.log(`Button clicked for regulation with ID:`);
+    // }
+    const handleDelete = async (regulationId) => {
+        try {
+            // Make an API request to delete the regulation
+            // const res =await axios.delete('http://localhost:3000/regulations',{name:regulationId});
+            const res = await axios.delete(`http://localhost:3000/regulations?id=${regulationId}`);
+            if(res.data.message==="delete successful")
+            {
+                alert(`Regulation with ID ${regulationId} deleted successfully.`);
+            }
+            // alert(`Regulation with ID ${regulationId} deleted successfully.`);
+            fetchRegulations();
+
+            // Optionally, you can also update the state after successful deletion
+        } catch (error) {
+            console.error('Error deleting regulation:', error);
+            // Handle errors
+        }
+    };
     const handlebuttonClick=() =>
     {
         setShowPopup(true)
@@ -69,13 +86,6 @@ const Compliancerules =() => {
     const handlePopupClose = () => {
         setShowPopup(false);
     };
-    const handleSubmit = () => {
-        
-        setRegulationName('');
-        setRegulationDescription('');
-        setShowPopup(false);
-    };
-
 
     return (    
         <div className='comp-container'>
@@ -91,25 +101,26 @@ const Compliancerules =() => {
                     <div className="RegulationName">{regulation.name}</div>
                     <div className="regulation-description">{regulation.description}</div>
                     <div className="update-ButtonContainer">
-                        <button className="Update-Button" onClick={() => handleupdate()}>
-                            <img src="/images/pen.png" alt="Button Image" className="Update-ButtonImage" />
+                        <button className="Update-Button" onClick={() => handleDelete(regulation._id)}>
+                            <img src="/images/trash.png" alt="Button Image" className="Update-ButtonImage" />
                         </button>
                     </div>
                 </div>
                     ))}
             </div>
-            )}
+            )} 
 
             <div className="AddRegulationButton" onClick={handlebuttonClick}>
                 <div className="Rectangle-add-button" />
-                    <div className="Frame-add-button">
-                        <div className="text-add-button">Add a Regulation</div>
-                    </div>
+                <div className="Frame-add-button">
+                    <div className="text-add-button">Add a Regulation</div>
+                </div>
             </div>
+            <a href="/violations" class="ViewViolations-link">View Violations</a>
             {showPopup && (
                 <div className="Popup">
                     <div className="PopupContent">
-                        <span className="CloseButton" onClick={handlePopupClose}>×</span>
+                        <span className="CloseButton-comp" onClick={handlePopupClose}>×</span>
                         <div className='PopupTitle-comp '>Add a Regulation</div> {/* Heading for adding a regulation */}
                         <input
                             type="text"
@@ -117,7 +128,7 @@ const Compliancerules =() => {
                             value={regulationName}
                             onChange={(e) => setRegulationName(e.target.value)}
                             placeholder="Regulation Name"
-                            className="InputField RegulationNameInput"
+                            className="InputField-name-comp RegulationNameInput"
                         />
                         <input
                             type="text"
@@ -125,7 +136,7 @@ const Compliancerules =() => {
                             value={regulationDescription}
                             onChange={(e) => setRegulationDescription(e.target.value)}
                             placeholder="Regulation Description"
-                            className="InputField RegulationDescriptionInput"
+                            className="InputField-description-comp RegulationDescriptionInput"
                         />
                         <div className="SubmitButtonContainer">
                             <button onClick={handleAddRegulation} className="SubmitButton">Submit</button>
@@ -133,6 +144,7 @@ const Compliancerules =() => {
                     </div>
                 </div>
             )}
+            {/* <div className="ViewViolations-link" >View Violations</div> */}
         </div>
 
 

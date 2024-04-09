@@ -395,25 +395,26 @@ app.post('/findrole', async (req, res) => {
   }
 });
 
-app.get('/regulations_get', async (req, res) => {
+app.get('/regulations', async (req, res) => {
   try {
     const regulations = await Regulation.find();
     if (!regulations) {
       // Handle the case when regulations is undefined
       console.error('No regulations found');
-      return res.status(404).json({ message: 'No regulations found' });
+      res.json('No regulations found');
     }
-    console.log(regulations,"length",regulations.length);
-    return res.json({ message: 'Regulations fetched', data: regulations });
+    // console.log(regulations,"length",regulations.length);
+    // return res.json({ message: 'Regulations fetched', reg: regulations });
+    res.json({reg:regulations})
   } catch (error) {
     console.error('Error fetching regulations:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.json({ message: 'Internal Server Error' });
   }
 });
 app.post('/regulations', async (req, res) => {
   try
   {
-    console.log("hereee")
+    // console.log("hereee")
     
     const { name, description } = req.body;
       // Create a new regulation
@@ -432,6 +433,28 @@ app.post('/regulations', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 
+})
+app.delete('/regulations', async (req, res) => {
+  try
+  {
+    console.log("in delete", req.query.id)
+    const id = req.query.id;
+    const deletedreg = await Regulation.findByIdAndDelete(id)
+    if(!deletedreg)
+    {
+      res.json({message:"no regualtion found"})
+    }
+    else
+    {
+      res.json({message:"delete successful"})
+    }
+
+  }
+  catch(error)
+  {
+    console.error('Error deleting regulation:', error);
+    res.status(500).json({ message: 'Error Deleting' });
+  }
 })
 
 export default app;
