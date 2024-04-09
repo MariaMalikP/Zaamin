@@ -12,7 +12,8 @@ import SearchRes from './components/searchres';
 import ViewProfile from './components/viewprofile';
 import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
-import EmployeeSignup from './components/employeesignup'
+import EmployeeSignup from './components/employeesignup';
+import Compliancerules from './components/compliancerules';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/viewprofile/:email/:visitingEmail" element={<ViewProfile />} />
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
+            <Route path ="/compliancerules" element = {<Compliancerules/>}/>
         </Routes>
       </BrowserRouter>
     

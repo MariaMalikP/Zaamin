@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+ .comp-container {
+    width: 100%;
+    height: 100vh;
+    background-color: white
+}
+
+.Group2280 {
+    width: 966px;
+    height: 79px;
+    position: relative;
+  }
+  
+  .ComplianceDashboardRegulations {
+    width: 957px;
+    height: 79px;
+    left: 20px;
+    top: 50px;
+    position: absolute;
+    text-align: center;
+    color: #13476F;
+    font-size: 45px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+  
+  .ClipboardIcon {
+    width: 96px;
+    height: 114px;
+    left: 0;
+    top: 30px;
+    position: absolute;
+  }
+
+.RegulationBar {
+    width: 803px;
+    position: relative;
+    
+}
+
+.RegulationBox {
+    top:7;
+    width: 1000px;
+    height: 160px;
+    position: absolute;
+    left: 0;
+    background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 0%, rgba(43, 137, 142, 0.25) 100%);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    margin-left: 90px;
+}
+
+.RegulationName {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    color: #13476F;
+    font-size: 25px;
+    font-family: 'Inter';
+    font-weight: 700;
+    word-wrap: break-word;
+    line-height: 83px;
+    padding-left: 30px;
+    }
+
+    .regulation-description {
+        width: 482px;
+        height: 136px;
+        position: absolute;
+        left: 34px;
+        top: 65px;
+        color: #13476F;
+        font-size: 15px;
+        font-family: 'Inter';
+        font-weight: 500;
+        word-wrap: break-word;
+    }
+
+    .Update-Button {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .Update-ButtonImage {
+        width: 70px;
+        height: 70px;
+    }
+    .update-ButtonContainer {
+        position: absolute;
+        top: 50%; /* Adjust vertically */
+        right: 20px; 
+        transform: translateY(-50%); /* Center vertically */
+    }
+  
+    .AddRegulationButton {
+        width: 300px;
+        height: 60px;
+        position: relative;
+        left: 1400px;
+        top: 250px;
+        cursor: pointer;
+    }
+    
+    .Rectangle-add-button {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: #F18550;
+        border-radius: 20px;
+    }
+    
+    .Frame-add-button {
+        width: 186px;
+        height: 30.01px;
+        padding: 10px;
+        left: 49px;
+        top: 5px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .text-add-button {
+        text-align: center;
+        color: #E8E1E2;
+        font-size: 20px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        word-wrap: break-word;
+    }
+    .AddRegulationButton:focus .Rectangle-add-button,
+    .AddRegulationButton:active .Rectangle-add-button {
+        background: #DD6B20; /* Change background color when button is focused/active */
+    }
+
+
+    .Popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+    
+    .PopupContent {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        width: 600px;
+        height: 350px;
+    }
+    
+    .CloseButton {
+        position: absolute;
+        top: 7px;
+        right: 25px;
+        cursor: pointer;
+        font-size: 40px;
+        color: #DD6B20;
+        font-weight: 500;
+    }
+    
+    .InputField {
+        width: 95%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        /* margin-top: 50px; */
+        
+    }
+    
+    .SubmitButton {
+        background-color: #DD6B20;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100px;
+    }
+    
+    .SubmitButton:hover {
+        background-color: #ad5218;
+    }
+    .RegulationNameInput {
+        height: 50px; 
+        font-size: 18px; 
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .RegulationDescriptionInput {
+        height: 120px; 
+        font-size: 18px; 
+        font-family: 'Inter', sans-serif;
+    }
+    .SubmitButtonContainer {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 8px;
+    }
+
+    .PopupTitle-comp 
+    {
+        color: #13476F;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 25px;
+    }

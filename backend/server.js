@@ -7,6 +7,7 @@ import Admin from './models/admins.js';
 import Manager from './models/managers.js';
 import Login from './models/userlogin.js';
 import bcrypt from 'bcrypt';
+import Regulation from './models/regulations.js';
 dotenv.config();
 
 const app = express();
@@ -322,7 +323,7 @@ app.post('/searchres', async (req, res) => {
 app.post('/viewsearchprofile', async (req, res) => {
   try {
     const { email } = req.body;
-    console.log("ressssssssultssssssss")
+    // console.log("ressssssssultssssssss")
     // Search in Admin table
     let profile = await Admin.findOne({ Email: email });
     if (profile) {
@@ -360,7 +361,7 @@ app.post('/viewsearchprofile', async (req, res) => {
 app.post('/findrole', async (req, res) => {
   try {
     const { email } = req.body;
-    console.log("ressssssssultssssssss rollig")
+    // console.log("ressssssssultssssssss rollig")
     let role = '';
     let profile = await Admin.findOne({ Email: email });
     if (profile) {
@@ -394,6 +395,43 @@ app.post('/findrole', async (req, res) => {
   }
 });
 
+app.get('/regulations_get', async (req, res) => {
+  try {
+    const regulations = await Regulation.find();
+    if (!regulations) {
+      // Handle the case when regulations is undefined
+      console.error('No regulations found');
+      return res.status(404).json({ message: 'No regulations found' });
+    }
+    console.log(regulations,"length",regulations.length);
+    return res.json({ message: 'Regulations fetched', data: regulations });
+  } catch (error) {
+    console.error('Error fetching regulations:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+app.post('/regulations', async (req, res) => {
+  try
+  {
+    console.log("hereee")
+    
+    const { name, description } = req.body;
+      // Create a new regulation
+    const newRegulation = new Regulation({
+        name: name,
+        description: description
+    });
 
+      // Save the new regulation to the database
+      await newRegulation.save();
+      return res.status(201).json({ message: 'Regulation added successfully' });
+  }
+  catch(error)
+  {
+    console.error('Error fetching regulations:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+
+})
 
 export default app;

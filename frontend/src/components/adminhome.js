@@ -36,7 +36,14 @@ const AdminHome = (prop) => {
         try {
             history(`/profilehome/${email}/${role}`);
         } catch (error) {
-            alert('Error during login, try again', error);
+            alert('Error during rerouting, try again', error);
+        }
+    };
+    const compliance_dashboard = async () => {    
+        try {
+            history(`/compliancerules`);
+        } catch (error) {
+            alert('Error, try again', error);
         }
     };
 
@@ -49,7 +56,7 @@ const AdminHome = (prop) => {
             <ul className="button-list">
                 <li><button className="button-style" type="button" onClick={profilecheck}>1. Manage Profile</button></li>
                 <li><button className="button-style" type="button" onClick={profilecheck}>2. View Audit Logs</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>3. View Compliance Dashboard</button></li>
+                <li><button className="button-style" type="button" onClick={compliance_dashboard}>3. View Compliance Dashboard</button></li>
             </ul>
         </div>
     );
