@@ -104,7 +104,7 @@ const MedicalCheck = () => {
       }
     } catch (error) {
       console.error('Error updating medical history', error);
-      window.alert('Error updating medical history');
+      window.alert('Error updating medical history :'+error);
     }
   };
   
@@ -171,6 +171,7 @@ const MedicalCheck = () => {
                 onChange={handleInputChange}
                 className='med-output-box med-output med-output2'
               >
+                <option value={userProfile.bloodType}>{userProfile.bloodType}</option>
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
                 <option value="B+">B+</option>

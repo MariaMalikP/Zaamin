@@ -88,7 +88,7 @@ function decrypt_aes_ecb(encryptedData) {
 }
 
 function decryptProfile(profile, method_encryption) {
-  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','medicalHistory','allergies','id'];
+  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','id'];
   let decryptedProfile = {};
   
   if (method_encryption === "AES-CBC") {
@@ -248,12 +248,12 @@ app.post('/empsignup',async(req,res)=>
       {
       id: finalId,
       email: email,
-      bloodType: encryptProfile("Not Specefied"),
-      allergies: encryptProfile(""),
-      medicalHistory: encryptProfile(""),
-      emergencyContact: encryptProfile("1122"),
-      leaveRequest: encryptProfile("No Leave Requested"),
-      currentLeaveStatus: encryptProfile("Undefined"),
+      bloodType: encryptProfile("Not Specefied",encryptionMethod),
+      allergies: encryptProfile("Not Specefied",encryptionMethod),
+      medicalHistory: encryptProfile("Not Specefied",encryptionMethod),
+      emergencyContact: encryptProfile("1122",encryptionMethod),
+      leaveRequest: encryptProfile("No Leave Requested",encryptionMethod),
+      currentLeaveStatus: encryptProfile("Undefined",encryptionMethod),
       }
       await MedicalInfo.insertMany(medicalData)
       console.log("Medical data inserted:", medicalData);
