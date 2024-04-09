@@ -13,7 +13,7 @@ const EditProfile = () => {
     const [editedProfile, setEditedProfile] = useState({});
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState();
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -49,20 +49,29 @@ const EditProfile = () => {
         }));
     };
 
-    const onImageChosen = async (e) => {
-        const file = e.target.files[0];
-        window.alert("Passed to e",e)
-        try {
-            const imageData = await readImageFileAsBase64(file);
-            setImage(imageData);
-            window.alert("Image : ",typeof(imageData));
-            // setEditedProfile(prevProfile => ({
-            //     ...prevProfile,
-            //     Profile_Image: imageData
-            // }));
-        } catch (error) {
-            console.error('Error reading image file', error);
-        }
+    const onImageChosen = async(file) => {
+        window.alert('file: ' + JSON.stringify(file));
+        const imageData = await readImageFileAsBase64(file);
+        const stringified_imageData = JSON.stringify(imageData);
+        window.alert('file: ' + stringified_imageData);
+        const unstringify_imageData = JSON.parse(stringified_imageData);
+        window.alert('file: ' + unstringify_imageData);
+        editedProfile.Profile_Image = unstringify_imageData;
+        setImage(unstringify_imageData);
+        // try {
+        //     const formData = new FormData();
+        //     formData.append('profile_pic', file);
+        //     const response = await axios.post('http://localhost:3000/update-profile-pic', formData);
+        //     window.alert('Profile Picture updated successfully: ' + JSON.stringify(response.data));
+        //     if (response.data.message === "Path Set") {
+        //         window.alert('response.data.status.filePath: ' + JSON.stringify(response.data.filePath));
+        //         window.alert('Profile Picture updated successfully 2');
+        //     }
+          
+        // } catch (error) {
+        //     console.error('Error updating medical history', error);
+        //     window.alert('Error updating medical history');
+        // }
     };
     // Function to read image file as base64
     const readImageFileAsBase64 = (file) => {
@@ -93,7 +102,7 @@ const EditProfile = () => {
 
     return (
         <div className='profile'>
-            <Header />
+            <Header email={email} userProfile={userProfile} />
             <div className='heading'>Edit Profile</div>
             {userProfile && (
                 <>
@@ -105,7 +114,7 @@ const EditProfile = () => {
                         )}
                         <div className="file-input-wrapper">
                             <img src='/img.png' alt="Upload Icon" />
-                            <input type="file" accept="image/*" onChange={onImageChosen} id="fileInput" />
+                            <input type="file" onChange={(e)=>onImageChosen(e.target.files[0])} />
                         </div>
                     </div>
                     <div className='title firstname'>First Name:</div>

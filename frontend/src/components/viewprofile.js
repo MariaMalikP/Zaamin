@@ -44,7 +44,7 @@ const ViewProfile = () => {
             {returnStatus === "profile exists" && visitorProfile && (
                 <>
                     <div className='ellipse-27'>
-                        <img src={visitorProfile.Profile_Image} alt='Profile' className='profile-picture' />
+                            <img src={visitorProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{visitorProfile.First_Name}</div>

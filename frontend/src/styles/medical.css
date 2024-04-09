@@ -1,0 +1,229 @@
+.med_profile {
+  position: fixed;
+  width: 100%;
+  height: 1000px;
+  background: #E8E1E2;
+}
+
+.med_heading {
+  position: absolute;
+    left:50px;
+    width: 207px;
+    height: 79px;
+    top: 175px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 54px;
+    display: flex;
+    align-items: center;
+    color: #13476F;
+    white-space: nowrap;
+}
+.med_title {
+  position: absolute;
+    width: 141px;
+    height: 27px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    color: #13476F;
+    white-space: nowrap;
+}
+.id
+{
+  left: 600px;
+  top: 270px;
+
+}
+.bloodtype {
+  left: 600px;
+  top: 450px;
+}
+
+.allergy {
+  left: 1000px;
+  top: 450px;
+}
+.phone
+{
+  left: 1000px;
+  top: 270px;
+}
+.leave
+{
+  left: 600px;
+  top: 630px; 
+}
+.leaveReqStat
+{
+  left: 1000px;
+  top: 630px;
+}
+.med-output {
+  position: absolute;
+  width: 122px;
+  height: 22px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #13476F;
+}
+.med-output1 {
+left: 600px;
+top: 302px;
+}
+
+.med-output2 {
+left: 600px;
+top: 482px;
+}
+
+.med-output3 {
+left: 1000px;
+top: 482px;
+}
+.med-output4 {
+  left: 1000px;
+top: 302px;
+ 
+  }
+.med-output5 {
+  left: 600px;
+  top: 662px;
+}
+.med-output6 {
+
+left: 1000px;
+top: 662px;
+
+}
+.med-output-box {
+width: 299px;
+height: 53px;
+
+background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
+border-radius: 20px;
+}
+.med_drag_file {
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  left: 20px;
+  top: 20px;
+  border-radius: 50%; 
+}
+.med-edit-profile {
+  position: absolute;
+  box-sizing: border-box;
+  width: 222px;
+  height: 49.39px;
+  left: 90px;
+  top: 679.55px;
+  background: #F18550;
+  border: 1px dashed #E8E1E2;
+  border-radius: 100px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #E8E1E2;
+  cursor: pointer;
+}
+
+.med-edit-profile:hover {
+  background-color: #E76B34; /* Darker shade of orange on hover */
+}
+/* Ellipse 27 */
+.med_ellipse-27 {
+  position: relative;
+  width: 720px;
+  height: 100px;
+  left: 600px;
+  top: 800px;
+  background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
+  border-radius: 50px;
+  border: 2px solid #13476F; /* Add border and adjust properties as needed */
+}
+
+.med_ellipse-27 img {
+  position: relative;
+  top: 20px;
+  left: 330px;
+  width: 50px;
+  height: 50px;
+}
+
+.buttons_file {
+  position: relative;
+  bottom: 10px; /* Adjust bottom spacing as needed */
+  left: 700px; /* Adjust left spacing as needed */
+  display: flex;
+  align-items: center;
+}
+
+.buttons_file img {
+  position: relative;
+  left:1px;
+  width: 50px; 
+  height: 50px; 
+}
+.insurance-bar {
+  position:fixed;
+  top: 500px;
+  left: 100px;
+}
+
+.insurance-heading {
+  position:fixed;
+  font-size: 18px;
+  top: 670px;
+  left: 120px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #13476F;
+}
+
+.pie-chart {
+  width: 200px;
+  height: 200px;
+}
+
+.insurance-progress-text {
+  position: fixed;
+  top: 570px;
+  left: 165px;
+  text-align: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #13476F;
+}

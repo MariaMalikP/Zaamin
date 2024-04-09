@@ -28,7 +28,7 @@ function App() {
             <Route path="/employeehome/:email" element={<EmployeeHome/>}/>
             <Route path="/profilehome/:email/:role" element={<ProfileHome/>}/>
             <Route path="/medicalcheck/:email/:role" element={<MedicalCheck/>}/>
-            <Route path="/financecheck/:email/:role" element={<FinanceCheck/>}/>
+            <Route path="/financialcheck/:email/:role" element={<FinanceCheck/>}/>
             <Route path="/editprofile/:email/:role" element={<EditProfile/>}/>
             <Route path="/adminhome/:email" element={<AdminHome/>}/>
             <Route path="/managerhome/:email" element={<ManagerHome/>}/>

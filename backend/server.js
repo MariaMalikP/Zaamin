@@ -11,7 +11,9 @@ import bcrypt from 'bcrypt';
 import CryptoJS from 'crypto-js';
 import crypto from 'crypto';
 import multer from 'multer';
-// import MedicalInfo from './medicalInfo'; 
+import MedicalInfo from './models/medical_info.js'; 
+import FinancialInfo from './models/financial_info.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -35,7 +37,7 @@ mongoose.connect(process.env.MONG_URI, {
 .catch((error) => {
   console.log(error);
 });
-
+const conn = mongoose.connection;
 const ENCRYPTION_KEY_AES = 'H@pP!Ly5tr0nG&SecuREkEy123!#@%*';
 
 function encrypt_aes(text) {
@@ -60,7 +62,7 @@ function encrypt_aes_cbc(data) {
 }
 
 function decrypt_aes_cbc(encryptedData) {
-  console.log("encryptedData",encryptedData)
+  // console.log("encryptedData",encryptedData)
   const parts = encryptedData.split(':');
   const iv = Buffer.from(parts.shift(), 'hex');
   const encryptedText = Buffer.from(parts.join(':'), 'hex');
@@ -85,34 +87,8 @@ function decrypt_aes_ecb(encryptedData) {
   return decryptedData;
 }
 
-// Example usage
-/*
-const ENCRYPTION_KEY_AES_GCM = Buffer.from('0123456789abcdef0123456789abcdef', 'hex'); // 256-bit encryption key
-const IV = Buffer.from('0123456789ab', 'hex'); // 96-bit initialization vector
-
-// Function to encrypt text using AES-GCM
-function encrypt_aes_gcm(text) {
-    console.log("text",text)
-    const cipher = crypto.createCipheriv('aes-256-gcm', ENCRYPTION_KEY_AES_GCM, IV);
-    let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const tag = cipher.getAuthTag();
-    return encrypted + ':' + tag.toString('hex');
-}
-
-// Function to decrypt text using AES -GCM
-function decrypt_aes_gcm(encrypted) {
-    const [encData, tag] = encrypted.split(':');
-    const decipher = crypto.createDecipheriv('aes-256-gcm', ENCRYPTION_KEY_AES_GCM, IV);
-    decipher.setAuthTag(Buffer.from(tag, 'hex'));
-    let decrypted = decipher.update(encData, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-}
-*/
-
 function decryptProfile(profile, method_encryption) {
-  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','medicalHistory','allergies'];
+  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','medicalHistory','allergies','id'];
   let decryptedProfile = {};
   
   if (method_encryption === "AES-CBC") {
@@ -131,6 +107,7 @@ function decryptProfile(profile, method_encryption) {
       if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
         decryptedProfile[key] = profile[key];
       } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
         decryptedProfile[key] = decrypt_aes_ecb(profile[key]);
       }
     });
@@ -140,11 +117,12 @@ function decryptProfile(profile, method_encryption) {
       if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
         decryptedProfile[key] = profile[key];
       } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
         decryptedProfile[key] = decrypt_aes(profile[key]);
       }
     });
   } else {
-    throw new Error("Unsupported encryption method");
+    decryptedProfile = profile;
   }
   
   return decryptedProfile;
@@ -162,10 +140,10 @@ async function getEncryptionMethodById(id) {
   try {
     const encryptionData = await Encryption.findOne({ id: id });
     if (!encryptionData) {
-      console.log("Encryption data not found for ID:", id);
+      // console.log("Encryption data not found for ID:", id);
       return null;
     }
-    console.log("Encryption data found:", encryptionData);
+    // console.log("Encryption data found:", encryptionData);
     return encryptionData.encryptionMethod;
   } catch (error) {
     console.error("Error while fetching encryption data:", error);
@@ -176,7 +154,7 @@ async function getEncryptionMethodById(id) {
 app.post('/empsignup',async(req,res)=>
 {
   const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption} = req.body;
-  console.log("here", req.body)
+  // console.log("here", req.body)
   const emailExists= await Login.findOne({email:email}) 
 
   //check for valid password entry to ensure a strong password
@@ -199,7 +177,7 @@ app.post('/empsignup',async(req,res)=>
   //ensuring if encryption mehtod has been selected
   else if(encryption==="default" || encryption.length===0)
   {
-    console.log("encryptnf")
+    // console.log("encryptnf")
     res.json("choose encryption")
   }
 
@@ -258,7 +236,7 @@ app.post('/empsignup',async(req,res)=>
     {
       //inserting the data recieved in the login table, as well as the user table, according to the role of the user.
       await Encryption.insertMany(encryptionData)
-      console.log("Encryption data inserted:", encryptionData);
+      // console.log("Encryption data inserted:", encryptionData);
 
       
       const encryptionMethod = await getEncryptionMethodById(finalId);
@@ -270,12 +248,29 @@ app.post('/empsignup',async(req,res)=>
       {
       id: finalId,
       email: email,
-      bloodType: encryptProfile("Not Specefied",encryptionMethod),
-      allergies: [],
-      medicalHistory: "",
+      bloodType: encryptProfile("Not Specefied"),
+      allergies: encryptProfile(""),
+      medicalHistory: encryptProfile(""),
+      emergencyContact: encryptProfile("1122"),
+      leaveRequest: encryptProfile("No Leave Requested"),
+      currentLeaveStatus: encryptProfile("Undefined"),
       }
       await MedicalInfo.insertMany(medicalData)
       console.log("Medical data inserted:", medicalData);
+      const financialData = {
+        id: finalId,
+        email: email,
+        salary: 0,
+        bonuses: 0,
+        commissions: 0,
+        benefits: "",
+        expenses: 0,
+        taxInformation: {},
+      };
+      
+      await FinancialInfo.insertMany(financialData);
+      console.log("Financial data inserted:", financialData);
+      
 
 
       //pass id to function encryptionMethod to get encryption method
@@ -380,8 +375,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-
 app.post('/edit_profile', async (req, res) => {
   console.log("in edit profile");
   try {
@@ -390,7 +383,7 @@ app.post('/edit_profile', async (req, res) => {
     console.log("edit:",editedProfile);
     //call encrypt on each field in editted profile
     /////CHECK whats wrong with date of birth
-    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age'];
+    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age','Profile_Image'];
     const encryptedProfile = {};
     const getId= await Login.findOne({email:email});
     console.log("id",getId.id);
@@ -540,7 +533,6 @@ app.post('/viewsearchprofile', async (req, res) => {
     let profile = await Admin.findOne({ Email: email });
     if (profile) {
       const decryptedProfile = decryptProfile(profile,encryptionMethod);
-      console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
 
@@ -548,7 +540,6 @@ app.post('/viewsearchprofile', async (req, res) => {
     profile = await Employee.findOne({ Email: email });
     if (profile) {
       const decryptedProfile = decryptProfile(profile,encryptionMethod);
-      console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
 
@@ -556,7 +547,6 @@ app.post('/viewsearchprofile', async (req, res) => {
     profile = await Manager.findOne({ Email: email });
     if (profile) {
       const decryptedProfile = decryptProfile(profile,encryptionMethod);
-      console.log("profile decrypt search result:", decryptedProfile);
       return res.json({ status: "profile exists", profile_deets: decryptedProfile });
     }
 
@@ -604,53 +594,109 @@ app.post('/findrole', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+app.post('/update-medical-info', async (req, res) => {
+  try {
+    console.log("request body",req.body)
+    const { email, role, editedProfile } = req.body;
+    console.log("in update medical info",editedProfile)
+    const getId= await Login.findOne({email:email});
+    console.log("id",getId.id);
+    const encryptionMethod = await getEncryptionMethodById(getId.id);
+    const encryptedProfile = {};
+    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age','Profile_Image','id'];
+    Object.keys(editedProfile).forEach(key => {
+      if (!fieldsToExcludeFromEncryption.includes(key)) {
+        encryptedProfile[key] = encryptProfile(editedProfile[key],encryptionMethod);
+      } else {
+        encryptedProfile[key] = editedProfile[key]; // Keep the field as it is
+      }
+    });
+    console.log("in update medical info encrypted",encryptProfile)
+    await MedicalInfo.updateOne({ email: email }, {$set: encryptedProfile});;
+    //save file against medical history???
+    return res.status(200).json({ message: 'Medical information updated successfully' });
+  } catch (error) {
+    console.error('Error updating medical information:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
-// app.post('/update-medical-info', async (req, res) => {
-//   try {
-//     const { email, bloodType, allergies, medicalHistory } = req.body;
-    
-//     // Check if medical profile already exists for the given email
-//     let medProfile = await MedicalInfo.findOne({ email });
+app.post('/get-medical-info', async (req, res) => {
+  try {
+    const { email, role } = req.body;
+    console.log("med info",email);
+    const medProfile = await MedicalInfo.findOne({ email: email });
+    console.log("med profile before decryption:", medProfile);
+    const getId= await Login.findOne({email:email});
+    console.log("id",getId.id);
+    const encryptionMethod = await getEncryptionMethodById(getId.id);
+    console.log("encryption method in view profile %s for email: %s", encryptionMethod, email);
+    const decryptedProfile = decryptProfile(medProfile, encryptionMethod);
+    console.log("med profile after decryption:", decryptedProfile);
+   
+    console.log("med profile",decryptedProfile)
+    if (!medProfile) {
+      console.log('Medical profile not found');
+      return res.status(404).json({ error: 'Medical profile not found' });
 
-//     if (!medProfile) {
-//       // If medical profile doesn't exist, create a new one
-//       medProfile = new MedicalInfo({
-//         email,
-//         bloodType,
-//         allergies,
-//         medicalHistory
-//       });
-//     } else {
-//       // If medical profile already exists, update the fields
-//       medProfile.bloodType = bloodType;
-//       medProfile.allergies = allergies;
-//       medProfile.medicalHistory = medicalHistory;
-//     }
+    }
+    res.json({ status: "profile exists", profile_deets: decryptedProfile });
+  } catch (error) {
+    console.error('Error fetching medical profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
 
-//     // Save the updated medical profile
-//     await medProfile.save();
+  }
+});
 
-//     res.status(200).json({ message: 'Medical information updated successfully' });
-//   } catch (error) {
-//     console.error('Error updating medical information:', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-// const getMedicalProfileByEmail = async (email) => {
-//   try {
-//     const medProfile = await MedicalInfo.findOne({ email });
-//         const encryptionMethod = await getEncryptionMethodById(getId.id);
-//     console.log("encryption method in view profile %s for email: %s", encryptionMethod, email);
-    
+app.post('/update-financial-info', async (req, res) => {
+  try {
+    const { email, role, editedProfile } = req.body;
 
-//     const decryptedProfile = decryptProfile(profile, encryptionMethod);
+    // Check if Financial profile already exists for the given email
+    await FinancialInfo.updateOne({ email: email }, { $set: editedProfile });
 
-//     const decryptedMedProfile = decryptProfile(medProfile);
-//     return medProfile;
-//   } catch (error) {
-//     console.error('Error fetching medical profile:', error);
-//     throw new Error('Failed to fetch medical profile');
-//   }
-// };
+    return res.status(200).json({ message: 'Financial information updated successfully' });
+  } catch (error) {
+    console.error('Error updating Financial information:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/get-financial-info', async (req, res) => {
+  try {
+    console.log("in get financial info",req.body);
+    const { email, role } = req.body;
+    const financeProfile = await FinancialInfo.findOne({ email: email });
+    if (!financeProfile) {
+      console.log('Financial profile not found');
+      return res.status(404).json({ error: 'Financial profile not found' });
+    }
+    res.json({ status: "profile exists", profile_deets: financeProfile });
+  } catch (error) {
+    console.error('Error fetching financial profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+let path_of_file = ""; // Initialize path_of_file variable
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "../frontend/public/med_files"); // Set destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    // Construct the file path and set it to path_of_file variable
+    path_of_file = path.join("../frontend/public/med_files", `${Date.now()}_${file.originalname}`);
+    console.log("path_of_file in filename",path_of_file);
+    cb(null, `${Date.now()}_${file.originalname}`); // Set filename for the uploaded file
+  }
+})
+const upload = multer({ storage });
+
+app.post('/update-medical-history', upload.any('medicalHistory'), (req, res) => {
+  console.log("file uploaded", path_of_file); // Make sure path_of_file is properly scoped
+  console.log("body", req.body);
+  return res.status(200).json({ message: 'Path Set', filePath: path_of_file });
+});
+
 
 export default app;

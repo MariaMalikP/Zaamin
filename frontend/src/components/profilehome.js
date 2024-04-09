@@ -32,6 +32,12 @@ const ProfileHome = () => {
     const handleEditProfileClick = () => {
         navigate(`/editprofile/${email}/${role}`);
     };
+    const navMedicalCheck = async () => {    
+        navigate(`/medicalcheck/${email}/${role}`);
+    };
+    const navFinancialCheck = async () => {
+        navigate(`/financialcheck/${email}/${role}`);
+    };
 
     const handleInfoClick = () => {
         setShowDescription(!showDescription);
@@ -45,7 +51,7 @@ const ProfileHome = () => {
             {returnStatus === "profile exists" && userProfile && (
                 <>
                     <div className='ellipse-27'>
-                        <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='profile-picture' />
+                            <img src={userProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{userProfile.First_Name}</div>
@@ -74,8 +80,8 @@ const ProfileHome = () => {
                     <div className='big-output leftoutput output7'>{userProfile.Address}</div>
                     <button className='edit-profile' onClick={handleEditProfileClick}>Edit Profile</button>
                     <div className='element current-page'>Manage Profile</div>
-                    <button className='element medical-page' onClick={handleEditProfileClick}>View Medical Records</button>
-                    <button className='element financial-page' onClick={handleEditProfileClick}>View Financial Records</button>
+                    <button className='element medical-page' onClick={navMedicalCheck}>View Medical Records</button>
+                    <button className='element financial-page' onClick={navFinancialCheck}>View Financial Records</button>
                     <button className='element password-change' onClick={handleEditProfileClick}>Change Password</button>
                 </>
             )}

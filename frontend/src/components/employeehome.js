@@ -63,8 +63,8 @@ const EmployeeHome = (prop) => {
             <div className='subheading3'>What would you like to do?</div>
             <ul className="button-list">
                 <li><button className="button-style" type="button" onClick={profilecheck}>1. Manage Profile</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>2. Check out Medical Records</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>3. Check out Financial Records</button></li>
+                <li><button className="button-style" type="button" onClick={medicalcheck}>2. Check out Medical Records</button></li>
+                <li><button className="button-style" type="button" onClick={financecheck}>3. Check out Financial Records</button></li>
             </ul>
         </div>
     );

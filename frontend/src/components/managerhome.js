@@ -39,6 +39,21 @@ const ManagerHome = (prop) => {
             alert('Error during login, try again', error);
         }
     };
+    const medicalcheck = async () => {    
+        try {
+            history(`/medicalcheck/${email}/${role}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+    const financecheck = async () => {    
+        try {
+            history(`/financecheck/${email}/${role}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+
 
     return (    
         <div className='home'>
@@ -48,8 +63,8 @@ const ManagerHome = (prop) => {
             <div className='subheading3'>What would you like to do?</div>
             <ul className="button-list">
                 <li><button className="button-style" type="button" onClick={profilecheck}>1. Manage Profile</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>2. Check out Medical Records</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>3. Check out Financial Records</button></li>
+                <li><button className="button-style" type="button" onClick={medicalcheck}>2. Check out Medical Records</button></li>
+                <li><button className="button-style" type="button" onClick={financecheck}>3. Check out Financial Records</button></li>
             </ul>
         </div>
     );
