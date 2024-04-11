@@ -6,6 +6,7 @@ import Employee from './models/employees.js';
 import Admin from './models/admins.js';
 import Manager from './models/managers.js';
 import Login from './models/userlogin.js';
+import Log from './models/logs.js'
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
@@ -19,10 +20,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(expressWinston.logger({
+const logger = winston.createLogger({
   transports: [
     new winston.transports.MongoDB({
       level : 'verbose', 
+      db : process.env.MONG_URI,
+      collection:'logs',
+      options: {
+        useUnifiedTopology: true
+      }
+    })
+  ],
+  format: winston.format.combine (
+    winston.format.json(),
+    winston.format.timestamp(),
+    winston.format.metadata(),
+  )
+})
+
+/* 
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.MongoDB({
+      level : 'info', 
       db : process.env.MONG_URI,
       collection:'logs'
     })
@@ -34,6 +54,22 @@ app.use(expressWinston.logger({
     winston.format.prettyPrint()
   )
 }))
+*/
+
+/* Custom Message Logging 
+Exposing if used as middleware
+app.logger = expressWinston.logger
+
+// Log an info message
+logger.info('This is an informational message.');
+
+// Log a warning message
+logger.warn('This is a warning message.');
+
+// Log an error message
+logger.error('This is an error message.', { error: new Error('Something went wrong') });
+
+*/
 
 mongoose.connect(process.env.MONG_URI, {
   useNewUrlParser: true,
@@ -69,6 +105,7 @@ app.post('/empsignup',async(req,res)=>
   }
   else if (emailExists)
   {
+    logger.warn(`Sign up attempt for existing account ${email}`)
     res.json("email exists")
   }
 
@@ -172,10 +209,12 @@ app.post('/empsignup',async(req,res)=>
         }
         await Manager.insertMany(empData)
       }
+      logger.info(`Successful signup for ${email}`)
       res.json("yay")
     }
     catch(e)
         {
+            logger.error(`Sign up failed for ${email}`)
             console.log("smth happened",e)
             res.json("ohooo")
         }
@@ -215,6 +254,7 @@ app.post('/sendemail', async(req,res) => {
   const {email} = req.body
   console.log(otp, email)
   sendEmail({otp: otp, email: email, url:'http://localhost:3001/otp'})
+  logger.info(`OTP Verification email sent to ${email}`)
 })
 
 app.post('/login', async (req, res) => {
@@ -245,14 +285,17 @@ app.post('/login', async (req, res) => {
         role = 'employee';
       }
       console.log('Login successful');
+      logger.info(`Successful Login by ${email}`)
       return res.json({ status: 'success', userrole: role });
     } else {
       // Passwords don't match, respond with 401 Unauthorized
       console.log('Login failed');
+      logger.warn(`Failed login attempt (password mismatch) by ${email}`)
       return res.json({ status: 'failed' });
     }
   } catch (error) {
     console.error('Error during login:', error);
+    logger.warn(`Error during login: ${error}`)
     return res.status(500).json({ error: 'Server error' });
   }
 });
@@ -261,6 +304,7 @@ app.post('/viewprofile', async (req, res) => {
   try {
     const { email, role } = req.body;
     console.log(role);
+    logger.info(`View profile attempt by ${email}`)
     if(role === 'admin') {
       const profile = await Admin.findOne({ Email: email });
       return res.json({ status: "profile exists", profile_deets: profile });
@@ -273,10 +317,12 @@ app.post('/viewprofile', async (req, res) => {
       const profile = await Manager.findOne({ Email: email });
       return res.json({ status: "profile exists", profile_deets: profile });
     } else {
+      logger.warn(`View profile by nonexistent user`)
       return res.status(404).json({ error: 'User profile not found' });
     }
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -288,6 +334,7 @@ app.post('/edit_profile', async (req, res) => {
     const { email, role, editedProfile } = req.body;
     // console.log(editedProfile);
 
+    logger.warn(`Edit Profile attempt by ${email}`)
     let profile;
     if(role === 'admin') {
       profile = await Admin.updateOne({ Email: email }, {$set: editedProfile });
@@ -304,7 +351,9 @@ app.post('/edit_profile', async (req, res) => {
     console.log(profile);
     return res.json({ status: "profile updated", profile_deets: profile });
   } catch (error) {
+    logger.warn(`Error updating profile by ${email}: ${error}`)
     console.error('Error updating profile:', error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -329,6 +378,7 @@ app.post('/getname', async (req, res) => {
     return res.json({ status: "profile exists", firstname: profile.First_Name, lastname: profile.Last_Name });
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -361,7 +411,7 @@ app.post('/searchres', async (req, res) => {
         { Department: regex }, // Match department
       ]
     });
-
+    logger.info(`Search for ${searchTerm}`)
     // Concatenate all matching profiles
     const allProfiles = adminProfiles.concat(employeeProfiles, managerProfiles);
     console.log("allProf");
@@ -369,6 +419,7 @@ app.post('/searchres', async (req, res) => {
     return res.json({ profiles: allProfiles });
   } catch (error) {
     console.error('Error searching profiles:', error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -395,6 +446,8 @@ app.post('/viewsearchprofile', async (req, res) => {
 
     }
 
+    logger.info(`View Search Profile by ${email}`)
+
     // If not found in Employee, search in Manager table
     profile = await Manager.findOne({ Email: email });
     if (profile) {
@@ -408,6 +461,7 @@ app.post('/viewsearchprofile', async (req, res) => {
     return res.status(404).json({ error: 'User profile not found' });
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -445,10 +499,32 @@ app.post('/findrole', async (req, res) => {
     return res.status(404).json({ error: 'User profile not found' });
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
 
+app.get('/logs', async (req, res) => {
+  logger.warn(`Audit Logs fetched`)
+  try {
+    let logs = await Log.find({})
+    return res.json(logs)
+  } catch {
+    logger.error(`Server Error`)
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+/* dev to delete particular logs
+app.post('/dellogs', async (req, res) => {
+  try {
+    let ans = await Log.deleteMany({ message: "Audit Logs fetched" })
+    return res.status(200)
+  } catch {
+    res.status(500).json({ error: 'Server error' });
+  }
+}); 
+*/
 
 
 export default app;

@@ -1,13 +1,12 @@
  /* eslint-disable */
-
+ 
 // Import necessary dependencies from React and other libraries
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import 'crypto';
+
 // Import the CSS file for styling
 import '../styles/login.css';
-import { useAuth } from './AuthProvider';
 
 // Define the Login component as a functional component
 const Login = (prop) => {
@@ -15,7 +14,7 @@ const Login = (prop) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const {setToken} = useAuth();
+
     // Access the navigate function from the useNavigate hook
     const navigate = useNavigate();
 
@@ -37,8 +36,6 @@ const Login = (prop) => {
             
             // Check the status of the response
             if (response.data.status === 'success') {
-                // Set the token in the AuthProvider context
-                setToken(response.data.token);
                 // If login is successful, determine user role and navigate accordingly
                 if (response.data.userrole === 'employee') {
                     // Navigate to employee home page

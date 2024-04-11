@@ -14,13 +14,16 @@ import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
 import EmployeeSignup from './components/employeesignup'
 import OTPPage from './components/OTPPage'
+import { AuthProvider } from './components/AuthProvider';
+import AuditLogs from './components/auditLogs';
 
 
 function App() {
 
   return (
     <BrowserRouter>
-        <Routes>
+        <AuthProvider>
+          <Routes>
             <Route path="/" element={<Login/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/home" element={<Home/>}/>
@@ -35,7 +38,9 @@ function App() {
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
             <Route path ="/otp" element = {<OTPPage/>}/>
-        </Routes>
+            <Route path="/auditlogs" element={<AuditLogs/>}/>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     
   )
