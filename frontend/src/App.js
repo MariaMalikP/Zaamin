@@ -38,7 +38,7 @@ function App() {
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
             <Route path ="/otp" element = {<OTPPage/>}/>
-            <Route path="/auditlogs" element={<AuditLogs/>}/>
+            <Route path="/auditlogs/:email/:role" element={<AuditLogs/>}/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

@@ -42,6 +42,14 @@ const AdminHome = (prop) => {
         }
     };
 
+    const auditnav = async () => {    
+        try {
+            history(`/auditlogs/${email}/${role}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+
     return (    
         <div className='home'>
             <div><Header /></div>
@@ -50,7 +58,7 @@ const AdminHome = (prop) => {
             <div className='subheading3'>What would you like to do?</div>
             <ul className="button-list">
                 <li><button className="button-style" type="button" onClick={profilecheck}>1. Manage Profile</button></li>
-                <li><button className="button-style" type="button" onClick={profilecheck}>2. View Audit Logs</button></li>
+                <li><button className="button-style" type="button" onClick={auditnav}>2. View Audit Logs</button></li>
                 <li><button className="button-style" type="button" onClick={profilecheck}>3. View Compliance Dashboard</button></li>
             </ul>
         </div>

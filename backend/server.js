@@ -515,7 +515,7 @@ app.get('/logs', async (req, res) => {
   }
 });
 
-/* dev to delete particular logs
+/* //dev to delete particular logs
 app.post('/dellogs', async (req, res) => {
   try {
     let ans = await Log.deleteMany({ message: "Audit Logs fetched" })
@@ -523,8 +523,7 @@ app.post('/dellogs', async (req, res) => {
   } catch {
     res.status(500).json({ error: 'Server error' });
   }
-}); 
+});  
 */
-
 
 export default app;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Header from './header';
-import '../styles/home.css';
+import '../styles/logs.css';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { jsonToCSV } from 'react-papaparse';
@@ -43,30 +43,32 @@ const AuditLogs = (prop) => {
     };
 
   return (
-    <div>
-      <Header />
-      <h2>Audit Logs</h2>
-      <h3>First 15 displayed, Export for full logs</h3>
-      <button onClick={handleRefreshClick}>Refresh Logs</button>
-      <button onClick={handleExportLogs}>Export Full Log</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Threat Level</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {firstFifteen.map((log) => (
-            <tr key={log._id}>
-              <td>{log.timestamp}</td>
-              <td>{log.level}</td>
-              <td>{log.message}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>      
+    <div class = "overall">
+        <Header />
+        <div class="audit-logs-container">
+            <h2 class="audit-logs-title">Audit Logs</h2>
+            <h3 class="audit-logs-subtitle">First 15 displayed, Export for full logs</h3>
+            <button class="refresh-button" onClick={handleRefreshClick}>Refresh Logs</button>
+            <button class="export-button" onClick={handleExportLogs}>Export Full Log</button>
+            <table class="audit-log-table">
+                <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Threat Level</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                {firstFifteen.map((log) => (
+                <tr key={log._id} className={(log.level === 'warn' || log.level === 'error') ? 'warn-level-row' : 'normal-level-row'}>
+                    <td>{log.timestamp}</td>
+                    <td>{log.level}</td>
+                    <td>{log.message}</td>
+                </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
     </div>
   );
 };
