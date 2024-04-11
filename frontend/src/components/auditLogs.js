@@ -33,7 +33,14 @@ const AuditLogs = (prop) => {
     };
 
     const handleExportLogs = () => {
-        const csv = jsonToCSV(logs);
+      const filterLogs = logs.map(entry => ({
+        id: entry._id,
+        timestamp: entry.timestamp,
+        level: entry.level,
+        message: entry.message
+      }));
+    
+        const csv = jsonToCSV(filterLogs);
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
