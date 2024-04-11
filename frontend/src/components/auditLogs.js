@@ -12,11 +12,12 @@ const AuditLogs = (prop) => {
   const [logs, setLogs] = useState([]);
   const [firstFifteen, setFirstFifteen] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const { email , role} = useParams();
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/logs');
+        const response = await axios.get('http://localhost:3000/logs', {params: {email: email}});
         console.log(response.data)
         setLogs(response.data);
         setFirstFifteen(response.data.slice().reverse().slice(0,15))

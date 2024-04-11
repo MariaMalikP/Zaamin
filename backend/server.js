@@ -505,9 +505,10 @@ app.post('/findrole', async (req, res) => {
 });
 
 app.get('/logs', async (req, res) => {
-  logger.warn(`Audit Logs fetched`)
+  const email = req.query.email || null
   try {
     let logs = await Log.find({})
+    logger.warn(`Audit Logs fetched by ${email}`)
     return res.json(logs)
   } catch {
     logger.error(`Server Error`)
@@ -518,12 +519,11 @@ app.get('/logs', async (req, res) => {
 /* //dev to delete particular logs
 app.post('/dellogs', async (req, res) => {
   try {
-    let ans = await Log.deleteMany({ message: "Audit Logs fetched" })
+    let ans = await Log.deleteMany({ message: "Audit Logs fetched by undefined" })
     return res.status(200)
   } catch {
     res.status(500).json({ error: 'Server error' });
   }
-});  
-*/
+});  */
 
 export default app;
