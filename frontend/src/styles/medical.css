@@ -65,6 +65,16 @@
   left: 1000px;
   top: 630px;
 }
+.leave_app{
+  left: 600px;
+  top: 810px;
+
+}
+.insurance_percent
+{
+  left: 50px;
+  top: 270px;
+}
 .med-output {
   position: absolute;
   width: 122px;
@@ -112,7 +122,7 @@ top: 662px;
 .med-output-box {
 width: 299px;
 height: 53px;
-
+border: 2px solid #13476F; 
 background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
 border-radius: 20px;
 }
@@ -149,81 +159,123 @@ border-radius: 20px;
 .med-edit-profile:hover {
   background-color: #E76B34; /* Darker shade of orange on hover */
 }
-/* Ellipse 27 */
 .med_ellipse-27 {
-  position: relative;
+  position: fixed;
   width: 720px;
   height: 100px;
   left: 600px;
-  top: 800px;
-  background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
-  border-radius: 50px;
-  border: 2px solid #13476F; /* Add border and adjust properties as needed */
-}
-
-.med_ellipse-27 img {
-  position: relative;
-  top: 20px;
-  left: 330px;
-  width: 50px;
-  height: 50px;
-}
-
-.buttons_file {
-  position: relative;
-  bottom: 10px; /* Adjust bottom spacing as needed */
-  left: 700px; /* Adjust left spacing as needed */
+  top: 842px;
+  background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
+  border-radius: 30px;
+  border: 2px solid #13476F; 
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.buttons_file img {
-  position: relative;
-  left:1px;
-  width: 50px; 
-  height: 50px; 
+.file-name,
+.file-name2 {
+  width: 122px;
+  color: #13476F; /* Orange color */
+  text-align: center;
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.med_selected {
+  color: #E76B34; /* Orange color */
+}
+
+.med_link {
+  color: #E76B34; /* Orange color */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.med_link:hover {
+  text-decoration: underline; /* Add underline on hover for links */
+}
+
+/* CSS for Choose File button */
+.buttons_file input[type="file"] {
+  display: none; /* Hide the file input */
+}
+
+.choose-file-btn {
+  position: fixed;
+  top:855px;
+  left:1350px;
+  box-sizing: border-box;
+  width: 172px; /* Keep width consistent */
+  height: 38.39px; /* Keep height consistent */
+  background: #F18550; /* Orange background */
+  border: 1px dashed #E8E1E2; /* Consistent border */
+  border-radius: 100px; /* Consistent border radius */
+  font-family: 'Manrope'; /* Consistent font family */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #E8E1E2; /* White text */
+  cursor: pointer;
+  font-size: 14px; 
+}
+
+.choose-file-btn:hover {
+  background-color: #FF8C6B; /* Lighter orange on hover */
+}
+
+/* CSS for Upload button */
+.upload-btn {
+  position: fixed;
+  top:900px;
+  left:1350px;
+  box-sizing: border-box;
+  width: 172px; /* Keep width consistent */
+  height: 38.39px; /* Keep height consistent */
+  background: #F18550; /* Orange background */
+  border: 1px dashed #E8E1E2; /* Consistent border */
+  border-radius: 100px; /* Consistent border radius */
+  font-family: 'Manrope'; /* Consistent font family */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #E8E1E2; /* White text */
+  cursor: pointer;
+  font-size: 14px; 
+}
+
+.upload-btn:hover {
+  background-color: #FF8C6B; /* Lighter orange on hover */
 }
 .insurance-bar {
-  position:fixed;
-  top: 500px;
-  left: 100px;
-}
-
-.insurance-heading {
-  position:fixed;
-  font-size: 18px;
-  top: 670px;
-  left: 120px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: #13476F;
-}
-
-.pie-chart {
-  width: 200px;
-  height: 200px;
-}
-
-.insurance-progress-text {
   position: fixed;
-  top: 570px;
-  left: 165px;
-  text-align: center;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: #13476F;
+  top:1000px;
+  text-align: center; /* Center align the content */
+}
+
+.circular-container {
+  position: fixed;
+  top:400px;
+  width: 200px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  display: inline-block; /* Ensure circular container remains inline */
+}
+
+
+/* Style for circular progress bar */
+.circular-container .CircularProgressbar-path {
+  stroke: #F18550; /* Progress bar color */
+  stroke-linecap: round; /* Rounded progress bar ends */
+}
+
+/* Style for circular progress bar text */
+.circular-container .CircularProgressbar-text {
+  fill: #13476F; /* Text color */
+  font-size: 27px; /* Text size */
 }

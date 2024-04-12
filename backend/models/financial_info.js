@@ -31,11 +31,10 @@ id: {
     type: Number,
     default: 0
   },
-  taxInformation: {
+  bankInformation: {
     type: {
-      withholdingAllowances: Number,
-      filingStatus: String,
-      deductions: Number
+      bankName: String,
+      ibanNum: String,
     },
     default: {}
   },

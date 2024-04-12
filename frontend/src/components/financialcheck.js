@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from './header';
 import Modal from 'react-modal';
 import '../styles/financial.css';
+import Chart from 'chart.js/auto';
 
 const FinancialCheck = () => {
   const { email, role } = useParams();
@@ -22,7 +23,6 @@ const FinancialCheck = () => {
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
-                window.alert('response.data.profile_deets: ' + JSON.stringify(response.data.profile_deets));
             }
         } catch (error) {
             alert('Error fetching Profile Information', error);
@@ -37,6 +37,7 @@ const FinancialCheck = () => {
         const response = await axios.post('http://localhost:3000/get-financial-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
+          barGraph(response.data.profile_deets);
         }
       } catch (error) {
         console.error('Error fetching Financial Information', error);
@@ -45,50 +46,85 @@ const FinancialCheck = () => {
     fetchProfile();
   }, [email, role]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const barGraph = (info) => {
+  // window.alert('info: ' + JSON.stringify(info));
+  const graphData = {
+    labels: ['Salary', 'Bonuses', 'Commissions', 'Expenses'],
+    datasets: [
+      {
+        label: 'Financial Information',
+        data: [info.salary, info.bonuses, info.commissions, info.expenses],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 4
+      }
+    ]
+  };
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: graphData,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+};
+  
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  const isnotBankInfoField = name in userProfile;
+  if (isnotBankInfoField) {
+    // Update main profile
     setEditedProfile(prevProfile => ({
       ...prevProfile,
       [name]: value
     }));
-  };
+  } 
+  else {
+    // Update bank information
+    setEditedProfile(prevProfile => ({
+      ...prevProfile,
+      bankInformation: {
+        ...prevProfile.bankInformation,
+        [name]: value,
+      }
+    }));
+  }
 
-  // const handleDragOver = (e) => {
-  //   e.preventDefault();
-  // };
+};
 
-  // const handleDrop = (e) => {
-  //   e.preventDefault();
-  //   const file = e.dataTransfer.files[0];
-  //   setFinancialDocument(file);
-  //   updateFinancialDocument();
-  // };
-
-  // const uploadFile = (file) => {
-  //   setFinancialDocument(file);
-  //   updateFinancialDocument();
-  // };
-
-  // const updateFinancialDocument = async () => {
-  //   const formData = new FormData();
-  //   formData.append('financialDocument', financialDocument);
-  //   try {
-  //     const response = await axios.post('http://localhost:3000/update-medical-history', formData);
-  //     window.alert('Financial document updated successfully: ' + JSON.stringify(response.data));
-  //     if (response.data.message === "Path Set") {
-  //       editedProfile.financialDocument = response.data.filePath;
-  //       window.alert('response.data.status.filePath: ' + JSON.stringify(response.data.filePath));
-  //       window.alert('Financial document updated successfully 2');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating financial document', error);
-  //     window.alert('Error updating financial document');
-  //   }
-  // };
 
   const updateProfile = async () => {
+    if (editedProfile.bankInformation !== undefined) {
+      if (editedProfile.bankInformation.bankName === undefined && editedProfile.bankInformation.ibanNum !== undefined) {
+        editedProfile.bankInformation.bankName = userProfile.bankInformation.bankName;
+      }
+      else if (editedProfile.bankInformation.ibanNum === undefined && editedProfile.bankInformation.bankName !== undefined) {
+        editedProfile.bankInformation.ibanNum = userProfile.bankInformation.ibanNum;
+      }
+    }
     try {
-      window.alert('editedProfile: ' + JSON.stringify(editedProfile));
+      // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
       const response = await axios.post('http://localhost:3000/update-financial-info', { email, role, editedProfile });
       setIsSuccessModalOpen(true);
     } catch (error) {
@@ -112,25 +148,6 @@ const FinancialCheck = () => {
         <div className='financial_display'>
           {userProfile && (
             <>
-              {/* <div className='financial_display'>
-                <div className='financial_ellipse-27'>
-                  <img src="/images/drag-and-drop.png" alt="Your Image" />
-                  <div className='buttons_file'>
-                    <img src="/images/file-upload.png" alt="File Upload" />
-                    <input id="file-upload" type="file" onChange={(e) => uploadFile(e.target.files[0])} />
-                  </div>
-                  {financialDocument && financialDocument.name && (
-                    <div className="file-name">
-                      <p>Selected File: {financialDocument.name}</p>
-                    </div>
-                  )}
-                  {userProfile.financialDocument && (
-                    <div className="file-name2">
-                      <p>Uploaded File: {userProfile.financialDocument}</p>
-                    </div>
-                  )}
-                </div>
-              </div> */}
               <div className='financial_title id'>ID:</div>
               <input
                 type="text"
@@ -178,8 +195,28 @@ const FinancialCheck = () => {
                 onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output6'
               />
-                <div className='financial_title taxInformation'>Tax Information:</div>
-                {/* Withholding Allowances */}
+                 <div className='financial_title bankName'>Bank Name:</div>
+                <input
+                  type="text"
+                  name="bankName"
+                  value={editedProfile.bankInformation?.bankName !== undefined ? editedProfile.bankInformation.bankName : userProfile.bankInformation?.bankName}
+                  onChange={handleInputChange}
+                  className='financial-output-box financial-output financial-output7'
+                /> 
+                <div className='financial_title IBAN_Num'>IBAN No.</div>
+                <input
+                  type="text"
+                  name="ibanNum"
+                  value={editedProfile.bankInformation?.ibanNum !== undefined ? editedProfile.bankInformation.ibanNum : userProfile.bankInformation?.ibanNum}
+                  onChange={handleInputChange}
+                  className='financial-output-box financial-output financial-output8'
+                />
+                <div class="fin_container">
+                {/* <h2 class="chart-title">Financial Information</h2> */}
+                <canvas id="myChart"></canvas>
+                </div>
+
+                {/* Withholding Allowances
                 <input
                   type="number"
                   name="withholdingAllowances"
@@ -188,7 +225,6 @@ const FinancialCheck = () => {
                   className='financial-output-box financial-output financial-output7'
                 />
 
-                {/* Filing Status */}
                 <input
                   type="text"
                   name="filingStatus"
@@ -197,14 +233,13 @@ const FinancialCheck = () => {
                   className='financial-output-box financial-output financial-output8'
                 />
 
-                {/* Deductions */}
                 <input
                   type="number"
                   name="deductions"
                   value={editedProfile.taxInformation?.deductions !== undefined ? editedProfile.taxInformation.deductions : userProfile.taxInformation?.deductions}
                   onChange={(e) => handleInputChange('deductions', e.target.value)}
                   className='financial-output-box financial-output financial-output7'
-                />
+                /> */}
             </>
           )}
         </div>

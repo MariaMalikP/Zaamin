@@ -5,6 +5,8 @@ import axios from 'axios';
 import Header from './header';
 import Modal from 'react-modal';
 import '../styles/medical.css';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+
 
 const MedicalCheck = () => {
   const { email, role } = useParams();
@@ -39,6 +41,7 @@ const MedicalCheck = () => {
         const response = await axios.post('http://localhost:3000/get-medical-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
+          // window.alert('response.data.profile_deets: ' + JSON.stringify(response.data.profile_deets));
           // Calculate insurance percentage based on role
           calculateInsurancePercentage(role);
         }
@@ -76,21 +79,26 @@ const MedicalCheck = () => {
       [name]: value
     }));
   };
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    setMedicalHistoryFile(file);
-    updateMedicalHistory();
-  };
-
+ 
   const uploadFile = (file) => {
     setMedicalHistoryFile(file);
-    updateMedicalHistory();
+    // updateMedicalHistory();
   };
+  const handleUploadButtonClick = () => {
+    if (medicalHistoryFile) {
+      updateMedicalHistory(); // Call updateMedicalHistory only if a file is selected
+    } else {
+      alert('Please select a file before uploading.'); // Provide feedback to the user if no file is selected
+    }
+  };
+  const getFileUrl = (relativePath) => {
+    const baseUrl = window.location.origin; // Get the base URL of the frontend application
+    const normalizedPath = relativePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes
+    const indexOfMedFiles = normalizedPath.indexOf('med_files');
+    let fileRelativePath = normalizedPath.substring(indexOfMedFiles);
+    return `${baseUrl}/${fileRelativePath}`;
+  };
+  
   const updateMedicalHistory = async () => {
     const formData = new FormData();
     formData.append('medicalHistory', medicalHistoryFile);
@@ -99,7 +107,7 @@ const MedicalCheck = () => {
       window.alert('Medical history updated successfully: ' + JSON.stringify(response.data));
       if (response.data.message === "Path Set") {
         editedProfile.medicalHistory = response.data.filePath;
-        window.alert('response.data.status.filePath: ' + JSON.stringify(response.data.filePath));
+        updateProfile();
         window.alert('Medical history updated successfully 2');
       }
     } catch (error) {
@@ -138,22 +146,25 @@ const MedicalCheck = () => {
             <>
               <div className='med_display'>
                   <>
+                  <div className='med_title leave_app'>Leave Application Documents:</div>
                     <div className='med_ellipse-27'>
-                      <img src="/images/drag-and-drop.png" alt="Your Image" />
-                      <div className='buttons_file'>
-                          <img src="/images/file-upload.png" alt="File Upload" />
-                          <input id="file-upload" type="file" onChange={(e) => uploadFile(e.target.files[0])} />
-                      </div>
-                          {medicalHistoryFile && medicalHistoryFile.name && (
+                      {medicalHistoryFile && medicalHistoryFile.name && (
                             <div className="file-name">
-                              <p>Selected File: {medicalHistoryFile.name}</p>
+                              <p>Selected File: <span className='med_selected'>{medicalHistoryFile.name}</span></p>
                             </div>
                           )}
-                          {userProfile.medicalHistory && (
-                            <div className="file-name2">
-                              <p>Uploaded File: {userProfile.medicalHistory}</p>
-                            </div>
-                          )}
+                        {userProfile.medicalHistory && (
+                          <div className="file-name2">
+                            <p>
+                              Uploaded File: <a href={getFileUrl(userProfile.medicalHistory)}>{userProfile.medicalHistory}</a>
+                            </p>
+                          </div>
+                        )}
+                      <div className='buttons_file'>
+                        <input id="file-upload" type="file" onChange={(e) => uploadFile(e.target.files[0])} />
+                        <label htmlFor="file-upload" className="choose-file-btn">Choose File</label>
+                        <button className="upload-btn" onClick={handleUploadButtonClick}>Upload</button>
+                      </div>
                     </div>
                   </>
               </div>
@@ -213,14 +224,23 @@ const MedicalCheck = () => {
                 onChange={handleInputChange}
                 className='med-output-box med-output med-output6'
               />
+              <div className='med_title insurance_percent'>Medical Insurance Covered:</div>
               <div className='insurance-bar'>
-                <h3 className='insurance-heading'>Medical Insurance</h3>
-                <svg className='pie-chart' viewBox="0 0 38 38" width='100'>
-                  <circle cx="16" cy="16" r="15.91549430918954" fill="transparent" stroke="#ccc" strokeWidth="2"></circle>
-                  <circle cx="16" cy="16" r="15.91549430918954" fill="transparent" stroke="#F18550" strokeWidth="2" strokeDasharray={`${insurancePercentage} 100`} transform="rotate(-90) translate(-32)" />
-                </svg>
-                <div className='insurance-progress-text'>{insurancePercentage}%</div>
+              <div className="circular-container">
+                <h3 className='insurance-heading'>Insurance Percentage</h3>
+                <CircularProgressbar
+                  value={insurancePercentage}
+                  text={`${insurancePercentage}%`}
+                  styles={buildStyles({
+                    textSize: '27px',
+                    pathTransitionDuration: 0.5,
+                    pathColor: '#F18550', // Adjust color as needed
+                    textColor: '#13476F',
+                  })}
+                />
               </div>
+            </div>
+
             </>
           )}
         </div>

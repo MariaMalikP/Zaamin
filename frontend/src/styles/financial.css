@@ -52,11 +52,16 @@
     left: 1000px;
     top: 630px;
 }
-.taxInformation
+.bankName
 {
     left: 600px;
     top: 810px;
 
+}
+.IBAN_Num
+{
+    left: 1000px;
+    top: 810px;
 }
 
 /* Adjust positions for other financial fields */
@@ -129,8 +134,8 @@
     position: absolute;
     width: 222px;
     height: 49.39px;
-    left: 90px;
-    top: 679.55px;
+    left: 140px;
+    top: 709.55px;
     background: #F18550;
     border: 1px dashed #E8E1E2;
     border-radius: 100px;
@@ -144,7 +149,25 @@
     color: #E8E1E2;
     cursor: pointer;
 }
-
+.financial_goback-page{
+    position: absolute;
+    width: 222px;
+    height: 49.39px;
+    left: 140px;
+    top: 809.55px;
+    background: #F18550;
+    border: 1px dashed #E8E1E2;
+    border-radius: 100px;
+    font-family: 'Manrope';
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E8E1E2;
+    cursor: pointer;
+}
 .financial-edit-profile:hover {
     background-color: #E76B34;
 }
@@ -205,10 +228,6 @@
     color: #13476F;
 }
 
-.pie-chart {
-    width: 200px;
-    height: 200px;
-}
 
 .insurance-progress-text {
     position: fixed;
@@ -225,3 +244,28 @@
     flex-direction: column;
     color: #13476F;
 }
+/* Reset default margin and padding */
+body, h2, canvas {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Center the container */
+.fin_container {
+    position:absolute;
+    top: -60px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust this as needed */
+  }
+  
+  /* Style for the chart title */
+.chart-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  

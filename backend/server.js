@@ -88,7 +88,7 @@ function decrypt_aes_ecb(encryptedData) {
 }
 
 function decryptProfile(profile, method_encryption) {
-  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','id'];
+  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','id','medicalHistory'];
   let decryptedProfile = {};
   
   if (method_encryption === "AES-CBC") {
@@ -250,7 +250,7 @@ app.post('/empsignup',async(req,res)=>
       email: email,
       bloodType: encryptProfile("Not Specefied",encryptionMethod),
       allergies: encryptProfile("Not Specefied",encryptionMethod),
-      medicalHistory: encryptProfile("Not Specefied",encryptionMethod),
+      medicalHistory: "Not Specefied",
       emergencyContact: encryptProfile("1122",encryptionMethod),
       leaveRequest: encryptProfile("No Leave Requested",encryptionMethod),
       currentLeaveStatus: encryptProfile("Undefined",encryptionMethod),
@@ -265,7 +265,7 @@ app.post('/empsignup',async(req,res)=>
         commissions: 0,
         benefits: "",
         expenses: 0,
-        taxInformation: {},
+        bankInformation: {bankName: "", ibanNum: ""},//if problem check this
       };
       
       await FinancialInfo.insertMany(financialData);
@@ -603,7 +603,7 @@ app.post('/update-medical-info', async (req, res) => {
     console.log("id",getId.id);
     const encryptionMethod = await getEncryptionMethodById(getId.id);
     const encryptedProfile = {};
-    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age','Profile_Image','id'];
+    const fieldsToExcludeFromEncryption = ['First_Name', 'Last_Name', 'Email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth','Age','Profile_Image','id','medicalHistory'];
     Object.keys(editedProfile).forEach(key => {
       if (!fieldsToExcludeFromEncryption.includes(key)) {
         encryptedProfile[key] = encryptProfile(editedProfile[key],encryptionMethod);
@@ -684,10 +684,11 @@ const storage = multer.diskStorage({
     cb(null, "../frontend/public/med_files"); // Set destination folder for uploaded files
   },
   filename: function (req, file, cb) {
+    const randomNumber = Math.floor(Math.random() * 10000); // Generate a random number between 0 and 999
     // Construct the file path and set it to path_of_file variable
-    path_of_file = path.join("../frontend/public/med_files", `${Date.now()}_${file.originalname}`);
+    path_of_file = path.join("../frontend/public/med_files", `${randomNumber}_${file.originalname}`);
     console.log("path_of_file in filename",path_of_file);
-    cb(null, `${Date.now()}_${file.originalname}`); // Set filename for the uploaded file
+    cb(null, `${randomNumber}_${file.originalname}`); // Set filename for the uploaded file
   }
 })
 const upload = multer({ storage });
