@@ -8,6 +8,8 @@ import Manager from './models/managers.js';
 import Login from './models/userlogin.js';
 import bcrypt from 'bcrypt';
 import Regulation from './models/regulations.js';
+import FinancialInfo from './models/financial_info.js';
+import MedicalInfo from './models/medical_info.js';
 dotenv.config();
 
 const app = express();
@@ -454,6 +456,129 @@ app.delete('/regulations', async (req, res) => {
   {
     console.error('Error deleting regulation:', error);
     res.status(500).json({ message: 'Error Deleting' });
+  }
+})
+
+app.get('/violations', async (req, res)=> {
+  try {
+    // count to keep track of the number of violations taking place 
+
+    let violation_count=0;
+    // AGE VIOLATION CHECK
+    // Finding employees who are either younger than 18 or older than 60
+    console.log("in violations")
+    const age_violations = await Employee.find({
+      $or: [
+        { Age: { $lt: 18 } }, // Employees younger than 18
+        { Age: { $gt: 60 } }  // Employees older than 60
+      ]
+    });
+    // Formatting the violations data
+    let violationsData = age_violations.map(employee => ({
+      name: `Employee ID: ${employee.Employee_ID}`,
+      description: `Age: ${employee.Age} years. Violation: Employees must be between 18 and 60 years of age.`
+    }));
+
+    //getting admin age violations
+    const adminAgeViolations = await Admin.find({
+      $or: [
+        { Age: { $lt: 18 } }, // Admins younger than 18
+        { Age: { $gt: 60 } }  // Admins older than 60
+      ]
+    });
+    
+    // Formatting the violations data for admins
+    violationsData = violationsData.concat(adminAgeViolations.map(admin => ({
+      name: `Admin ID: ${admin.Admin_ID}`,
+      description: `Age: ${admin.Age} years. Violation: Admins must be between 18 and 60 years of age.`
+    })));
+    
+    // Find age violations for managers
+    const managerAgeViolations = await Manager.find({
+      $or: [
+        { Age: { $lt: 18 } }, // Managers younger than 18
+        { Age: { $gt: 60 } }  // Managers older than 60
+      ]
+    });
+    
+    // Formatting the violations data for managers and concatenating with the rest
+    violationsData = violationsData.concat(managerAgeViolations.map(manager => ({
+      name: `Manager ID: ${manager.Manager_ID}`,
+      description: `Age: ${manager.Age} years. Violation: Managers must be between 18 and 60 years of age.`
+    })));
+
+    // if age violation takes place, increase the count.
+    if (age_violations.length>0 || adminAgeViolations.length>0 || managerAgeViolations.length>0)
+    {
+      violation_count=violation_count+1
+    }
+
+    // MIN WAGE VIOLATION CHECK
+    const wage_violations = await FinancialInfo.find({ salary: { $lt: 32000 } ,});
+
+    // Formatting the violations data
+    violationsData = violationsData.concat(wage_violations.map(employee => ({
+      name: `Employee ID: ${employee.id}`,
+      description: `Wage: ${employee.salary}. Violation: Employers must adhere to minimum wage regulations and pay their employees at least 32,000 per month`
+    })));
+    
+    // if wage violation takes place, increase the count.
+    if (wage_violations.length>0 )
+    {
+      violation_count=violation_count+1
+    }
+    
+
+    // Checking if medical certificates are uploaded on the site. 
+    const medical_cert= await MedicalInfo.find ({ medicalHistory: ""})
+    violationsData = violationsData.concat(medical_cert.map(employee => ({
+      name: `Employee ID: ${employee.id}`,
+      description: "Violation: Employee medical certificates must be uploaded."
+    })));
+
+    // if medical certificates not uploaded, increase the count.
+    if (medical_cert.length>0 )
+    {
+      violation_count=violation_count+1
+    }
+    
+
+    // Checking if emergency contacts have been updated on the site
+    const medical_contact= await MedicalInfo.find ({ emergencyContact: ""})
+    violationsData = violationsData.concat(medical_contact.map(employee => ({
+      name: `Employee ID: ${employee.id}`,
+      description: "Violation: Employee Emergency contact must be listed on the Employee Medical Page."
+    })));
+
+    // if emergency contacts not uploaded, increase the count.
+    if (medical_contact.length>0 )
+    {
+      violation_count=violation_count+1
+    }
+
+    // Checking if emloyees have access to medical leave requests
+    const NoLeaveRequest = await MedicalInfo.find({ leaveRequest: { $exists: false } });
+    violationsData = violationsData.concat(NoLeaveRequest.map(employee => ({
+      name: `Employee ID: ${employee.id}`,
+      description: "Violation: All employees need to have access to medical leave requests"
+    })));
+
+    // if no leave request given to an employee, increase the count
+    if (NoLeaveRequest.length>0 )
+    {
+      violation_count=violation_count+1
+    }
+
+    console.log("count", violation_count)
+    let percentage = ((7-violation_count)/ 7)*100
+    percentage = Math.round(percentage);
+    console.log("percentage", percentage)
+
+    res.json({violations: violationsData, percentage: percentage});
+
+  } catch (error) {
+    console.error('Error fetching violations:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 })
 
