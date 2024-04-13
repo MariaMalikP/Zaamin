@@ -22,7 +22,7 @@ function SendingOTP() {
 
     const match = await bcrypt.compare(OTP, hashedOTP);
     if (match) {
-      history(`/changepassword/${email}`);
+      history(`/changepass/${email}`);
     } else {
       alert("Incorrect OTP");
     }

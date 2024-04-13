@@ -43,7 +43,7 @@ function App() {
             <Route path="/auditlogs/:email/:role" element={<AuditLogs/>}/>
             <Route path="/forgotpassword" element={<ForgotPassword/>}/>
             <Route path="/otppageforget" element={<SendingOTP/>}/>
-            <Route path="/changepassword/:email" element={<ChangePass />} />
+            <Route path="/changepass/:email" element={<ChangePass />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
