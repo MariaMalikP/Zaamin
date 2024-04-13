@@ -250,12 +250,13 @@ const MedicalCheck = () => {
           isOpen={isSuccessModalOpen}
           onRequestClose={closeModal}
           contentLabel="Success Modal"
-          className="med-modal-content"
+          className="modal-content"
+    
         >
           <div>
             <h2>Success!</h2>
             <h2>Your Medical profile has been updated successfully.</h2>
-            <button className="med-close-button" onClick={closeModal}>Close</button>
+            <button className="close-button" onClick={closeModal}>Close</button>
           </div>
         </Modal>
       </div>

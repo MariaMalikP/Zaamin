@@ -215,31 +215,6 @@ const handleInputChange = (e) => {
                 {/* <h2 class="chart-title">Financial Information</h2> */}
                 <canvas id="myChart"></canvas>
                 </div>
-
-                {/* Withholding Allowances
-                <input
-                  type="number"
-                  name="withholdingAllowances"
-                  value={editedProfile.taxInformation?.withholdingAllowances !== undefined ? editedProfile.taxInformation.withholdingAllowances : userProfile.taxInformation?.withholdingAllowances}
-                  onChange={(e) => handleInputChange('withholdingAllowances', e.target.value)}
-                  className='financial-output-box financial-output financial-output7'
-                />
-
-                <input
-                  type="text"
-                  name="filingStatus"
-                  value={editedProfile.taxInformation?.filingStatus !== undefined ? editedProfile.taxInformation.filingStatus : userProfile.taxInformation?.filingStatus}
-                  onChange={(e) => handleInputChange('filingStatus', e.target.value)}
-                  className='financial-output-box financial-output financial-output8'
-                />
-
-                <input
-                  type="number"
-                  name="deductions"
-                  value={editedProfile.taxInformation?.deductions !== undefined ? editedProfile.taxInformation.deductions : userProfile.taxInformation?.deductions}
-                  onChange={(e) => handleInputChange('deductions', e.target.value)}
-                  className='financial-output-box financial-output financial-output7'
-                /> */}
             </>
           )}
         </div>
@@ -249,12 +224,12 @@ const handleInputChange = (e) => {
           isOpen={isSuccessModalOpen}
           onRequestClose={closeModal}
           contentLabel="Success Modal"
-          className="financial-modal-content"
+          className="modal-content"
         >
           <div>
             <h2>Success!</h2>
-            <h2>Your Financial profile has been updated successfully.</h2>
-            <button className="financial-close-button" onClick={closeModal}>Close</button>
+            <h2>Your Financial Profile has been updated successfully.</h2>
+            <button className="close-button" onClick={closeModal}>Close</button>
           </div>
         </Modal>
       </div>
