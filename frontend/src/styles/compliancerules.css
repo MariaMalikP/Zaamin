@@ -11,12 +11,12 @@
     width: 966px;
     height: 79px;
     position: relative;
-    margin-left: 60px;
+    margin-left: 65px;
   }
   .ComplianceDashboardRegulations {
     width: 957px;
     height: 79px;
-    left: 20px;
+    left: 5%;
     top: 50px;
     position: absolute;
     text-align: center;
@@ -28,12 +28,22 @@
   }
   
   .ClipboardIcon {
-    width: 96px;
-    height: 114px;
-    left: 0;
-    top: 25px;
+    width: 144px;
+    height: 171px;
+    left: -1%;
+    top: 0px;
     position: absolute;
     
+  }
+
+  .RegulationVersion{
+    position: absolute;
+    top: 170%;
+    font-size: 25px;
+    font-family: 'Inter', sans-serif;
+    left:3.5%;
+    color: #13476F;
+    font-weight: 500;
   }
 
 .RegulationBar {
@@ -246,4 +256,15 @@
     
     .ViewViolations-link:hover {
         color: #DD6B20; 
+    }
+    .alert-container-compliance {
+        position: fixed;
+        top: 2%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
+        opacity: 0.9;
+        z-index: 9999;
+        font-size: 20px;
+        padding: 20px;
     }

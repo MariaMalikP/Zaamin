@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {AlertTitle, Alert} from '@mui/material';
 
 const EmployeeSignup= (prop)=>{
 
@@ -21,6 +22,9 @@ const EmployeeSignup= (prop)=>{
     const [selectedDate, setSelectedDate] = useState('');
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
     const location = useLocation();
     const employeeStatus = location.state?.employeeStatus;
@@ -52,33 +56,51 @@ const EmployeeSignup= (prop)=>{
                     if (res.data === "yay") 
                     {
                         setSuccess('Successfully signed up');
+                        setAlertOpen(true);
+                        setAlertSeverity('success');
+                        setAlertMessage(`Signup Sucessful`);
                         history(`/login`)
                     } 
                     else if (res.data=== "email exists")
                     {
-                        alert("This email is already in use");
+                        // alert("This email is already in use");
+                        setAlertOpen(true);
+                        setAlertSeverity('error');
+                        setAlertMessage(`This email is already in use, choose another email.`);
                     }
                     else if (res.json==="ohooo")
                     {
-                        alert("An error occured when signing up");
+                        // alert("An error occured when signing up");
+                        setAlertOpen(true);
+                        setAlertSeverity('error');
+                        setAlertMessage(`An error occured when signing up`);
                     }
                 })
                 .catch((e) => {
-                    alert('Something went wrong, try again');
+                    // alert('Something went wrong, try again');
+                    setAlertOpen(true);
+                    setAlertSeverity('error');
+                    setAlertMessage(`Something went wrong, try again`);
                     console.log(e);
                 });
             }
             else
             {
                 setError('Invalid email address. Please provide a valid email.');
-                alert("Email entered is invalid, please enter a valid email");
+                setAlertOpen(true);
+                setAlertSeverity('error');
+                setAlertMessage(`Email entered is invalid, please enter a valid email`);
+                // alert("Email entered is invalid, please enter a valid email");
             }
         } 
         catch (e) 
         {
             console.error('Error verifying email:', error);
-            setError('Something went wrong while verifying the email. Please try again.');
-            alert("Something went wrong while verifying the email. Please try again.")
+            // setError('Something went wrong while verifying the email. Please try again.');
+            // alert("Something went wrong while verifying the email. Please try again.")
+            setAlertOpen(true);
+            setAlertSeverity('error');
+            setAlertMessage(`Something went wrong while verifying the email. Please try again.`);
         }
     }
     }
@@ -133,7 +155,7 @@ const EmployeeSignup= (prop)=>{
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
                         <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
-                        <input className="confpass-inp"
+                        < input className={`confpass-inp ${password !== confpassword ? 'input-error-signup' : ''}`}
                             type="password"
                             placeholder="Confrim Password"
                             value={confpassword}
@@ -141,14 +163,6 @@ const EmployeeSignup= (prop)=>{
                             required
                         />
                         {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)} {/*displays error if there is a password mismatch*/}
-                        {/* <label className="security-question">Security Question</label>
-                        <input className="securityQ-inp"
-                            type="text"
-                            placeholder="Some Question"
-                            value={securityQ}
-                            onChange={(e) => setSecurityQ(e.target.value)}
-                            required
-                        /> */}
                         <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
                             type="text"
@@ -205,6 +219,13 @@ const EmployeeSignup= (prop)=>{
                     </form>   
             </div>
         </div>
+        {/* Alert component */}
+        {alertOpen &&
+             <Alert className="alert-container-signup"severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx= {{padding: '20px', fontSize: '20px',opacity:'1',borderRadius: '10px'}}>
+                <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                {alertMessage}
+            </Alert>
+        }
         </div>
     );
     

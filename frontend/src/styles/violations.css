@@ -12,7 +12,7 @@
   .ComplianceDashboardViolations {
     width: 957px;
     height: 79px;
-    left: 20px;
+    left: 5%;
     top: 50px;
     position: absolute;
     text-align: center;
@@ -24,10 +24,10 @@
   }
   
   .ClipboardIcon-violations {
-    width: 96px;
-    height: 114px;
-    left: 0;
-    top: 25px;
+    width: 144px;
+    height: 171px;
+    left: -1%;
+    top: 0px;
     position: absolute;
     
   }

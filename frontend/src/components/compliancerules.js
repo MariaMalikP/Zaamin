@@ -3,24 +3,17 @@ import Header from './header';
 import '../styles/compliancerules.css'; 
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import {AlertTitle, Alert} from '@mui/material';
 
 const Compliancerules =() => {
     const [regulations, setRegulations] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [regulationName, setRegulationName] = useState('');
     const [regulationDescription, setRegulationDescription] = useState('');
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
-    // Dummy data for demonstration
-    // const dummyRegulations = [
-    //     { name: "Regulation Name 1", description:"jsjnjndjfnvjdnfvjdnfvjdfn" },
-    //     { name: "Regulation Name 2", description:"jsjnjndjfnvjdnfvjdnfvjdfn"},
-    //     { name: "Regulation Name 3", description:"jsjnjndjfnvjdnfvjdnfvjdfn" },
-    //     // Add more regulation objects as needed
-    // ];
-    // useEffect(() => {
-    //     // Set the regulations state with dummy data
-    //     setRegulations(dummyRegulations);
-    // }, []);
     useEffect(() => {
         // Fetch regulations from the backend when the component mounts
         fetchRegulations();
@@ -29,8 +22,7 @@ const Compliancerules =() => {
     const fetchRegulations = async () => {
         try {
             const res = await axios.get('http://localhost:3000/regulations');
-            setRegulations(res.data.reg); // Assuming regulations are in res.data
-            // alert(res.data.reg)
+            setRegulations(res.data.reg);
             if(res.data==="Internal Server Error")
             {
                 alert("Internal Server Error")
@@ -50,33 +42,35 @@ const Compliancerules =() => {
                 setRegulationDescription('');
                 // Close popup
                 setShowPopup(false);
+
+                //updating alert components to set the success alert
+                setAlertOpen(true);
+                setAlertSeverity('success');
+                setAlertMessage(`Regulation with name '${regulationName}' added successfully.`);
             })
             .catch(error => {
                 console.error('Error adding regulation:', error);
             });
     };
 
-    // const handledelete = () => {
-    //     alert("clicked")
-        
-    //     console.log(`Button clicked for regulation with ID:`);
-    // }
     const handleDelete = async (regulationId) => {
         try {
             // Make an API request to delete the regulation
-            // const res =await axios.delete('http://localhost:3000/regulations',{name:regulationId});
             const res = await axios.delete(`http://localhost:3000/regulations?id=${regulationId}`);
             if(res.data.message==="delete successful")
             {
-                alert(`Regulation with ID ${regulationId} deleted successfully.`);
+                setAlertOpen(true);
+                setAlertSeverity('success');
+                setAlertMessage(`Regulation with ID '${regulationId}' deleted successfully.`);
+                fetchRegulations();
             }
-            // alert(`Regulation with ID ${regulationId} deleted successfully.`);
-            fetchRegulations();
-
-            // Optionally, you can also update the state after successful deletion
+           
         } catch (error) {
             console.error('Error deleting regulation:', error);
-            // Handle errors
+            setAlertOpen(true);
+            setAlertSeverity('error');
+            setAlertMessage('Error deleting regulation. Please try again later.');
+            
         }
     };
     const handlebuttonClick=() =>
@@ -93,13 +87,17 @@ const Compliancerules =() => {
             <div className="Group2280" >
                 <img src="/images/compliance.png" alt="Icon" className="ClipboardIcon" />
                 <div className="ComplianceDashboardRegulations"> Compliance Dashboard / Regulations</div> 
+                {regulations.length>0 && 
+                <div className="RegulationVersion">Version: {regulations[0].version}</div>
+                }
             </div>
             {regulations.length>0 && (
             <div className="RegulationBar">
                 {regulations.map((regulation, index) => (
-                <div key={index} className="RegulationBox" style={{top: index * 200 + 100}}>
+                <div key={index} className="RegulationBox" style={{top: index * 200 + 150}}>
                     <div className="RegulationName">{regulation.name}</div>
                     <div className="regulation-description">{regulation.description}</div>
+                    {/* <div className="RegulationVersion">Version: {regulation.version}</div> */}
                     <div className="update-ButtonContainer">
                         <button className="Update-Button" onClick={() => handleDelete(regulation._id)}>
                             <img src="/images/trash.png" alt="Button Image" className="Update-ButtonImage" />
@@ -144,10 +142,14 @@ const Compliancerules =() => {
                     </div>
                 </div>
             )}
-            {/* <div className="ViewViolations-link" >View Violations</div> */}
+             {/* Alert component */}
+             {alertOpen &&
+             <Alert className="alert-container-compliance"severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx= {{padding: '20px', fontSize: '20px',}}>
+                <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                {alertMessage}
+            </Alert>
+        }
         </div>
-
-
     );
 }
 

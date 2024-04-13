@@ -522,3 +522,19 @@ button[type="signup-button"] {
   position: relative;
   font-family: 'Inter';
 }
+
+.alert-container-signup {
+  position: fixed;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  opacity: 0.9;
+  z-index: 9999;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.input-error-signup {
+  border: 2px solid red; /* Add a red border */
+}
