@@ -5,6 +5,7 @@ import cors from 'cors';
 import Employee from './models/employees.js';
 import Admin from './models/admins.js';
 import Manager from './models/managers.js';
+import axios from 'axios'
 import Login from './models/userlogin.js';
 import Log from './models/logs.js'
 import bcrypt from 'bcrypt';
@@ -12,6 +13,7 @@ import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
 import expressWinston from 'express-winston'
 import winston from 'winston'
+import mailjetTransport from 'nodemailer-mailjet-transport'
 import winstonMongoDB from 'winston-mongodb';
 dotenv.config();
 
@@ -200,40 +202,40 @@ app.post('/empsignup',async(req,res)=>
 });
 
 app.post('/sendemail', async(req,res) => {
-    function sendEmail(props) {
-      const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          secure: true,
-          auth: {
-              user: process.env.USER,
-              pass: process.env.APP_PASSWORD
-          }
-      });
-
-      const mailOptions = {
-          from: "Zaamin Admin <donotreply@email.com>",
-          to: props.email,
-          subject: 'Your OTP',
-          html: `<p style="font-size: 16px; color: #333; margin-bottom: 10px;"> Your one-time password (OTP) is: <h2 style="font-size: 24px; color: #F18550;">${props.otp}</h2> Do not share this OTP with anyone. </p>`
-      };
-
-      transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-              console.log(error);
-              res.status(500).send('Failed to send OTP');
-          } else {
-              console.log('Email sent: ' + info.response);
-              const hashedOTP = bcrypt.hashSync(otp, 10);
-              res.send(hashedOTP)
-          }
-      });
+  async function sendEmail(props) {
+    var data = {
+      service_id: 'service_ght1pvl',
+      template_id: 'template_o3fo23l',
+      user_id: 'hMDaxOh2b9hIQhZ_5',
+      accessToken: process.env.EMAILJS_PRIVATE,
+      template_params: {
+        'to_send': props.email,
+        'otp': props.otp,
+      }
+    } 
+    try {
+      const response = await axios.post('https://api.emailjs.com/api/v1.0/email/send', data)
+      if (response.status == 200)
+      {
+        console.log('Email sent');
+        logger.info(`OTP Verification email sent to ${email}`)
+        const hashedOTP = bcrypt.hashSync(otp, 10);
+        res.send(hashedOTP)
+      }
+      else {
+        res.status(500).send('1 Failed to send OTP');
+      }
+    }
+    catch (error) {
+      console.log(error)
+      res.status(500).send('2 Failed to send OTP');
+    }
   }
 
   const otp = otpGenerator.generate(4, { digits: true, upperCase: false, specialChars: false });
   const {email} = req.body
   console.log(otp, email)
   sendEmail({otp: otp, email: email, url:'http://localhost:3001/otp'})
-  logger.info(`OTP Verification email sent to ${email}`)
 })
 
 app.post('/login', async (req, res) => {
@@ -533,6 +535,61 @@ app.get('/birthdays-today', async (req, res) => {
   } catch (err) {
     console.error('Error fetching birthdays:', err);
     res.status(500).send('Error fetching birthdays');
+  }
+});
+
+app.post('/changepassword', async (req, res) => {
+  try {
+      const { email, newPassword } = req.body;
+      // Hash the new password
+      console.log("email:",email)
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      
+      // Check if the provided password is the same as the current password
+      const user = await Login.findOne({ email });
+      if (!user) {
+        console.log("not found")
+        return res.status(404).json({ message: 'User not found' });
+      }
+      // Update the user's password in the database
+      const result = await Login.updateOne({ email }, { $set: { hashedPassword: hashedNewPassword } });
+      // Check if the update was successful
+      // if (result.nModified > 0) {
+          logger.warn(`Change password by ${email}`)
+          console.log("Password changed successfully");
+          return res.json({ message: 'success' });
+      // } else {
+          // console.log("Password not changed");
+          // return res.json({ message: 'failure' }); // Or handle the failure as needed
+      // }
+  } catch (error) {
+      console.error('Error changing password:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/checkingemail', async (req, res) => {
+  try {
+    console.log("bhere")
+    const { email } = req.body; // Removed password from destructuring
+    console.log('Email:', email);
+
+    // Find user by email
+    const user = await Login.findOne({ email });
+
+    if (!user) {
+      // If user not found, respond with 404 Not Found
+      return res.json({ status: 'failed'});
+    } else 
+    {
+      console.log("MILL GAYA EMAIL")
+      // If user found, respond with 200 OK
+      return res.json({ status: 'success'});
+    }
+  } catch (error) {
+    console.error('Error during checking:', error);
+    logger.warn(`Error during checking: ${error}`)
+    return res.json("error");
   }
 });
 
