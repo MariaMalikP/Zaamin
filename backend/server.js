@@ -10,10 +10,10 @@ import Log from './models/logs.js'
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
-dotenv.config();
 import expressWinston from 'express-winston'
 import winston from 'winston'
 import winstonMongoDB from 'winston-mongodb';
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -38,28 +38,7 @@ const logger = winston.createLogger({
   )
 })
 
-/* 
-app.use(expressWinston.logger({
-  transports: [
-    new winston.transports.MongoDB({
-      level : 'info', 
-      db : process.env.MONG_URI,
-      collection:'logs'
-    })
-  ],
-  format: winston.format.combine (
-    winston.format.json(),
-    winston.format.timestamp(),
-    winston.format.metadata(),
-    winston.format.prettyPrint()
-  )
-}))
-*/
-
 /* Custom Message Logging 
-Exposing if used as middleware
-app.logger = expressWinston.logger
-
 // Log an info message
 logger.info('This is an informational message.');
 
@@ -68,7 +47,6 @@ logger.warn('This is a warning message.');
 
 // Log an error message
 logger.error('This is an error message.', { error: new Error('Something went wrong') });
-
 */
 
 mongoose.connect(process.env.MONG_URI, {
@@ -225,6 +203,7 @@ app.post('/sendemail', async(req,res) => {
     function sendEmail(props) {
       const transporter = nodemailer.createTransport({
           service: 'gmail',
+          secure: true,
           auth: {
               user: process.env.USER,
               pass: process.env.APP_PASSWORD
@@ -516,7 +495,7 @@ app.get('/logs', async (req, res) => {
   }
 });
 
-/* //dev to delete particular logs
+/* //dev route to delete particular logs
 app.post('/dellogs', async (req, res) => {
   try {
     let ans = await Log.deleteMany({ message: "Audit Logs fetched by undefined" })
@@ -525,5 +504,36 @@ app.post('/dellogs', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });  */
+
+app.get('/birthdays-today', async (req, res) => {
+  try {
+    const aaa = new Date();
+    aaa.setUTCHours(0, 0, 0, 0);
+    const specificDate = aaa.toISOString();
+    //const specificDate = new Date("2024-03-12T19:00:00.000Z"); //for testing
+    
+    const aggregationPipeline = [
+      {
+        $match: {
+          Date_of_Birth: specificDate
+        }
+      }
+    ];
+
+    // Aggregate from all three collections
+    const results = await Promise.all([
+      Admin.aggregate(aggregationPipeline),
+      Manager.aggregate(aggregationPipeline),
+      Employee.aggregate(aggregationPipeline)
+    ]);
+
+    const combinedResults = [].concat(...results);
+
+    res.json(combinedResults);
+  } catch (err) {
+    console.error('Error fetching birthdays:', err);
+    res.status(500).send('Error fetching birthdays');
+  }
+});
 
 export default app;

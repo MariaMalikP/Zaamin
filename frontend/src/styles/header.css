@@ -51,9 +51,6 @@ li a img.profile-image {
   border-radius: 50%; 
 }
 
-li:hover {
-  background-color: rgba(22, 138, 173, 0.82);
-}
 
 #search-bar {
   height: 30px;
