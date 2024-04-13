@@ -188,7 +188,7 @@ button[type="signup-button"] {
   color: #fff;
   text-align: left;  
   top: 81.5%;
-  left: 11.5%;
+  left: 12%;
   transform: translate(-50%, -50%);
   position: absolute;
 }
@@ -507,9 +507,9 @@ button[type="signup-button"] {
   color: rgb(180, 45, 45);;
   font-size: 12px;
   font-weight: 550;
-  margin-top: 14px;
-  margin-left: -455px;
-  /* position: fixed; */
+  margin-top: 1%;
+  margin-left: -33.5%;
+  position: absolute;
   font-family: 'Inter';
 }
 

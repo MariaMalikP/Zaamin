@@ -154,8 +154,9 @@ const EmployeeSignup= (prop)=>{
                         />
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
+                        
                         <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
-                        < input className={`confpass-inp ${password !== confpassword ? 'input-error-signup' : ''}`}
+                        < input className={`confpass-inp ${password !== confpassword ? 'input-error':''}`}
                             type="password"
                             placeholder="Confrim Password"
                             value={confpassword}
