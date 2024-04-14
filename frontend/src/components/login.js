@@ -34,7 +34,7 @@ const Login = (prop) => {
             
             // Log the response from the server
             console.log('RESPONSE FROM SERVER', response.data.status);
-            
+            const Hashcheck = response.data.hashcheck.replace(/\//g, '');
             // Check the status of the response
             if (response.data.status === 'success') {
                 // Set the token in the AuthProvider context
@@ -42,7 +42,7 @@ const Login = (prop) => {
                 // If login is successful, determine user role and navigate accordingly
                 if (response.data.userrole === 'employee') {
                     // Navigate to employee home page
-                    navigate(`/employeehome/${email}`);
+                    navigate(`/employeehome/${email}/${Hashcheck}`);
                 }
                 else if (response.data.userrole === 'manager'){
                     // Navigate to manager home page
@@ -50,7 +50,7 @@ const Login = (prop) => {
                 }
                 else if (response.data.userrole === 'admin'){
                     // Navigate to admin home page
-                    navigate(`/adminhome/${email}`);
+                    navigate(`/adminhome/${email}/${Hashcheck}`);
                 }
                 else {
                     // If user role is not recognized, set error

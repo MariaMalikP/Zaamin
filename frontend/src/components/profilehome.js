@@ -32,7 +32,7 @@ const ProfileHome = () => {
     }, []);
 
     const handleEditProfileClick = () => {
-        navigate(`/editprofile/${email}/${role}`);
+        navigate(`/editprofile/${email}/${role}/${hashp}`);
     };
 
     const handleInfoClick = () => {

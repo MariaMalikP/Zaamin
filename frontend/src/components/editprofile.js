@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 
 const EditProfile = () => {
-    const { email, role} = useParams();
+    const { email, role, hashp} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
     const [returnStatus, setReturnStatus] = useState('');
@@ -41,7 +41,14 @@ const EditProfile = () => {
 
     //this function is called when the edit profile button is clicked and it navigates to the edit profile page
     const handleEditProfileClick = () => {
-        navigate(`/profilehome/${email}/${role}`);
+        if(role === 'admin')
+        {
+            navigate(`/admprofilehome/${email}/${role}/${hashp}`);
+        }
+        else
+        {
+            navigate(`/profilehome/${email}/${role}/${hashp}`);
+        }
     };
 
     //this function is called when the input fields are changed and it sets the editedProfile state to the new value

@@ -12,7 +12,7 @@ const AuditLogs = (prop) => {
   const [logs, setLogs] = useState([]);
   const [firstFifteen, setFirstFifteen] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const { email , role} = useParams();
+  const { email , role, hashp} = useParams();
 
   useEffect(() => {
     const fetchLogs = async () => {

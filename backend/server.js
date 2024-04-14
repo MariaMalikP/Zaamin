@@ -7,12 +7,17 @@ import Admin from './models/admins.js';
 import Manager from './models/managers.js';
 import Login from './models/userlogin.js';
 import Log from './models/logs.js'
+import Encryption from './models/encryption.js';
 import bcrypt from 'bcrypt';
+import CryptoJS from 'crypto-js';
+import crypto from 'crypto';
+import multer from 'multer';
 import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
 import expressWinston from 'express-winston'
 import winston from 'winston'
 import winstonMongoDB from 'winston-mongodb';
+import Todo from './models/todo.js';
 dotenv.config();
 
 const app = express();
@@ -62,6 +67,119 @@ mongoose.connect(process.env.MONG_URI, {
 .catch((error) => {
   console.log(error);
 });
+
+const ENCRYPTION_KEY_AES = 'H@pP!Ly5tr0nG&SecuREkEy123!#@%*';
+
+function encrypt_aes(text) {
+  return CryptoJS.AES.encrypt(text, ENCRYPTION_KEY_AES).toString();
+}
+
+function decrypt_aes(ciphertext) {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, ENCRYPTION_KEY_AES);
+  return bytes.toString(CryptoJS.enc.Utf8);
+}
+
+
+const key = crypto.createHash('sha256').update('YourSecretKey').digest('base64').substr(0, 32); // Adjust the length as needed
+
+function encrypt_aes_cbc(data) {
+  console.log("data",data)
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+  let encryptedData = cipher.update(data, 'utf-8', 'hex');
+  encryptedData += cipher.final('hex');
+  return iv.toString('hex') + ':' + encryptedData;
+}
+
+function decrypt_aes_cbc(encryptedData) {
+  // console.log("encryptedData",encryptedData)
+  const parts = encryptedData.split(':');
+  const iv = Buffer.from(parts.shift(), 'hex');
+  const encryptedText = Buffer.from(parts.join(':'), 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+  let decryptedData = decipher.update(encryptedText, 'hex', 'utf-8');
+  decryptedData += decipher.final('utf-8');
+  return decryptedData;
+}
+// AES ECB Encryption
+function encrypt_aes_ecb(data) {
+  const cipher = crypto.createCipheriv('aes-256-ecb', Buffer.from(key), null);
+  let encryptedData = cipher.update(data, 'utf-8', 'hex');
+  encryptedData += cipher.final('hex');
+  return encryptedData;
+}
+
+// AES ECB Decryption
+function decrypt_aes_ecb(encryptedData) {
+  const decipher = crypto.createDecipheriv('aes-256-ecb', Buffer.from(key), null);
+  let decryptedData = decipher.update(encryptedData, 'hex', 'utf-8');
+  decryptedData += decipher.final('utf-8');
+  return decryptedData;
+}
+
+function decryptProfile(profile, method_encryption) {
+  const fieldsToExcludeFromDecryption = ['First_Name', 'Last_Name', 'Email','email', 'Employee_ID', 'Admin_ID', 'Manager_ID', 'Date_of_Birth', 'Age','createdAt','updatedAt','Profile_Image','id','medicalHistory'];
+  let decryptedProfile = {};
+  
+  if (method_encryption === "AES-CBC") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
+        decryptedProfile[key] = decrypt_aes_cbc(profile[key]);
+      }
+    });
+  } else if (method_encryption === "AES-GCM") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
+        decryptedProfile[key] = decrypt_aes_ecb(profile[key]);
+      }
+    });
+  } else if (method_encryption === "AES") {
+    decryptedProfile = {};
+    Object.keys(profile._doc).forEach(key => {
+      if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
+        decryptedProfile[key] = profile[key];
+      } else {
+        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
+        decryptedProfile[key] = decrypt_aes(profile[key]);
+      }
+    });
+  } else {
+    decryptedProfile = profile;
+  }
+  
+  return decryptedProfile;
+}
+function encryptProfile(element, method_encryption) {
+  if (method_encryption === "AES-CBC") 
+  {return encrypt_aes_cbc(element);} 
+  else if (method_encryption === "AES-GCM") 
+  {return encrypt_aes_ecb(element);} 
+  else if (method_encryption === "AES") 
+  {return encrypt_aes(element);}
+}
+
+async function getEncryptionMethodById(id) {
+  try {
+    const encryptionData = await Encryption.findOne({ id: id });
+    if (!encryptionData) {
+      // console.log("Encryption data not found for ID:", id);
+      return null;
+    }
+    // console.log("Encryption data found:", encryptionData);
+    return encryptionData.encryptionMethod;
+  } catch (error) {
+    console.error("Error while fetching encryption data:", error);
+  }
+}
+
 
 app.post('/empsignup',async(req,res)=>
 {
@@ -200,42 +318,41 @@ app.post('/empsignup',async(req,res)=>
 });
 
 app.post('/sendemail', async(req,res) => {
-    function sendEmail(props) {
-      const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          secure: true,
-          auth: {
-              user: process.env.USER,
-              pass: process.env.APP_PASSWORD
-          }
-      });
-
-      const mailOptions = {
-          from: "Zaamin Admin <donotreply@email.com>",
-          to: props.email,
-          subject: 'Your OTP',
-          html: `<p style="font-size: 16px; color: #333; margin-bottom: 10px;"> Your one-time password (OTP) is: <h2 style="font-size: 24px; color: #F18550;">${props.otp}</h2> Do not share this OTP with anyone. </p>`
-      };
-
-      transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-              console.log(error);
-              res.status(500).send('Failed to send OTP');
-          } else {
-              console.log('Email sent: ' + info.response);
-              const hashedOTP = bcrypt.hashSync(otp, 10);
-              res.send(hashedOTP)
-          }
-      });
+  async function sendEmail(props) {
+    var data = {
+      service_id: 'service_ght1pvl',
+      template_id: 'template_o3fo23l',
+      user_id: 'hMDaxOh2b9hIQhZ_5',
+      accessToken: process.env.EMAILJS_PRIVATE,
+      template_params: {
+        'to_send': props.email,
+        'otp': props.otp,
+      }
+    } 
+    try {
+      const response = await axios.post('https://api.emailjs.com/api/v1.0/email/send', data)
+      if (response.status == 200)
+      {
+        console.log('Email sent');
+        logger.info(`OTP Verification email sent to ${email}`)
+        const hashedOTP = bcrypt.hashSync(otp, 10);
+        res.send(hashedOTP)
+      }
+      else {
+        res.status(500).send('1 Failed to send OTP');
+      }
+    }
+    catch (error) {
+      console.log(error)
+      res.status(500).send('2 Failed to send OTP');
+    }
   }
 
   const otp = otpGenerator.generate(4, { digits: true, upperCase: false, specialChars: false });
   const {email} = req.body
   console.log(otp, email)
   sendEmail({otp: otp, email: email, url:'http://localhost:3001/otp'})
-  logger.info(`OTP Verification email sent to ${email}`)
 })
-
 app.post('/login', async (req, res) => {
   try {
     console.log("bhere")
@@ -265,7 +382,7 @@ app.post('/login', async (req, res) => {
       }
       console.log('Login successful');
       logger.info(`Successful Login by ${email}`)
-      return res.json({ status: 'success', userrole: role });
+      return res.json({ status: 'success', userrole: role, hashcheck : user.hashedPassword });
     } else {
       // Passwords don't match, respond with 401 Unauthorized
       console.log('Login failed');
@@ -536,4 +653,46 @@ app.get('/birthdays-today', async (req, res) => {
   }
 });
 
+app.post('/gettodo', async (req, res) => {
+  console.log("wow")
+  try {
+      const { email } = req.body;
+      const todoList = await Todo.find({ email });
+      console.log("here", todoList)
+      res.json(todoList);
+  } catch (error) {
+      console.error('Error fetching to-do list:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/addtodo', async (req, res) => {
+  try {
+      const { email, task} = req.body;
+      if(task ==='' || task === null)
+      {
+        return res.status(201).json();
+      }
+      const newTodo = new Todo({
+          email: email,
+          task: task,
+      });
+      console.log(newTodo)
+      await Todo.insertMany(newTodo);
+      res.status(201).json(newTodo);
+  } catch (error) {
+      console.error('Error adding to-do:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+app.delete('/removetodo/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      await Todo.findByIdAndDelete(id);
+      res.status(204).json();
+  } catch (error) {
+      console.error('Error removing to-do:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 export default app;
