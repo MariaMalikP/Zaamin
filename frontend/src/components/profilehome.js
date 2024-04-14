@@ -1,3 +1,4 @@
+ 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -7,7 +8,7 @@ import Header from './header';
 import '../styles/profile.css'; 
 
 const ProfileHome = () => {
-    const { email , role} = useParams();
+    const { email , role, hashp} = useParams();
     const navigate = useNavigate();
     const [userProfile, setProfile] = useState(null);
     const [returnStatus, setReturnStatus] = useState('');
@@ -30,28 +31,32 @@ const ProfileHome = () => {
     }, []);
 
     const handleEditProfileClick = () => {
-        navigate(`/editprofile/${email}/${role}`);
-    };
-    const navMedicalCheck = async () => {    
-        navigate(`/medicalcheck/${email}/${role}`);
-    };
-    const navFinancialCheck = async () => {
-        navigate(`/financialcheck/${email}/${role}`);
+        navigate(`/editprofile/${email}/${role}/${hashp}`);
     };
 
     const handleInfoClick = () => {
         setShowDescription(!showDescription);
     };
+    const navMedicalCheck = async () => {    
+        navigate(`/medicalcheck/${email}/${role}/${hashp}`);
+    };
+    const navFinancialCheck = async () => {
+        navigate(`/financialcheck/${email}/${role}/${hashp}`);
+    };
 
     return (
         <div className='profile'>
-            <Header email={email} userProfile={userProfile} />
+            <Header email={email} userProfile={userProfile} hashp={hashp}/>
             <div className='heading'>Profile</div>
             <img src='/ppl.jpg' className='profile-circle'/>
             {returnStatus === "profile exists" && userProfile && (
                 <>
                     <div className='ellipse-27'>
-                            <img src={userProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                        {userProfile?.Profile_Image != 'default.png' ? (
+                            <img src={userProfile.Profile_Image} alt='Profile' className='profile-picture' />
+                        ) : (
+                            <img src={'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                        )}
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{userProfile.First_Name}</div>

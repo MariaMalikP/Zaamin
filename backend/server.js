@@ -14,6 +14,7 @@ import multer from 'multer';
 import MedicalInfo from './models/medical_info.js'; 
 import FinancialInfo from './models/financial_info.js';
 import path from 'path';
+import logger from 'winston';
 
 dotenv.config();
 
@@ -53,7 +54,7 @@ function decrypt_aes(ciphertext) {
 const key = crypto.createHash('sha256').update('YourSecretKey').digest('base64').substr(0, 32); // Adjust the length as needed
 
 function encrypt_aes_cbc(data) {
-  console.log("data",data)
+  // console.log("data",data)
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
   let encryptedData = cipher.update(data, 'utf-8', 'hex');
@@ -97,7 +98,7 @@ function decryptProfile(profile, method_encryption) {
       if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
         decryptedProfile[key] = profile[key];
       } else {
-        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
+        // console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
         decryptedProfile[key] = decrypt_aes_cbc(profile[key]);
       }
     });
@@ -117,7 +118,6 @@ function decryptProfile(profile, method_encryption) {
       if (['_id', '__v', ...fieldsToExcludeFromDecryption].includes(key)) {
         decryptedProfile[key] = profile[key];
       } else {
-        console.log("key",key,"Value",profile[key],"type",typeof (profile[key]));
         decryptedProfile[key] = decrypt_aes(profile[key]);
       }
     });
@@ -140,10 +140,8 @@ async function getEncryptionMethodById(id) {
   try {
     const encryptionData = await Encryption.findOne({ id: id });
     if (!encryptionData) {
-      // console.log("Encryption data not found for ID:", id);
       return null;
     }
-    // console.log("Encryption data found:", encryptionData);
     return encryptionData.encryptionMethod;
   } catch (error) {
     console.error("Error while fetching encryption data:", error);
@@ -154,7 +152,6 @@ async function getEncryptionMethodById(id) {
 app.post('/empsignup',async(req,res)=>
 {
   const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption} = req.body;
-  // console.log("here", req.body)
   const emailExists= await Login.findOne({email:email}) 
 
   //check for valid password entry to ensure a strong password
@@ -236,7 +233,6 @@ app.post('/empsignup',async(req,res)=>
     {
       //inserting the data recieved in the login table, as well as the user table, according to the role of the user.
       await Encryption.insertMany(encryptionData)
-      // console.log("Encryption data inserted:", encryptionData);
 
       
       const encryptionMethod = await getEncryptionMethodById(finalId);
@@ -334,6 +330,46 @@ app.post('/empsignup',async(req,res)=>
     }
 });
 
+// app.post('/login', async (req, res) => {
+//   try {
+//     console.log("bhere")
+//     const { email, password } = req.body;
+//     console.log('Email:', email);
+
+//     // Find user by email
+//     const user = await Login.findOne({ email });
+
+//     if (!user) {
+//       // If user not found, respond with 401 Unauthorized
+//       return res.json({ status: 'failed'});
+//     }
+
+//     // Compare passwords using bcrypt
+//     console.log('Password', password);
+//     const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+
+//     if (passwordMatch) {
+//       // Passwords match, determine user role
+//       let role = '';
+//       if (user.id.startsWith('ADM')) {
+//         role = 'admin';
+//       } else if (user.id.startsWith('MNR')) {
+//         role = 'manager';
+//       } else if (user.id.startsWith('EMP')) {
+//         role = 'employee';
+//       }
+//       console.log('Login successful');
+//       return res.json({ status: 'success', userrole: role });
+//     } else {
+//       // Passwords don't match, respond with 401 Unauthorized
+//       console.log('Login failed');
+//       return res.json({ status: 'failed' });
+//     }
+//   } catch (error) {
+//     console.error('Error during login:', error);
+//     return res.status(500).json({ error: 'Server error' });
+//   }
+// });
 app.post('/login', async (req, res) => {
   try {
     console.log("bhere")
@@ -349,7 +385,6 @@ app.post('/login', async (req, res) => {
     }
 
     // Compare passwords using bcrypt
-    console.log('Password', password);
     const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
 
     if (passwordMatch) {
@@ -363,18 +398,20 @@ app.post('/login', async (req, res) => {
         role = 'employee';
       }
       console.log('Login successful');
-      return res.json({ status: 'success', userrole: role });
+      logger.info(`Successful Login by ${email}`);
+      return res.json({ status: 'success', userrole: role, hashcheck: user.hashedPassword});
     } else {
       // Passwords don't match, respond with 401 Unauthorized
       console.log('Login failed');
+      logger.warn('Failed login attempt (password mismatch) by ' + email);
       return res.json({ status: 'failed' });
     }
   } catch (error) {
     console.error('Error during login:', error);
+    logger.warn('Error during login: ' + error);
     return res.status(500).json({ error: 'Server error' });
   }
 });
-
 app.post('/edit_profile', async (req, res) => {
   console.log("in edit profile");
   try {
@@ -502,16 +539,12 @@ app.post('/viewprofile', async (req, res) => {
       return res.status(404).json({ error: 'User profile not found' });
     }
 
-    console.log("profile before decryption:", profile);
     const getId= await Login.findOne({email:email});
-    console.log("id",getId.id);
     const encryptionMethod = await getEncryptionMethodById(getId.id);
     console.log("encryption method in view profile %s for email: %s", encryptionMethod, email);
     
 
     const decryptedProfile = decryptProfile(profile, encryptionMethod);
-    console.log("profile after decryption:", decryptedProfile);
-
     return res.json({ status: "profile exists", profile_deets: decryptedProfile });
 
   } catch (error) {
@@ -699,5 +732,148 @@ app.post('/update-medical-history', upload.any('medicalHistory'), (req, res) => 
   return res.status(200).json({ message: 'Path Set', filePath: path_of_file });
 });
 
+
+
+//Hajrs
+app.get('/logs', async (req, res) => {
+  const email = req.query.email || null;
+  try {
+    let logs = await Log.find({});
+    logger.warn('Audit Logs fetched by ' + email);
+    return res.json(logs);
+  } catch {
+    logger.error('Server Error');
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/birthdays-today', async (req, res) => {
+  try {
+    const aaa = new Date();
+    aaa.setUTCHours(0, 0, 0, 0);
+    const specificDate = aaa.toISOString();
+    //const specificDate = new Date("2024-03-12T19:00:00.000Z"); //for testing
+    
+    const aggregationPipeline = [
+      {
+        $match: {
+          Date_of_Birth: specificDate
+        }
+      }
+    ];
+
+    // Aggregate from all three collections
+    const results = await Promise.all([
+      Admin.aggregate(aggregationPipeline),
+      Manager.aggregate(aggregationPipeline),
+      Employee.aggregate(aggregationPipeline)
+    ]);
+
+    const combinedResults = [].concat(...results);
+
+    res.json(combinedResults);
+  } catch (err) {
+    console.error('Error fetching birthdays:', err);
+    res.status(500).send('Error fetching birthdays');
+  }
+});
+
+app.post('/changepassword', async (req, res) => {
+  try {
+      const { email, newPassword } = req.body;
+      // Hash the new password
+      console.log("email:", email);
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+      // Check if the provided password is the same as the current password
+      const user = await Login.findOne({ email });
+      if (!user) {
+        console.log("not found");
+        return res.status(404).json({ message: 'User not found' });
+      }
+      // Update the user's password in the database
+      const result = await Login.updateOne({ email }, { $set: { hashedPassword: hashedNewPassword } });
+      // Check if the update was successful
+      // if (result.nModified > 0) {
+      logger.warn(`Change password by ${email}`);
+      console.log("Password changed successfully");
+          return res.json({ message: 'success' });
+      // } else {
+          // console.log("Password not changed");
+          // return res.json({ message: 'failure' }); // Or handle the failure as needed
+      // }
+  } catch (error) {
+      console.error('Error changing password:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/checkingemail', async (req, res) => {
+  try {
+    console.log("bhere")
+    const { email } = req.body; // Removed password from destructuring
+    console.log('Email:', email);
+
+    // Find user by email
+    const user = await Login.findOne({ email });
+
+    if (!user) {
+      // If user not found, respond with 404 Not Found
+      return res.json({ status: 'failed'});
+    } else 
+    {
+      console.log("MILL GAYA EMAIL")
+      // If user found, respond with 200 OK
+      return res.json({ status: 'success'});
+    }
+  } catch (error) {
+    console.error('Error during checking:', error);
+    logger.warn(`Error during checking: ${error}`);
+    return res.json("error");
+  }
+});
+
+app.post('/gettodo', async (req, res) => {
+  console.log("wow")
+  try {
+      const { email } = req.body;
+      const todoList = await Todo.find({ email });
+      console.log("here", todoList)
+      res.json(todoList);
+  } catch (error) {
+      console.error('Error fetching to-do list:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/addtodo', async (req, res) => {
+  try {
+      const { email, task} = req.body;
+      if(task ==='' || task === null)
+      {
+        return res.status(201).json();
+      }
+      const newTodo = new Todo({
+          email: email,
+          task: task,
+      });
+      console.log(newTodo)
+      await Todo.insertMany(newTodo);
+      res.status(201).json(newTodo);
+  } catch (error) {
+      console.error('Error adding to-do:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+app.delete('/removetodo/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      await Todo.findByIdAndDelete(id);
+      res.status(204).json();
+  } catch (error) {
+      console.error('Error removing to-do:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 
 export default app;

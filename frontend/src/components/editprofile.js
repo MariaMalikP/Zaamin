@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 
 const EditProfile = () => {
-    const { email, role } = useParams();
+    const { email, role, hashp } = useParams();
     const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
     const [editedProfile, setEditedProfile] = useState({});
@@ -31,7 +31,14 @@ const EditProfile = () => {
     }, [email, role]);
 
     const handleEditProfileClick = () => {
-        navigate(`/profilehome/${email}/${role}`);
+        if(role === 'admin')
+        {
+            navigate(`/admprofilehome/${email}/${role}/${hashp}`);
+        }
+        else
+        {
+            navigate(`/profilehome/${email}/${role}/${hashp}`);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -50,29 +57,12 @@ const EditProfile = () => {
     };
 
     const onImageChosen = async(file) => {
-        window.alert('file: ' + JSON.stringify(file));
         const imageData = await readImageFileAsBase64(file);
         const stringified_imageData = JSON.stringify(imageData);
-        window.alert('file: ' + stringified_imageData);
         const unstringify_imageData = JSON.parse(stringified_imageData);
-        window.alert('file: ' + unstringify_imageData);
         editedProfile.Profile_Image = unstringify_imageData;
         setImage(unstringify_imageData);
-        // try {
-        //     const formData = new FormData();
-        //     formData.append('profile_pic', file);
-        //     const response = await axios.post('http://localhost:3000/update-profile-pic', formData);
-        //     window.alert('Profile Picture updated successfully: ' + JSON.stringify(response.data));
-        //     if (response.data.message === "Path Set") {
-        //         window.alert('response.data.status.filePath: ' + JSON.stringify(response.data.filePath));
-        //         window.alert('Profile Picture updated successfully 2');
-        //     }
-          
-        // } catch (error) {
-        //     console.error('Error updating medical history', error);
-        //     window.alert('Error updating medical history');
-        // }
-    };
+        };
     // Function to read image file as base64
     const readImageFileAsBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -102,7 +92,7 @@ const EditProfile = () => {
 
     return (
         <div className='profile'>
-            <Header email={email} userProfile={userProfile} />
+            <Header email={email} userProfile={userProfile} hashp={hashp}/>
             <div className='heading'>Edit Profile</div>
             {userProfile && (
                 <>
@@ -110,7 +100,11 @@ const EditProfile = () => {
                         {image ? (
                             <img src={image} alt='Profile' className='profile-picture' />
                         ) : (
-                            <img src={userProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                            userProfile?.Profile_Image ? (
+                                <img src={userProfile.Profile_Image} alt='Profile' className='profile-picture' />
+                            ) : (
+                                <img src={'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                            )
                         )}
                         <div className="file-input-wrapper">
                             <img src='/img.png' alt="Upload Icon" />
@@ -194,4 +188,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-

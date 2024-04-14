@@ -7,7 +7,7 @@ import '../styles/financial.css';
 import Chart from 'chart.js/auto';
 
 const FinancialCheck = () => {
-  const { email, role } = useParams();
+  const { email, role, hashp} = useParams();
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState(null);
@@ -137,13 +137,13 @@ const handleInputChange = (e) => {
   };
 
   const handleEditProfileClick = () => {
-    navigate(`/profilehome/${email}/${role}`);
+    navigate(`/profilehome/${email}/${role}/${hashp}`);
   };
 
   return (
     <>
       <div className='financial_profile'>
-        <Header email={email} userProfile={userProfilePic} />
+      <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
         <div className='financial_heading'>Financial Centre</div>
         <div className='financial_display'>
           {userProfile && (

@@ -9,7 +9,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 
 const MedicalCheck = () => {
-  const { email, role } = useParams();
+  const { email, role, hashp } = useParams();
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState(null);
@@ -132,14 +132,14 @@ const MedicalCheck = () => {
   };
 
   const handleEditProfileClick = () => {
-    navigate(`/profilehome/${email}/${role}`);
+    navigate(`/profilehome/${email}/${role}/${hashp}`);
   };
 
   return (
     <>
       
       <div className='med_profile'>
-        <Header email={email} userProfile={userProfilePic} />
+      <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
         <div className='med_heading'>Medical Centre</div>
         <div className='med_display'>
           {userProfile && (

@@ -13,7 +13,7 @@ const CustomAlert = ({ message, onClose }) => (
   </div>
 );
 
-const Header = ({ email, userProfile }) => {
+const Header = ({ email, userProfile, hashp }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -56,11 +56,11 @@ const Header = ({ email, userProfile }) => {
   const getHomePage = (role, email) => {
     switch (role) {
       case "manager":
-        return `/managerhome/${email}`;
+        return `/managerhome/${email}/${hashp}`;
       case "admin":
-        return `/adminhome/${email}`;
+        return `/adminhome/${email}/${hashp}`;
       default:
-        return `/employeehome/${email}`;
+        return `/employeehome/${email}/${hashp}`;
     }
   };
   if (!role) {
@@ -90,7 +90,7 @@ const Header = ({ email, userProfile }) => {
           <li><button onClick={toggleSidebar}><img src="/images/navigation-icon.png" alt="SideBar" /></button></li>
           {userProfile && userProfile.Profile_Image && ( 
             <li>
-              <Link to={`/profilehome/${email}/${role}`}>
+              <Link to={`/profilehome/${email}/${role}/${hashp}`}>
                 <img src={userProfile.Profile_Image} alt='Profile' className="profile-image"/>
               </Link>
             </li>                    
@@ -106,11 +106,9 @@ const Header = ({ email, userProfile }) => {
             Home
             </Link>
             </li>
-          <li>           
-            <Link to={`/profilehome/${email}/${role}`}>View Profile</Link>
-         </li>
-          <li><Link to={`/financialcheck/${email}/${role}`}>View/Edit Financial Records</Link></li>
-          <li><Link to={`/medicalcheck/${email}/${role}`}>View/Edit Medical Records</Link></li>
+          <li><Link to={`/profilehome/${email}/${role}/${hashp}`}>View Profile</Link></li>
+          <li><Link to={`/financialcheck/${email}/${role}/${hashp}`}>View/Edit Financial Records</Link></li>
+          <li><Link to={`/medicalcheck/${email}/${role}/${hashp}`}>View/Edit Medical Records</Link></li>
         </ul>
       </div>
       {/* End of Sidebar */}

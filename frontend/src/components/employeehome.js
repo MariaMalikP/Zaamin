@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const EmployeeHome = (prop) => {
     const history = useNavigate();
-    const { email } = useParams();
+    const { email,hashp } = useParams();
     const [role, setRole] = useState("employee");
     const [returnStatus, setReturnStatus] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -34,14 +34,14 @@ const EmployeeHome = (prop) => {
 
     const profilecheck = async () => {    
         try {
-            history(`/profilehome/${email}/${role}`);
+            history(`/profilehome/${email}/${role}/${hashp}`);
         } catch (error) {
             alert('Error during login, try again', error);
         }
     };
     const medicalcheck = async () => {    
         try {
-            history(`/medicalcheck/${email}/${role}`);
+            history(`/medicalcheck/${email}/${role}/${hashp}`);
         } catch (error) {
             alert('Error during login, try again', error);
         }
