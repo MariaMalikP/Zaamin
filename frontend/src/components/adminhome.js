@@ -173,7 +173,15 @@ const AdminHome = () => {
             alert('Error during login, try again', error);
         }
     };
-
+    
+    const compnav = async () => {
+        try {
+            history(`/compliancerules/${email}/${role}/${hashp}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+    
     const { data, isLoading, errorMessage } = useVisualCrossing({
         key: '52TE6L9BQWJVJPWWEM6F77WVL',
         lat: lat,
@@ -215,7 +223,7 @@ const AdminHome = () => {
             <div className="home_box3">
                 <img src='/comply.png' alt='Compliance' className='home_icons3' />
             </div>
-            <button className="button-style home_button3" type="button" onClick={profilecheck}>Manage Compliance</button>
+            <button className="button-style home_button3" type="button" onClick={compnav}>Manage Compliance</button>
             <div className='extensions'>
                 <ul>
                     <li>
