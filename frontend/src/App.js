@@ -1,4 +1,3 @@
-
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import {BrowserRouter} from 'react-router-dom';
@@ -15,20 +14,19 @@ import ViewProfile from './components/viewprofile';
 import EmployeeHome from './components/employeehome';
 import Signuplanding from './components/signuplanding';
 import EmployeeSignup from './components/employeesignup';
-// import OTPPage from './components/OTPPage'
-import { AuthProvider } from './components/Authprovider';
+import OTPPage from './components/OTPPage';
 import AuditLogs from './components/auditLogs';
-// import ForgotPassword from './components/forgotpassword';
-// import SendingOTP from './components/otppageforget';
-// import ChangePass from './components/changepass';
+import ForgotPassword from './components/forgotpassword';
+import SendingOTP from './components/otppageforget';
+import ChangePass from './components/changepass';
 import MedicalCheck from './components/medicalcheck';
 import FinanceCheck from './components/financialcheck';
 import Compliancerules from './components/compliancerules';
 import Violations from './components/violations';
+import { AuthProvider } from './components/Authprovider';
 
 
 function App() {
-
   return (
     <BrowserRouter>
         <AuthProvider>
@@ -46,18 +44,16 @@ function App() {
             <Route path="/viewprofile/:email/:visitingEmail" element={<ViewProfile />} />
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
-            {/* <Route path ="/otp" element = {<OTPPage/>}/> */}
-            {/* <Route path="/forgotpassword" element={<ForgotPassword/>}/> */}
-            {/* <Route path="/otppageforget" element={<SendingOTP/>}/> */}
-            {/* <Route path="/changepass/:email" element={<ChangePass />} /> */}
+            <Route path ="/otp" element = {<OTPPage/>}/>
+            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/otppageforget" element={<SendingOTP/>}/>
+            <Route path="/changepass/:email" element={<ChangePass />} />
             <Route path="/auditlogs/:email/:role/:hashp" element={<AuditLogs/>}/>
             <Route path="/admprofilehome/:email/:role/:hashp" element={<AprofileHome/>}/>
             <Route path="/medicalcheck/:email/:role/:hashp" element={<MedicalCheck/>}/>
             <Route path="/financialcheck/:email/:role/:hashp" element={<FinanceCheck/>}/>
             <Route path ="/compliancerules/:email/:role/:hashp" element = {<Compliancerules/>}/>
             <Route path ="/violations/:email/:role/:hashp" element = {<Violations/>}/>
-
-
           </Routes>
         </AuthProvider>
       </BrowserRouter>

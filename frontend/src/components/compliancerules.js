@@ -106,7 +106,7 @@ const Compliancerules =() => {
 
     return (    
         <div className='comp-container'>
-      <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
+        <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
             <div className="Group2280" >
                 <img src="/images/compliance.png" alt="Icon" className="ClipboardIcon" />
                 <div className="ComplianceDashboardRegulations"> Compliance Dashboard / Regulations</div> 

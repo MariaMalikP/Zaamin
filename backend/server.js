@@ -13,9 +13,16 @@ import crypto from 'crypto';
 import multer from 'multer';
 import MedicalInfo from './models/medical_info.js'; 
 import FinancialInfo from './models/financial_info.js';
+import Log from './models/logs.js'
 import path from 'path';
-import logger from 'winston';
 import Regulation from './models/regulations.js';
+import axios from 'axios'
+import otpGenerator from 'otp-generator'
+import expressWinston from 'express-winston'
+import winston from 'winston'
+import winstonMongoDB from 'winston-mongodb';
+import Announcement from './models/announcements.js';
+import Todo from './models/todo.js'
 
 dotenv.config();
 
@@ -25,6 +32,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.MongoDB({
+      level : 'verbose', 
+      db : process.env.MONG_URI,
+      collection:'logs',
+      options: {
+        useUnifiedTopology: true
+      }
+    })
+  ],
+  format: winston.format.combine (
+    winston.format.json(),
+    winston.format.timestamp(),
+    winston.format.metadata(),
+  )
+})
 
 mongoose.connect(process.env.MONG_URI, {
   useNewUrlParser: true,
@@ -164,18 +188,20 @@ app.post('/empsignup',async(req,res)=>
   //check to make sure confirm password and password are the same
   else if (password!==confpassword)
   {
+    logger.warn(`Sign up attempt with incorrect password for account ${email}`)
     res.json("password mismatch")
   }
 
   else if (emailExists)
   {
+    logger.warn(`Sign up attempt for existing account ${email}`)
     res.json("email exists")
   }
 
   //ensuring if encryption mehtod has been selected
   else if(encryption==="default" || encryption.length===0)
   {
-    // console.log("encryptnf")
+    console.log(encryption)
     res.json("choose encryption")
   }
 
@@ -331,6 +357,43 @@ app.post('/empsignup',async(req,res)=>
     }
 });
 
+app.post('/sendemail', async(req,res) => {
+  async function sendEmail(props) {
+    var data = {
+      service_id: 'service_ght1pvl',
+      template_id: 'template_o3fo23l',
+      user_id: 'hMDaxOh2b9hIQhZ_5',
+      accessToken: process.env.EMAILJS_PRIVATE,
+      template_params: {
+        'to_send': props.email,
+        'otp': props.otp,
+      }
+    } 
+    try {
+      const response = await axios.post('https://api.emailjs.com/api/v1.0/email/send', data)
+      if (response.status == 200)
+      {
+        console.log('Email sent');
+        logger.info(`OTP Verification email sent to ${email}`)
+        const hashedOTP = bcrypt.hashSync(otp, 10);
+        res.send(hashedOTP)
+      }
+      else {
+        res.status(500).send('1 Failed to send OTP');
+      }
+    }
+    catch (error) {
+      console.log(error)
+      res.status(500).send('2 Failed to send OTP');
+    }
+  }
+
+  const otp = otpGenerator.generate(4, { digits: true, upperCase: false, specialChars: false });
+  const {email} = req.body
+  console.log(otp, email)
+  sendEmail({otp: otp, email: email, url:'http://localhost:3001/otp'})
+})
+
 // app.post('/login', async (req, res) => {
 //   try {
 //     console.log("bhere")
@@ -413,10 +476,13 @@ app.post('/login', async (req, res) => {
     return res.status(500).json({ error: 'Server error' });
   }
 });
+
+
 app.post('/edit_profile', async (req, res) => {
   console.log("in edit profile");
   try {
     console.log("here we do");
+    logger.warn(`Edit Profile attempt by ${email}`)
     const { email, role, editedProfile } = req.body;
     console.log("edit:",editedProfile);
     //call encrypt on each field in editted profile
@@ -511,9 +577,11 @@ app.post('/searchres', async (req, res) => {
     const allProfiles = adminProfiles.concat(employeeProfiles, managerProfiles);
     console.log("allProf");
     console.log(allProfiles);
+    logger.info(`Search for ${searchTerm}`)
     return res.json({ profiles: allProfiles });
   } catch (error) {
     console.error('Error searching profiles:', error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -550,6 +618,7 @@ app.post('/viewprofile', async (req, res) => {
 
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -588,6 +657,7 @@ app.post('/viewsearchprofile', async (req, res) => {
     return res.status(404).json({ error: 'User profile not found' });
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -625,13 +695,16 @@ app.post('/findrole', async (req, res) => {
     return res.status(404).json({ error: 'User profile not found' });
   } catch (error) {
     console.error(error);
+    logger.error(`Server Error`)
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 app.post('/update-medical-info', async (req, res) => {
   try {
     console.log("request body",req.body)
     const { email, role, editedProfile } = req.body;
+    logger.info(`Updated medical info for ${email}`)
     console.log("in update medical info",editedProfile)
     const getId= await Login.findOne({email:email});
     console.log("id",getId.id);
@@ -659,6 +732,7 @@ app.post('/get-medical-info', async (req, res) => {
   try {
     const { email, role } = req.body;
     console.log("med info",email);
+    logger.info(`View medical info by ${email}`)
     const medProfile = await MedicalInfo.findOne({ email: email });
     console.log("med profile before decryption:", medProfile);
     const getId= await Login.findOne({email:email});
@@ -685,7 +759,7 @@ app.post('/get-medical-info', async (req, res) => {
 app.post('/update-financial-info', async (req, res) => {
   try {
     const { email, role, editedProfile } = req.body;
-
+    logger.info(`Updated financial info for ${email}`)    
     // Check if Financial profile already exists for the given email
     await FinancialInfo.updateOne({ email: email }, { $set: editedProfile });
 
@@ -700,6 +774,7 @@ app.post('/get-financial-info', async (req, res) => {
   try {
     console.log("in get financial info",req.body);
     const { email, role } = req.body;
+    logger.info(`View financial info for ${email}`)
     const financeProfile = await FinancialInfo.findOne({ email: email });
     if (!financeProfile) {
       console.log('Financial profile not found');
@@ -730,10 +805,9 @@ const upload = multer({ storage });
 app.post('/update-medical-history', upload.any('medicalHistory'), (req, res) => {
   console.log("file uploaded", path_of_file); // Make sure path_of_file is properly scoped
   console.log("body", req.body);
+  logger.info(`Updated medical history`)
   return res.status(200).json({ message: 'Path Set', filePath: path_of_file });
 });
-
-
 
 //Hajrs
 app.get('/logs', async (req, res) => {
@@ -1066,5 +1140,32 @@ app.get('/violations', async (req, res)=> {
 
 //End of Maria's code
 
+app.post('/addannouncement', async (req, res) => {
+  try {
+      const { eventTitle, eventDescription, eventDate, eventTime } = req.body;
+      const newAnnouncement = new Announcement({
+          title: eventTitle,
+          description: eventDescription,
+          date: eventDate,
+          time: eventTime,
+      });
+      await Announcement.insertMany(newAnnouncement);
+      res.status(201).json(newAnnouncement);
+  } catch (error) {
+      console.error('Error adding announcement:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/getannouncements', async (req, res) => {
+  console.log("there")
+  try {
+      const announcements = await Announcement.find({});
+      res.json(announcements);
+  } catch (error) {
+      console.error('Error fetching announcements:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 
 export default app;

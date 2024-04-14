@@ -227,17 +227,38 @@
     color: #202121;
     text-align: center;
 }
+.todo-container li {
+    margin-bottom: -10px; /* Adjust the margin as needed */
+}
 .todo-text {
     justify-content: left;
-    top: 3%;
-    margin-left: 75%;
-    font-size: 12px;
+    /* top: 1%; */
+    margin-left: 70%;
+    font-size: 13px;
     font-weight: 300;
     overflow: auto;
     font-weight: bold;
-    color: #FFFFFF;
+    color: #ffffffd9;
+    background-color:  #6b69d6d9;
+    border-radius: 160px;
+    padding-top: 5px; 
+    padding-right: 10px; 
+    padding-bottom: 5px; 
+    padding-left: 10px; 
+    transition: border-color 0.3s ease;
 }
+.todo-text:hover {
+    background-color:  #9392f6;
+}
+.todo-list {
+    margin-top: 10px;
+    margin-left: -40px;
+    justify-content: left;
+    font-size: 17px;
+    font-weight: 300;
+    overflow: auto;
 
+}
 .bdays {
     justify-content: left;
     font-size: 17px;
@@ -254,4 +275,118 @@
 
 .footer {
     padding: 30px;
+}
+
+
+.announcement-box {
+    position: absolute;
+    top: 20%; /* Adjust the top position as needed */
+    left: 70%; /* Adjust the left position as needed */
+    width: 400px; /* Adjust the width as needed */
+    padding: 20px;
+    background-color: #b4e3ff96;
+    border-radius: 10px;
+}
+
+.announcement-heading {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3783bd;
+    margin-bottom: 10px;
+}
+
+.announcement-input {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+.announcement-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3c8fcfc5;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.announcement-button:hover {
+    background-color: #39a9feeb;
+}
+
+.announcement-container {
+    position: absolute;
+    top: 21%; 
+    left: 69%; 
+    width: 450px; 
+    height: 280px; /* Set the fixed height for the container */
+    padding: 20px;
+    background-color: #b4e3ff96;
+    border-radius: 10px;
+    overflow-y: scroll; 
+}
+
+.announcement-container h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    color: #3783bd;
+    margin-bottom: 10px;
+}
+
+.announcement-container p {
+    justify-content: left;
+    margin-top: 8%;
+    font-size: 18px;
+    font-weight: 500;
+}
+.announcement-table {
+    width: 100%;
+    height: 200px;
+    border-collapse: collapse;
+    /* overflow: auto; */
+}
+
+.announcement-table th,
+.announcement-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.announcement-table th {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 8px;
+    text-align: left;
+    background-color: #3783bd;
+}
+
+.announcement-table tbody {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.announcement-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.announcement-table tbody tr:hover {
+    background-color: #ddd;
+}
+.todoremove-button {
+    position: absolute;
+    font-size: 17px; /* Adjust the font size as needed */
 }

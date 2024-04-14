@@ -1,83 +1,11 @@
-// import { useEffect, useState } from 'react';
-// import Header from './header';
-// import '../styles/home.css'; 
-// import { useNavigate, Link, useParams } from 'react-router-dom';
-// import axios from 'axios';
-
-// const AdminHome = (prop) => {
-//     const history = useNavigate();
-//     const { email } = useParams();
-//     const [role, setRole] = useState("admin");
-//     const [returnStatus, setReturnStatus] = useState('');
-//     const [firstName, setFirstName] = useState('');
-//     const [lastName, setLastName] = useState('');
-
-//     const getFullName = async () => {
-//         try {
-//             const response = await axios.post('http://localhost:3000/getname', { email, role });
-//             if (response.data.status === "profile exists") {
-//                 setReturnStatus(response.data.status);
-//                 setFirstName(response.data.firstname);
-//                 setLastName(response.data.lastname);
-//             } 
-//             else if (response.data.status === "profile not found") {
-//                 history('/errorpage');
-//             }
-//         } catch (error) {
-//             alert('Error retrieving full name', error);
-//         }
-//     };
-
-//     useEffect(() => {
-//         getFullName(email);
-//     }, []);
-
-//     const profilecheck = async () => {    
-//         try {
-//             history(`/profilehome/${email}/${role}`);
-//         } catch (error) {
-//             alert('Error during login, try again', error);
-//         }
-//     };
-//     const medicalcheck = async () => {    
-//         try {
-//             history(`/medicalcheck/${email}/${role}`);
-//         } catch (error) {
-//             alert('Error during login, try again', error);
-//         }
-//     };
-//     const financecheck = async () => {    
-//         try {
-//             history(`/financecheck/${email}/${role}`);
-//         } catch (error) {
-//             alert('Error during login, try again', error);
-//         }
-//     };
-
-//     return (    
-//         <div className='home'>
-//             <div><Header /></div>
-//             <div className='mainheading'>Home</div>
-//             <div className='subheading'>Welcome back {firstName} {lastName}</div>
-//             <div className='subheading3'>What would you like to do?</div>
-//             <ul className="button-list">
-//                 <li><button className="button-style" type="button" onClick={profilecheck}>1. Manage Profile</button></li>
-//                 <li><button className="button-style" type="button" onClick={profilecheck}>2. View Audit Logs</button></li>
-//                 <li><button className="button-style" type="button" onClick={financecheck}>3. View Compliance Dashboard</button></li>
-//             </ul>
-//         </div>
-//     );
-// }
-
-// export default AdminHome;
-
-
 import React, { useEffect, useState } from 'react';
 import Header from './header';
 import '../styles/home.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactWeather, { useVisualCrossing } from 'react-open-weather';
+// import successSound from '../path/to/success-sound.mp3';
+
 
 const AdminHome = () => {
     const history = useNavigate();
@@ -91,6 +19,10 @@ const AdminHome = () => {
     const [bds, setBds] = useState([]);
     const [todoList, setTodoList] = useState([]); 
     const [newTodo, setNewTodo] = useState('');
+    const [eventTitle, setEventTitle] = useState('');
+    const [eventDate, setEventDate] = useState('');
+    const [eventTime, setEventTime] = useState('');
+    const [eventDescription, setEventDescription] = useState('');
 
     useEffect(() => {
         getFullName(email);
@@ -155,7 +87,16 @@ const AdminHome = () => {
             console.error('Error removing to-do:', error);
         }
     };
-    
+    const addannouncement = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/addannouncement', { eventTitle, eventDescription, eventDate, eventTime });
+            alert("done");
+            // const audio = new Audio(successSound);
+            // audio.play();
+        } catch (error) {
+            console.error('Error adding announcement:', error);
+        }
+    };
 
 
     const profilecheck = async () => {
@@ -173,15 +114,7 @@ const AdminHome = () => {
             alert('Error during login, try again', error);
         }
     };
-    
-    const compnav = async () => {
-        try {
-            history(`/compliancerules/${email}/${role}/${hashp}`);
-        } catch (error) {
-            alert('Error during login, try again', error);
-        }
-    };
-    
+
     const { data, isLoading, errorMessage } = useVisualCrossing({
         key: '52TE6L9BQWJVJPWWEM6F77WVL',
         lat: lat,
@@ -210,7 +143,7 @@ const AdminHome = () => {
 
     return (
         <div className='home'>
-            <div><Header /></div>
+            <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
             <div className='welcomemessage'>Welcome back, {firstName} {lastName}!</div>
             <div className="home_box1">
                 <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='home_icons1' />
@@ -223,7 +156,40 @@ const AdminHome = () => {
             <div className="home_box3">
                 <img src='/comply.png' alt='Compliance' className='home_icons3' />
             </div>
-            <button className="button-style home_button3" type="button" onClick={compnav}>Manage Compliance</button>
+            <button className="button-style home_button3" type="button" onClick={profilecheck}>Manage Compliance</button>
+            <div className='announcement-box'> 
+            <div className='announcement-heading'> Make announcement</div>
+            <input 
+                className='announcement-input' 
+                type="text" 
+                placeholder="Event Title" 
+                value={eventTitle} 
+                onChange={(e) => setEventTitle(e.target.value)} 
+            />
+            <input 
+                className='announcement-input' 
+                type="text" 
+                placeholder="Event Description" 
+                value={eventDescription} 
+                onChange={(e) => setEventDescription(e.target.value)} 
+            />
+            <input 
+                className='announcement-input' 
+                type="date" 
+                placeholder="Event Date" 
+                value={eventDate} 
+                onChange={(e) => setEventDate(e.target.value)} 
+                min={new Date().toISOString().split('T')[0]} // Set min attribute to today's date
+            />
+            <input 
+                className='announcement-input' 
+                type="time" 
+                placeholder="Event Time" 
+                value={eventTime} 
+                onChange={(e) => setEventTime(e.target.value)} 
+            />
+            <button className='announcement-button' onClick={addannouncement}>Post</button>
+        </div>
             <div className='extensions'>
                 <ul>
                     <li>
@@ -263,17 +229,17 @@ const AdminHome = () => {
                             <h2>To-Do List</h2>
                             <input className='todo-input'
                                 type="text"
-                                placeholder="Add a new task"
+                                placeholder="Enter task"
                                 value={newTodo}
                                 onChange={updateNewTodo}
                             />
-                            <button className="todo-text" onClick={addTodo}>Add Task</button>
+                            <button className="todo-text" onClick={addTodo}> Add </button>
                             <ol>
                             {todoList.map((todo, index) => (
-                                <ul key={index}>
+                                <ul className = "todo-list" key={index}>
                                     <li>
-                                        {index + 1}. {todo.task}   <tab></tab> <tab></tab>
-                                        <button onClick={() => removeTodo(todo._id)}>❌</button>
+                                        {index + 1}. {todo.task}   
+                                        <button onClick={() => removeTodo(todo._id)}>✔️</button>
                                     </li>
                                 </ul>
                             ))}
@@ -288,3 +254,5 @@ const AdminHome = () => {
 }
 
 export default AdminHome;
+
+
