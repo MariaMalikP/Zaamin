@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Header from './header';
 import '../styles/home.css';
+import '../styles/emhome.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactWeather, { useVisualCrossing } from 'react-open-weather';
-
 
 const EmployeeHome = (prop) => {
     const history = useNavigate();
@@ -18,11 +18,13 @@ const EmployeeHome = (prop) => {
     const [bds, setBds] = useState([]);
     const [todoList, setTodoList] = useState([]); 
     const [newTodo, setNewTodo] = useState('');
+    const [announcements, setAnnouncements] = useState([]);
 
     useEffect(() => {
         getFullName(email);
         getBirthdays();
         fetchTodoList(email);
+        fetchAnnouncements(); 
         navigator.geolocation.getCurrentPosition((position) => {
             setLat(position.coords.latitude)
             setLon(position.coords.longitude)
@@ -64,6 +66,15 @@ const EmployeeHome = (prop) => {
         }
     };
 
+    const fetchAnnouncements = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/getannouncements');
+            setAnnouncements(response.data);
+        } catch (error) {
+            console.error('Error fetching announcements:', error);
+        }
+    };
+
     const addTodo = async () => {
         try {
             const response = await axios.post('http://localhost:3000/addtodo', { email, task: newTodo });
@@ -82,8 +93,6 @@ const EmployeeHome = (prop) => {
             console.error('Error removing to-do:', error);
         }
     };
-    
-
 
     const profilecheck = async () => {
         try {
@@ -93,13 +102,42 @@ const EmployeeHome = (prop) => {
         }
     };
 
-    const auditnav = async () => {
+    const medicalnav = async () => {
         try {
             history(`/auditlogs/${email}/${role}/${hashp}`);
         } catch (error) {
             alert('Error during login, try again', error);
         }
     };
+
+    const financenav = async () => {
+        try {
+            history(`/auditlogs/${email}/${role}/${hashp}`);
+        } catch (error) {
+            alert('Error during login, try again', error);
+        }
+    };
+
+    function formatTime(time) {
+        const [hours, minutes] = time.split(':').map(Number);
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    
+        return `${formattedHours}:${formattedMinutes} ${period}`;
+    }
+    function formatDate(dateString) {
+        // Create a Date object from the input date string
+        const date = new Date(dateString);
+    
+        // Extract the day, month, and year
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Month is zero-based, so we add 1
+        const year = date.getFullYear();
+    
+        // Format the date in dd/mm/yyyy format
+        return `${day}/${month}/${year}`;
+    }
 
     const { data, isLoading, errorMessage } = useVisualCrossing({
         key: '52TE6L9BQWJVJPWWEM6F77WVL',
@@ -131,18 +169,56 @@ const EmployeeHome = (prop) => {
         <div className='home'>
             <div><Header /></div>
             <div className='welcomemessage'>Welcome back, {firstName} {lastName}!</div>
-            <div className="home_box1">
-                <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='home_icons1' />
+            <div className="ehome_box1">
+                <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='ehome_icons1' />
             </div>
-            <button className="button-style home_button1" type="button" onClick={profilecheck}>Manage Profile</button>
-            <div className="home_box2">
-                <img src='/audit.png' alt='Audit' className='home_icons2' />
+            <button className="button-style ehome_button1" type="button" onClick={profilecheck}>Manage Profile</button>
+            <div className="ehome_box2">
+                <img src='/medicine.png' alt='Audit' className='ehome_icons2' />
             </div>
-            <button className="button-style home_button2" type="button" onClick={auditnav}>View Audit Logs</button>
-            <div className="home_box3">
-                <img src='/comply.png' alt='Compliance' className='home_icons3' />
+            <button className="button-style ehome_button2" type="button" onClick={medicalnav}>Medical Centre</button>
+            <div className="ehome_box3">
+                <img src='/finance.png' alt='Compliance' className='ehome_icons3' />
             </div>
-            <button className="button-style home_button3" type="button" onClick={profilecheck}>Manage Compliance</button>
+            <button className="button-style ehome_button3" type="button" onClick={financenav}>Finance Centre</button>
+            <div className="announcement-container">
+                <h2>Announcements</h2>
+                {announcements.filter(announcement => new Date(announcement.date) >= new Date()).length > 0 ? (
+                    <table className="announcement-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {announcements
+                                .filter(announcement => {
+                                    const announcementDateTime = new Date(announcement.date);
+                                    const [hours, minutes] = announcement.time.split(':').map(Number);
+                                    announcementDateTime.setHours(hours);
+                                    announcementDateTime.setMinutes(minutes);
+                                    return announcementDateTime >= new Date();
+                                })
+                                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                                .map((announcement, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{announcement.title}</td>
+                                        <td>{announcement.description}</td>
+                                        <td>{formatDate(announcement.date)}</td>
+                                        <td>{formatTime(announcement.time)}</td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p className="bdays">No upcoming events!</p>
+                )}
+            </div>
             <div className='extensions'>
                 <ul>
                     <li>
@@ -164,39 +240,39 @@ const EmployeeHome = (prop) => {
                         </div>
                     </li>
                     <li>
-                    <div className='weather-container'>
-                        <ReactWeather
-                        errorMessage={errorMessage}
-                        isLoading={isLoading}
-                        data={data}
-                        lang="en"
-                        locationLabel="Current Weather"
-                        unitsLabels={{ temperature: '°C', windSpeed: 'Km/h' }}
-                        showForecast = {false}
-                        theme = {customStyles}
-                        />
-                    </div>
+                        <div className='weather-container'>
+                            <ReactWeather
+                                errorMessage={errorMessage}
+                                isLoading={isLoading}
+                                data={data}
+                                lang="en"
+                                locationLabel="Current Weather"
+                                unitsLabels={{ temperature: '°C', windSpeed: 'Km/h' }}
+                                showForecast={false}
+                                theme={customStyles}
+                            />
+                        </div>
                     </li>
                     <li>
                         <div className="todo-container">
                             <h2>To-Do List</h2>
                             <input className='todo-input'
                                 type="text"
-                                placeholder="Add a new task"
+                                placeholder="Enter task"
                                 value={newTodo}
                                 onChange={updateNewTodo}
                             />
-                            <button className="todo-text" onClick={addTodo}>Add Task</button>
+                            <button className="todo-text" onClick={addTodo}> Add </button>
                             <ol>
-                            {todoList.map((todo, index) => (
-                                <ul key={index}>
-                                    <li>
-                                        {index + 1}. {todo.task}   <tab></tab> <tab></tab>
-                                        <button onClick={() => removeTodo(todo._id)}>❌</button>
-                                    </li>
-                                </ul>
-                            ))}
-                        </ol>
+                                {todoList.map((todo, index) => (
+                                    <ul className="todo-list" key={index}>
+                                        <li>
+                                            {index + 1}. {todo.task}   
+                                            <button className="todoremove-button" onClick={() => removeTodo(todo._id)}>✖️</button>
+                                        </li>
+                                    </ul>
+                                ))}
+                            </ol>
                         </div>
                     </li>
                 </ul>

@@ -4,6 +4,8 @@ import '../styles/home.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import ReactWeather, { useVisualCrossing } from 'react-open-weather';
+// import successSound from '../path/to/success-sound.mp3';
+
 
 const AdminHome = () => {
     const history = useNavigate();
@@ -17,6 +19,10 @@ const AdminHome = () => {
     const [bds, setBds] = useState([]);
     const [todoList, setTodoList] = useState([]); 
     const [newTodo, setNewTodo] = useState('');
+    const [eventTitle, setEventTitle] = useState('');
+    const [eventDate, setEventDate] = useState('');
+    const [eventTime, setEventTime] = useState('');
+    const [eventDescription, setEventDescription] = useState('');
 
     useEffect(() => {
         getFullName(email);
@@ -81,7 +87,16 @@ const AdminHome = () => {
             console.error('Error removing to-do:', error);
         }
     };
-    
+    const addannouncement = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/addannouncement', { eventTitle, eventDescription, eventDate, eventTime });
+            alert("done");
+            // const audio = new Audio(successSound);
+            // audio.play();
+        } catch (error) {
+            console.error('Error adding announcement:', error);
+        }
+    };
 
 
     const profilecheck = async () => {
@@ -142,6 +157,39 @@ const AdminHome = () => {
                 <img src='/comply.png' alt='Compliance' className='home_icons3' />
             </div>
             <button className="button-style home_button3" type="button" onClick={profilecheck}>Manage Compliance</button>
+            <div className='announcement-box'> 
+            <div className='announcement-heading'> Make announcement</div>
+            <input 
+                className='announcement-input' 
+                type="text" 
+                placeholder="Event Title" 
+                value={eventTitle} 
+                onChange={(e) => setEventTitle(e.target.value)} 
+            />
+            <input 
+                className='announcement-input' 
+                type="text" 
+                placeholder="Event Description" 
+                value={eventDescription} 
+                onChange={(e) => setEventDescription(e.target.value)} 
+            />
+            <input 
+                className='announcement-input' 
+                type="date" 
+                placeholder="Event Date" 
+                value={eventDate} 
+                onChange={(e) => setEventDate(e.target.value)} 
+                min={new Date().toISOString().split('T')[0]} // Set min attribute to today's date
+            />
+            <input 
+                className='announcement-input' 
+                type="time" 
+                placeholder="Event Time" 
+                value={eventTime} 
+                onChange={(e) => setEventTime(e.target.value)} 
+            />
+            <button className='announcement-button' onClick={addannouncement}>Post</button>
+        </div>
             <div className='extensions'>
                 <ul>
                     <li>
@@ -181,17 +229,17 @@ const AdminHome = () => {
                             <h2>To-Do List</h2>
                             <input className='todo-input'
                                 type="text"
-                                placeholder="Add a new task"
+                                placeholder="Enter task"
                                 value={newTodo}
                                 onChange={updateNewTodo}
                             />
-                            <button className="todo-text" onClick={addTodo}>Add Task</button>
+                            <button className="todo-text" onClick={addTodo}> Add </button>
                             <ol>
                             {todoList.map((todo, index) => (
-                                <ul key={index}>
+                                <ul className = "todo-list" key={index}>
                                     <li>
-                                        {index + 1}. {todo.task}   <tab></tab> <tab></tab>
-                                        <button onClick={() => removeTodo(todo._id)}>❌</button>
+                                        {index + 1}. {todo.task}   
+                                        <button onClick={() => removeTodo(todo._id)}>✔️</button>
                                     </li>
                                 </ul>
                             ))}

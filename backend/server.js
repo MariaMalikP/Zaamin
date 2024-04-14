@@ -15,7 +15,8 @@ import expressWinston from 'express-winston'
 import winston from 'winston'
 import mailjetTransport from 'nodemailer-mailjet-transport'
 import winstonMongoDB from 'winston-mongodb';
-import Todo from './models/todo.js'
+import Todo from './models/todo.js';
+import Announcement from './models/announcements.js';
 dotenv.config();
 
 const app = express();
@@ -40,17 +41,6 @@ const logger = winston.createLogger({
     winston.format.metadata(),
   )
 })
-
-/* Custom Message Logging 
-// Log an info message
-logger.info('This is an informational message.');
-
-// Log a warning message
-logger.warn('This is a warning message.');
-
-// Log an error message
-logger.error('This is an error message.', { error: new Error('Something went wrong') });
-*/
 
 mongoose.connect(process.env.MONG_URI, {
   useNewUrlParser: true,
@@ -268,7 +258,7 @@ app.post('/login', async (req, res) => {
       }
       console.log('Login successful');
       logger.info(`Successful Login by ${email}`)
-      return res.json({ status: 'success', userrole: role });
+      return res.json({ status: 'success', userrole: role, hashcheck: user.hashedPassword});
     } else {
       // Passwords don't match, respond with 401 Unauthorized
       console.log('Login failed');
@@ -637,5 +627,31 @@ app.delete('/removetodo/:id', async (req, res) => {
   }
 });
 
+app.post('/addannouncement', async (req, res) => {
+  try {
+      const { eventTitle, eventDescription, eventDate, eventTime } = req.body;
+      const newAnnouncement = new Announcement({
+          title: eventTitle,
+          description: eventDescription,
+          date: eventDate,
+          time: eventTime,
+      });
+      await Announcement.insertMany(newAnnouncement);
+      res.status(201).json(newAnnouncement);
+  } catch (error) {
+      console.error('Error adding announcement:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 
+app.get('/getannouncements', async (req, res) => {
+  console.log("there")
+  try {
+      const announcements = await Announcement.find({});
+      res.json(announcements);
+  } catch (error) {
+      console.error('Error fetching announcements:', error);
+      res.status(500).json({ error: 'Server error' });
+  }
+});
 export default app;

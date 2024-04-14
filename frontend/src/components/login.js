@@ -50,6 +50,7 @@ const Login = (prop) => {
                 }
                 else if (response.data.userrole === 'admin'){
                     // Navigate to admin home page
+                    console.log("going to admin page")
                     navigate(`/adminhome/${email}/${Hashcheck}`);
                 }
                 else {
