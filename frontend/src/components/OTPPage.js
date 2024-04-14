@@ -29,11 +29,14 @@ function Verify() {
     const match = await bcrypt.compare(OTP, hashedOTP);
     if (match)
     {
+      console.log('Sending user sign up request');
       await axios.post('http://localhost:3000/empsignup', userData)
           .then((res) => {
+              console.log("Here" + res.data)
               if (res.data === "yay") 
               {
-                  history(`/login`)
+                console.log('Successful')
+                history("/login")
               } 
               else if (res.data === "email exists") //maybe move this back to sign up?
               {
@@ -42,6 +45,10 @@ function Verify() {
               else if (res.json ==="ohooo")
               {
                   alert("An error occured when signing up");
+              }
+              else if (res.json ==="pass problem")
+              {
+                  alert("Your password did not meet the requirements. Try again");
               }
           })
           .catch((e) => {

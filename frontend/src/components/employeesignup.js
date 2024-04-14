@@ -89,9 +89,9 @@ const EmployeeSignup= (prop)=>{
                     <div className="required-signup">
                     <p style={{top:'30%', left:'40%'}}>* Indicates required field</p>
                     </div>
-                    <hr class="separator"></hr>
+                    <hr className="separator"></hr>
                     <form onSubmit={logincheck} className='loginForm'>
-                        <label className="name">Name:<span class="required-star"></span></label>
+                        <label className="name">Name:<span className="required-star"></span></label>
                         <input className="first-name"
                             type="text"
                             placeholder="First Name"
