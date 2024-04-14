@@ -5,6 +5,7 @@ import cors from 'cors';
 import Employee from './models/employees.js';
 import Admin from './models/admins.js';
 import Manager from './models/managers.js';
+import axios from 'axios'
 import Login from './models/userlogin.js';
 import Log from './models/logs.js'
 import Encryption from './models/encryption.js';
@@ -16,6 +17,7 @@ import nodemailer from 'nodemailer'
 import otpGenerator from 'otp-generator'
 import expressWinston from 'express-winston'
 import winston from 'winston'
+import mailjetTransport from 'nodemailer-mailjet-transport'
 import winstonMongoDB from 'winston-mongodb';
 import Todo from './models/todo.js';
 dotenv.config();
@@ -650,6 +652,61 @@ app.get('/birthdays-today', async (req, res) => {
   } catch (err) {
     console.error('Error fetching birthdays:', err);
     res.status(500).send('Error fetching birthdays');
+  }
+});
+
+app.post('/changepassword', async (req, res) => {
+  try {
+      const { email, newPassword } = req.body;
+      // Hash the new password
+      console.log("email:",email)
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      
+      // Check if the provided password is the same as the current password
+      const user = await Login.findOne({ email });
+      if (!user) {
+        console.log("not found")
+        return res.status(404).json({ message: 'User not found' });
+      }
+      // Update the user's password in the database
+      const result = await Login.updateOne({ email }, { $set: { hashedPassword: hashedNewPassword } });
+      // Check if the update was successful
+      // if (result.nModified > 0) {
+          logger.warn(`Change password by ${email}`)
+          console.log("Password changed successfully");
+          return res.json({ message: 'success' });
+      // } else {
+          // console.log("Password not changed");
+          // return res.json({ message: 'failure' }); // Or handle the failure as needed
+      // }
+  } catch (error) {
+      console.error('Error changing password:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/checkingemail', async (req, res) => {
+  try {
+    console.log("bhere")
+    const { email } = req.body; // Removed password from destructuring
+    console.log('Email:', email);
+
+    // Find user by email
+    const user = await Login.findOne({ email });
+
+    if (!user) {
+      // If user not found, respond with 404 Not Found
+      return res.json({ status: 'failed'});
+    } else 
+    {
+      console.log("MILL GAYA EMAIL")
+      // If user found, respond with 200 OK
+      return res.json({ status: 'success'});
+    }
+  } catch (error) {
+    console.error('Error during checking:', error);
+    logger.warn(`Error during checking: ${error}`)
+    return res.json("error");
   }
 });
 

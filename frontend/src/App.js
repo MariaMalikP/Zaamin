@@ -17,7 +17,9 @@ import EmployeeSignup from './components/employeesignup';
 import OTPPage from './components/OTPPage'
 import { AuthProvider } from './components/AuthProvider';
 import AuditLogs from './components/auditLogs';
-
+import ForgotPassword from './components/forgotpassword';
+import SendingOTP from './components/otppageforget';
+import ChangePass from './components/changepass';
 
 function App() {
 
@@ -39,6 +41,9 @@ function App() {
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
             <Route path ="/otp" element = {<OTPPage/>}/>
+            <Route path="/forgotpassword" element={<ForgotPassword/>}/>
+            <Route path="/otppageforget" element={<SendingOTP/>}/>
+            <Route path="/changepass/:email" element={<ChangePass />} />
             <Route path="/auditlogs/:email/:role/:hashp" element={<AuditLogs/>}/>
             <Route path="/admprofilehome/:email/:role/:hashp" element={<AprofileHome/>}/>
           </Routes>
