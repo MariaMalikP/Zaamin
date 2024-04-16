@@ -10,10 +10,10 @@ const FinancialCheck = () => {
   const { email, role, hashp} = useParams();
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
-  const [userProfilePic, setUserProfilePic] = useState(null);
   const [editedProfile, setEditedProfile] = useState({});
   const [financialDocument, setFinancialDocument] = useState();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [userProfilePic, setUserProfilePic] = useState(null);
   const [returnStatus, setReturnStatus] = useState('');
 
   useEffect(() => {

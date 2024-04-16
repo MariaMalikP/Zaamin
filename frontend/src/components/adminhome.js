@@ -23,6 +23,23 @@ const AdminHome = () => {
     const [eventDate, setEventDate] = useState('');
     const [eventTime, setEventTime] = useState('');
     const [eventDescription, setEventDescription] = useState('');
+    const [userProfilePic, setUserProfilePic] = useState(null);
+  
+    useEffect(() => {
+      const fetchProfilePic = async () => {
+          try {
+              const response = await axios.post('http://localhost:3000/viewprofile', { email, role:"admin" });
+              if (response.data.status === "profile exists") {
+                  setReturnStatus(response.data.status);
+                  setUserProfilePic(response.data.profile_deets);
+              }
+          } catch (error) {
+              alert('Error fetching Profile Information', error);
+          }
+      }
+      fetchProfilePic();
+  }, []);
+  
 
     useEffect(() => {
         getFullName(email);
@@ -152,8 +169,7 @@ const AdminHome = () => {
 
     return (
         <div className='home'>
-            {/* <Header email={email} userProfile={userProfilePic} hashp={hashp}/> */}
-            <Header />
+            <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
             <div className='welcomemessage'>Welcome back, {firstName} {lastName}!</div>
             <div className="home_box1">
                 <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='home_icons1' />
