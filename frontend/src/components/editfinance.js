@@ -145,7 +145,7 @@ const handleInputChange = (e) => {
     <>
       <div className='financial_profile'>
       <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
-        <div className='financial_heading'>Financial Centre</div>
+        <div className='financial_heading'>Edit Financial Information - {userProfile.id}</div>
         <div className='financial_display'>
           {userProfile && (
             <>
@@ -161,7 +161,6 @@ const handleInputChange = (e) => {
                 type="text"
                 name="salary"
                 value={editedProfile.salary !== undefined ? editedProfile.salary : userProfile.salary}
-                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output2'
               />
               <div className='financial_title bonuses'>Bonuses:</div>
@@ -192,21 +191,21 @@ const handleInputChange = (e) => {
               <input
                 type="text"
                 name="expenses"
-                value={editedProfile.expenses}
+                value={userProfile.expenses}
                 className='financial-output-box financial-output financial-output6'
               />
                  <div className='financial_title bankName'>Bank Name:</div>
                 <input
                   type="text"
                   name="bankName"
-                  value={editedProfile.bankInformation?.bankName}
+                  value={userProfile.bankInformation?.bankName}
                   className='financial-output-box financial-output financial-output7'
                 /> 
                 <div className='financial_title IBAN_Num'>IBAN No.</div>
                 <input
                   type="text"
                   name="ibanNum"
-                  value={editedProfile.bankInformation?.ibanNum}
+                  value={userProfile.bankInformation?.ibanNum}
                   className='financial-output-box financial-output financial-output8'
                 />
                 <div class="fin_container">
@@ -226,7 +225,7 @@ const handleInputChange = (e) => {
         >
           <div>
             <h2>Success!</h2>
-            <h2>Your Financial Profile has been updated successfully.</h2>
+            <h2>{userProfile.id} Financial Profile has been updated successfully.</h2>
             <button className="close-button" onClick={closeModal}>Close</button>
           </div>
         </Modal>

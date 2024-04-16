@@ -159,28 +159,28 @@ const handleInputChange = (e) => {
               <input
                 type="text"
                 name="salary"
-                value={editedProfile.salary}
+                value={userProfile.salary}
                 className='financial-output-box financial-output financial-output2'
               />
               <div className='financial_title bonuses'>Bonuses:</div>
               <input
                 type="text"
                 name="bonuses"
-                value={editedProfile.bonuses}
+                value={userProfile.bonuses}
                 className='financial-output-box financial-output financial-output3'
               />
               <div className='financial_title commissions'>Commissions:</div>
               <input
                 type="text"
                 name="commissions"
-                value={editedProfile.commissions}
+                value={userProfile.commissions}
                 className='financial-output-box financial-output financial-output4'
               />
               <div className='financial_title benefits'>Benefits:</div>
               <input
                 type="text"
                 name="benefits"
-                value={editedProfile.benefits}
+                value={userProfile.benefits }
                 className='financial-output-box financial-output financial-output5'
               />
               <div className='financial_title expenses'>Expenses:</div>
