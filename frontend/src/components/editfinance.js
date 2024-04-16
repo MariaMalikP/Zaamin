@@ -6,8 +6,8 @@ import Modal from 'react-modal';
 import '../styles/financial.css';
 import Chart from 'chart.js/auto';
 
-const FinancialCheck = () => {
-  const { email, role, hashp} = useParams();
+const FinancialEdit = () => {
+  const {visitoremail, email, role, hashp} = useParams();
   const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState(null);
@@ -29,12 +29,13 @@ const FinancialCheck = () => {
         }
     }
     fetchProfilePic();
-}, []);
+}, [email]);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/get-financial-info', { email, role });
+        const response = await axios.post('http://localhost:3000/get-financial-info', { email:visitoremail });
+        window.alert(response.data.status)
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           barGraph(response.data.profile_deets);
@@ -44,7 +45,7 @@ const FinancialCheck = () => {
       }
     };
     fetchProfile();
-  }, [email, role]);
+  }, [email,visitoremail]);
 
   const barGraph = (info) => {
   // window.alert('info: ' + JSON.stringify(info));
@@ -125,7 +126,7 @@ const handleInputChange = (e) => {
     }
     try {
       // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
-      const response = await axios.post('http://localhost:3000/update-financial-info', { email, editedProfile });
+      const response = await axios.post('http://localhost:3000/update-financial-info', { email:visitoremail ,  editedProfile });
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Error updating profile', error);
@@ -159,52 +160,53 @@ const handleInputChange = (e) => {
               <input
                 type="text"
                 name="salary"
-                value={editedProfile.salary}
+                value={editedProfile.salary !== undefined ? editedProfile.salary : userProfile.salary}
+                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output2'
               />
               <div className='financial_title bonuses'>Bonuses:</div>
               <input
                 type="text"
                 name="bonuses"
-                value={editedProfile.bonuses}
+                value={editedProfile.bonuses !== undefined ? editedProfile.bonuses : userProfile.bonuses}
+                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output3'
               />
               <div className='financial_title commissions'>Commissions:</div>
               <input
                 type="text"
                 name="commissions"
-                value={editedProfile.commissions}
+                value={editedProfile.commissions !== undefined ? editedProfile.commissions : userProfile.commissions}
+                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output4'
               />
               <div className='financial_title benefits'>Benefits:</div>
               <input
                 type="text"
                 name="benefits"
-                value={editedProfile.benefits}
+                value={editedProfile.benefits !== undefined ? editedProfile.benefits : userProfile.benefits}
+                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output5'
               />
               <div className='financial_title expenses'>Expenses:</div>
               <input
                 type="text"
                 name="expenses"
-                value={editedProfile.expenses !== undefined ? editedProfile.expenses : userProfile.expenses}
-                onChange={handleInputChange}
+                value={editedProfile.expenses}
                 className='financial-output-box financial-output financial-output6'
               />
                  <div className='financial_title bankName'>Bank Name:</div>
                 <input
                   type="text"
                   name="bankName"
-                  value={editedProfile.bankInformation?.bankName !== undefined ? editedProfile.bankInformation.bankName : userProfile.bankInformation?.bankName}
-                  onChange={handleInputChange}
+                  value={editedProfile.bankInformation?.bankName}
                   className='financial-output-box financial-output financial-output7'
                 /> 
                 <div className='financial_title IBAN_Num'>IBAN No.</div>
                 <input
                   type="text"
                   name="ibanNum"
-                  value={editedProfile.bankInformation?.ibanNum !== undefined ? editedProfile.bankInformation.ibanNum : userProfile.bankInformation?.ibanNum}
-                  onChange={handleInputChange}
+                  value={editedProfile.bankInformation?.ibanNum}
                   className='financial-output-box financial-output financial-output8'
                 />
                 <div class="fin_container">
@@ -233,4 +235,4 @@ const handleInputChange = (e) => {
   );
 };
 
-export default FinancialCheck;
+export default FinancialEdit;

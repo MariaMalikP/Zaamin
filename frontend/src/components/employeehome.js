@@ -167,7 +167,7 @@ const EmployeeHome = (prop) => {
 
     return (
         <div className='home'>
-            <div><Header /></div>
+            {/* <div><Header /></div> */}
             <div className='welcomemessage'>Welcome back, {firstName} {lastName}!</div>
             <div className="ehome_box1">
                 <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='ehome_icons1' />

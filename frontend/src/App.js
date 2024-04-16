@@ -24,6 +24,8 @@ import FinanceCheck from './components/financialcheck';
 import Compliancerules from './components/compliancerules';
 import Violations from './components/violations';
 import { AuthProvider } from './components/Authprovider';
+import SearchFinance from './components/searchingFinance';
+import FinancialEdit from './components/editfinance'
 
 
 function App() {
@@ -51,9 +53,11 @@ function App() {
             <Route path="/auditlogs/:email/:role/:hashp" element={<AuditLogs/>}/>
             <Route path="/admprofilehome/:email/:role/:hashp" element={<AprofileHome/>}/>
             <Route path="/medicalcheck/:email/:role/:hashp" element={<MedicalCheck/>}/>
-            <Route path="/financialcheck/:email/:role/:hashp" element={<FinanceCheck/>}/>
+            <Route path="/financialcheck/:email/:role/:hashp" element={<FinanceCheck />} />
+            <Route path="/editfinance/:visitoremail/:email/:role/:hashp" element={<FinancialEdit />} />
             <Route path ="/compliancerules/:email/:role/:hashp" element = {<Compliancerules/>}/>
             <Route path ="/violations/:email/:role/:hashp" element = {<Violations/>}/>
+            <Route path ="/searchingFinance/:email/:role/:hashp" element = {<SearchFinance/>}/>
           </Routes>
         </AuthProvider>
       </BrowserRouter>

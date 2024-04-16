@@ -758,7 +758,7 @@ app.post('/get-medical-info', async (req, res) => {
 
 app.post('/update-financial-info', async (req, res) => {
   try {
-    const { email, role, editedProfile } = req.body;
+    const { email, editedProfile } = req.body;
     logger.info(`Updated financial info for ${email}`)    
     // Check if Financial profile already exists for the given email
     await FinancialInfo.updateOne({ email: email }, { $set: editedProfile });
@@ -773,7 +773,7 @@ app.post('/update-financial-info', async (req, res) => {
 app.post('/get-financial-info', async (req, res) => {
   try {
     console.log("in get financial info",req.body);
-    const { email, role } = req.body;
+    const { email } = req.body;
     logger.info(`View financial info for ${email}`)
     const financeProfile = await FinancialInfo.findOne({ email: email });
     if (!financeProfile) {
@@ -784,6 +784,15 @@ app.post('/get-financial-info', async (req, res) => {
   } catch (error) {
     console.error('Error fetching financial profile:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+app.post('/financialprofiles', async (req, res) => {
+  try {
+    const allProfiles = await FinancialInfo.find({});
+    return res.json({ profiles: allProfiles });
+  } catch (error) {
+    console.error('Error fetching financial profiles:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 

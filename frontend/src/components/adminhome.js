@@ -114,6 +114,15 @@ const AdminHome = () => {
             alert('Error during login, try again', error);
         }
     };
+    const navRegulations = async () => {
+        history(`/compliancerules/${email}/${role}/${hashp}`);
+    
+      };
+    const navSearchFinance = async () => {
+        history(`/searchingFinance/${email}/${role}/${hashp}`);
+    
+      };
+
 
     const { data, isLoading, errorMessage } = useVisualCrossing({
         key: '52TE6L9BQWJVJPWWEM6F77WVL',
@@ -143,7 +152,8 @@ const AdminHome = () => {
 
     return (
         <div className='home'>
-            <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
+            {/* <Header email={email} userProfile={userProfilePic} hashp={hashp}/> */}
+            <Header />
             <div className='welcomemessage'>Welcome back, {firstName} {lastName}!</div>
             <div className="home_box1">
                 <img src='https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg' alt='Profile' className='home_icons1' />
@@ -156,7 +166,14 @@ const AdminHome = () => {
             <div className="home_box3">
                 <img src='/comply.png' alt='Compliance' className='home_icons3' />
             </div>
-            <button className="button-style home_button3" type="button" onClick={profilecheck}>Manage Compliance</button>
+            <button className="button-style home_button3" type="button" onClick={navRegulations}>Manage Compliance</button>
+            {/* navSearchFinance */}            <div className="home_box3">
+            <img src='/comply.png' alt='Compliance' className='home_icons4' />
+            </div>
+            <button className="button-style home_button4" type="button" onClick={navSearchFinance}>Manage Finances</button>
+
+
+            
             <div className='announcement-box'> 
             <div className='announcement-heading'> Make announcement</div>
             <input 
