@@ -173,7 +173,6 @@ async function getEncryptionMethodById(id) {
   }
 }
 
-
 app.post('/empsignup',async(req,res)=>
 {
   const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption} = req.body;
@@ -291,8 +290,8 @@ app.post('/empsignup',async(req,res)=>
         bankInformation: {bankName: "", ibanNum: ""},//if problem check this
       };
       
-      await FinancialInfo.insertMany(financialData);
-      console.log("Financial data inserted:", financialData);
+      // await FinancialInfo.insertMany(financialData);
+      // console.log("Financial data inserted:", financialData);
       
 
 
@@ -312,6 +311,9 @@ app.post('/empsignup',async(req,res)=>
           Date_of_Birth: selectedDate, // Assuming selectedDate is a string
         };
         await Employee.insertMany(empData)
+        await FinancialInfo.insertMany(financialData);
+        console.log("Financial data inserted:", financialData);
+  
       }
       else if (employeeStatus==="admin")
       {
@@ -329,6 +331,7 @@ app.post('/empsignup',async(req,res)=>
             Date_of_Birth: selectedDate,
         }
         await Admin.insertMany(empData)
+        
       }
       else if(employeeStatus==="manager")
       {
@@ -344,8 +347,12 @@ app.post('/empsignup',async(req,res)=>
             Department: encryptProfile(department,encryptionMethod),
             Profile_Image: "default.png",
             Date_of_Birth: selectedDate,
+            
         }
         await Manager.insertMany(empData)
+        await FinancialInfo.insertMany(financialData);
+        console.log("Financial data inserted:", financialData);
+
       }
       res.json("yay")
     }
