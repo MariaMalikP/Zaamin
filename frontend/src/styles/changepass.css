@@ -1,0 +1,148 @@
+.gradientboxyy
+{
+    
+    top : 50%;
+    left : 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 705px;
+    height: 735px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    border-radius: 56px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      
+}
+.signuppass-inp-change
+{
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 500px;
+    height: 25px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    border: none;
+    background-color: #F0F0F0;
+    color: #202121;
+    text-align: center;
+}
+.confpass-inp-change
+{
+    top: 59%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 500px;
+    height: 25px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    border: none;
+    background-color: #F0F0F0;
+    color: #202121;
+    text-align: center;
+}
+.signuppassword-change
+{
+    display: block;
+    margin-bottom: 10px; /* Add space below each label */
+    font-family: 'Inter';
+    font-size: 18px;
+    color: #fff;
+    text-align: left;  
+    top: 43%;
+    left: 39.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.confirm-password-change
+{
+    display: block;
+    margin-bottom: 10px; /* Add space below each label */
+    font-family: 'Inter';
+    font-size: 18px;
+    color: #fff;
+    text-align: left;  
+    top: 54%;
+    left: 41.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.strong-messagepass
+{
+    color: rgb(180, 45, 45);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 82px;
+    margin-left: 150px;
+    top: 55%;
+    left: 39.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    position: fixed;
+  }
+.logoochange
+{
+    width: 235px;
+    height: 54px;
+    top: 24%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.error-messagepass
+{
+    color: rgb(180, 45, 45);;
+    font-size: 12px;
+    top: 20%;
+    left: 45%;
+    font-weight: 500;
+    margin-top: 230px;
+    margin-left: 80px;
+    position: fixed;
+}
+.change-password-title
+{
+    font-family: 'Inter';
+    font-size: 39px;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    top: 36%;
+    left: 44.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+button[type="changepass"] {
+    background-color: #F18550;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    width: 500px; 
+    height: 50px;
+    border-radius: 100px;
+    cursor: pointer;
+    top: 69%;
+    font-family: 'Inter';
+    font-size: 20px;
+    font-weight: bold;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    position: absolute;
+
+  } 
+  button[type="changepass"]:hover {
+    background-color: #D78B44;
+  }

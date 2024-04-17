@@ -13,7 +13,7 @@ const CustomAlert = ({ message, onClose }) => (
 const SearchRes = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
-  const { email, searchTerm } = useParams();
+  const { email, searchTerm,hashp } = useParams();
   const [role, setRole] = useState("");
 
   useEffect(() => {
@@ -50,11 +50,15 @@ const SearchRes = () => {
         <div className="search-results-container">
           <div className="heading-container">
             <ul>
-              <li><Link to={`/profilehome/${email}/${role}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li> {/* Fix Link position */}
+              <li><Link to={`/profilehome/${email}/${role}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
             </ul>
             <h2 className="search-results-heading">Search Results</h2>
           </div>
-          {showAlert && <CustomAlert message="No results found." onClose={() => setShowAlert(false)} />}
+          {/* {showAlert && <h2>NO RESULTS FOUND</h2>} */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 'fit-content', minWidth: '200px', opacity: 0.9, zIndex: 9999, fontSize: '20px', padding: '20px' }}>
+          {showAlert && <h2>NO RESULTS FOUND</h2>}
+          </div>
+          {showAlert===false &&
           <table className="search-results-table">
             <thead>
               <tr>
@@ -63,7 +67,6 @@ const SearchRes = () => {
                 <th>Name</th>
                 <th>Department</th>
                 <th>Email</th>
-                <th>View Profile</th> {/* Add View Profile column */}
               </tr>
             </thead>
             <tbody>
@@ -74,13 +77,11 @@ const SearchRes = () => {
                   <td>{profile.First_Name} {profile.Last_Name}</td>
                   <td>{profile.Department}</td>
                   <td>{profile.Email}</td>
-                  <td>
-                    <Link to={`/viewprofile/${email}/${profile.Email}`}>View Profile</Link>
-                  </td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table>}
+
         </div>
       </div>
     </div>

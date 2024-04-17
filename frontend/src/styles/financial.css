@@ -1,0 +1,271 @@
+.financial_profile {
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    background: #E8E1E2;
+}
+
+.financial_heading {
+    position: absolute;
+    left: 50px;
+    top: 175px;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 54px;
+    color: #13476F;
+    white-space: nowrap;
+}
+
+.financial_title {
+    position: absolute;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+    color: #13476F;
+    white-space: nowrap;
+}
+
+.id {
+    left: 600px;
+    top: 270px;
+}
+
+.salary {
+    left: 600px;
+    top: 450px;
+}
+.commissions {
+    left: 1000px;
+    top: 270px;
+}
+.bonuses {
+    left: 1000px;
+    top: 450px;
+}
+.benefits {
+    left: 600px;
+    top: 630px;
+}
+.expenses {
+    left: 1000px;
+    top: 630px;
+}
+.bankName
+{
+    left: 600px;
+    top: 810px;
+
+}
+.IBAN_Num
+{
+    left: 1000px;
+    top: 810px;
+}
+
+/* Adjust positions for other financial fields */
+
+.financial-output {
+    position: absolute;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #13476F;
+}
+
+.financial-output1 {
+    left: 600px;
+    top: 302px;
+}
+
+.financial-output2 {
+    left: 600px;
+    top: 482px;
+}
+
+.financial-output3 {
+    left: 1000px;
+    top: 482px;
+}
+
+.financial-output4 {
+    left: 1000px;
+    top: 302px;
+}
+
+.financial-output5 {
+    left: 600px;
+    top: 662px;
+}
+
+.financial-output6 {
+    left: 1000px;
+    top: 662px;
+}
+.financial-output7 {
+    left: 600px;
+    top: 842px;
+}
+
+.financial-output8 {
+    left: 1000px;
+    top: 842px;
+}
+
+.financial-output-box {
+    width: 299px;
+    height: 53px;
+    background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
+    border-radius: 20px;
+}
+
+.financial_drag_file {
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    left: 20px;
+    top: 20px;
+    border-radius: 50%;
+}
+
+.financial-edit-profile {
+    position: absolute;
+    width: 222px;
+    height: 49.39px;
+    left: 140px;
+    top: 709.55px;
+    background: #F18550;
+    border: 1px dashed #E8E1E2;
+    border-radius: 100px;
+    font-family: 'Manrope';
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E8E1E2;
+    cursor: pointer;
+}
+.financial_goback-page{
+    position: absolute;
+    width: 222px;
+    height: 49.39px;
+    left: 140px;
+    top: 809.55px;
+    background: #F18550;
+    border: 1px dashed #E8E1E2;
+    border-radius: 100px;
+    font-family: 'Manrope';
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E8E1E2;
+    cursor: pointer;
+}
+.financial-edit-profile:hover {
+    background-color: #E76B34;
+}
+
+/* Ellipse 27 */
+.financial_ellipse-27 {
+    position: relative;
+    width: 720px;
+    height: 100px;
+    left: 600px;
+    top: 800px;
+    background: linear-gradient(246.77deg, #C1EE99 13.03%, rgba(30, 157, 198, 0.6) 80%);
+    border-radius: 50px;
+    border: 2px solid #13476F;
+}
+
+.financial_ellipse-27 img {
+    position: absolute;
+    top: 20px;
+    left: 330px;
+    width: 50px;
+    height: 50px;
+}
+
+.buttons_file {
+    position: relative;
+    bottom: 10px;
+    left: 700px;
+    display: flex;
+    align-items: center;
+}
+
+.buttons_file img {
+    position: relative;
+    left: 1px;
+    width: 50px;
+    height: 50px;
+}
+
+.insurance-bar {
+    position: fixed;
+    top: 500px;
+    left: 100px;
+}
+
+.insurance-heading {
+    position: fixed;
+    font-size: 20px;
+    top: 670px;
+    left: 120px;
+    font-family: 'Inter';
+    font-weight: 500;
+    line-height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #13476F;
+}
+
+
+.insurance-progress-text {
+    position: fixed;
+    top: 570px;
+    left: 165px;
+    text-align: center;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #13476F;
+}
+/* Reset default margin and padding */
+body, h2, canvas {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Center the container */
+.fin_container {
+    position:absolute;
+    top: -60px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust this as needed */
+  }
+  
+  /* Style for the chart title */
+.chart-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  

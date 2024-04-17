@@ -1,7 +1,7 @@
 .profile {
-    position: relative;
+    position: fixed;
     width: 100%;
-    height: 1000px;
+    height: 100%;
     background: #E8E1E2;
 }
 
@@ -15,6 +15,14 @@
     border-radius: 50%;
 }
 
+.profileback-arrow {
+    width: 40px;
+    height: 40px; 
+}
+.profileback-arrow:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
 .heading {
     position: absolute;
     width: 207px;
@@ -91,7 +99,7 @@ top: 679.55px;
 background: #F18550;
 border: 1px dashed #E8E1E2;
 border-radius: 100px;
-font-family: 'Manrope';
+font-family: 'Inter';
 font-style: normal;
 font-weight: 700;
 font-size: 20px;

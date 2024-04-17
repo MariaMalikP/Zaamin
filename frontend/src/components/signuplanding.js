@@ -3,8 +3,12 @@ import { useNavigate,Link} from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 
+
+// Page used for signup where the user can first select who to sign up as, either employee, maanger, or HR admin.
 const Signuplanding= (prop)=>{
     const history=useNavigate();
+
+    //fucntion to pass the employee status when proceeding to signup page
     const employee = async () => {
         try {
             history(`/employeesignup`, { state: { employeeStatus: `employee` } });
@@ -13,6 +17,9 @@ const Signuplanding= (prop)=>{
             console.error('Error going to the page, sorry', error);
         }
     };
+
+    
+    //fucntion to pass the admin status when proceeding to signup page
     const admin = async () => {
         try {
             history(`/employeesignup`, { state: { employeeStatus: `admin` } });
@@ -21,6 +28,9 @@ const Signuplanding= (prop)=>{
             console.error('Error going to the page, sorry', error);
         }
     };
+
+    
+    //fucntion to pass the manager status when proceeding to signup page
     const manager = async () => {
         try {
             history(`/employeesignup`, { state: { employeeStatus: `manager` } });
@@ -29,7 +39,7 @@ const Signuplanding= (prop)=>{
             console.error('Error going to the page, sorry', error);
         }
     };
-
+    //displaying the signup page using css components defined.
     return (        
         <div className='sul'>
             <div className='sulgradient-box'>
@@ -40,9 +50,6 @@ const Signuplanding= (prop)=>{
                 <div className='signupLand-title'>SIGN UP AS</div>
                 <button className="emp-button" onClick = {employee}>Employee</button>
                 <button className="hr-button"onClick = {admin}>Admin</button>
-                {/* <div>
-                <img src="/images/maanger.png" alt="manager" className='manager' /> 
-                </div> */}
                 <button className="manager-button"onClick = {manager}>Manager</button>
                 <div>
                 <img src="/images/maanger.png" alt="manager" className='manager' /> 

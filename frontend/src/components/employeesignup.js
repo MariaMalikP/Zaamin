@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { enc } from 'crypto-js';
+import {AlertTitle, Alert} from '@mui/material';
 
 const EmployeeSignup= (prop)=>{
-
+     // React hooks to manage component states
     const history = useNavigate();
     const [email, setEmail] = useState('');
     const [firstname, setFirstName] = useState('');
@@ -20,70 +22,93 @@ const EmployeeSignup= (prop)=>{
     const [department, setDeparment] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
     const [success, setSuccess] = useState('');
+    const [encryption, setEncryption] = useState('AES');
     const [error, setError] = useState('');
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
     const location = useLocation();
+    const maxDate = new Date(); 
+    const minDate = new Date("1924-01-01"); 
+    
     const employeeStatus = location.state?.employeeStatus;
+
+     // Function to redirect to login page
     const home = () => {
-        history(`/login`);
+        history('/login');
     };
     async function logincheck(e) {
         e.preventDefault();
-        if(password!==confpassword)
-        {
-            setError("mismatched passwords");
-        }
-
-        else
-        {
         try 
         {
             //verifying whether the email entered is a valid one, by using the hunter.io email verifier api
-            const hunterApiKey = '4d1a599ad61555710ae5c7ab241d9a220f905855';
+            // const hunterApiKey = '4d1a599ad61555710ae5c7ab241d9a220f905855';
+            const hunterApiKey = '9cfcc14ef23fb7987e3db93e33e5054f0f9748be';
             const emailToVerify = email;
             const response = await axios.get(`https://api.hunter.io/v2/email-verifier?email=${emailToVerify}&api_key=${hunterApiKey}`);
             
             //if email is valid, proceed, else give an error
             if (response.data.data.result === 'deliverable') 
             {
-            await axios
-                .post('http://localhost:3000/empsignup', {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus})
-                .then((res) => {
-                    if (res.data === "yay") 
-                    {
-                        setSuccess('Successfully signed up');
-                        history(`/login`)
-                    } 
-                    else if (res.data=== "email exists")
-                    {
-                        alert("This email is already in use");
+                const response = await axios.post('http://localhost:3000/sendemail', {email,password,confpassword})
+                if (response.data=== "email exists") //checks if email already exists
+                {
+                    setAlertOpen(true);
+                    setAlertSeverity('error');
+                    setAlertMessage('This email is already in use, choose another email.');
+                }
+                if (response.status == 500) { //gives error if OTP can't get generated
+                    setAlertOpen(true);
+                    setAlertSeverity('error');
+                    setAlertMessage('Failed to generate OTP. Please try again later');
+                }
+                if (response.data=== "pass problem") // gives error if password isn't strong enough
+                {
+                    setAlertOpen(true);
+                    setAlertSeverity('error');
+                    setAlertMessage(`Please enter a stronger password. The password must be at least 8 characters long, and contain a mix of uppercase, lowercase and digits. `);
+                }
+                if (response.data=== "password mismatch") //gives error if password and confirm password don't match
+                {
+                    setAlertOpen(true);
+                    setAlertSeverity('error');
+                    setAlertMessage('Password and Confirm password do not match.');
+                }
+                //after submitting, all the information is passed to the OTP page, where the two factor authentication proceeds. Once
+                //OTP is verified, signup is successful
+                else {
+                    const userData = {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption}
+                    const passThis = {
+                       hashedOTP: response.data,
+                       user: userData
                     }
-                    else if (res.json==="ohooo")
-                    {
-                        alert("An error occured when signing up");
-                    }
-                })
-                .catch((e) => {
-                    alert('Something went wrong, try again');
-                    console.log(e);
-                });
+                    history('/otp', {state:passThis})
+                }
+
             }
             else
             {
-                setError('Invalid email address. Please provide a valid email.');
-                alert("Email entered is invalid, please enter a valid email");
+                // Incorrect email address according to the hunter api.
+               setError('Invalid email address. Please provide a valid email.');
+               setAlertOpen(true);
+               setAlertSeverity('error');
+               setAlertMessage('Email entered is invalid, please enter a valid email');
             }
         } 
         catch (e) 
         {
-            console.error('Error verifying email:', error);
-            setError('Something went wrong while verifying the email. Please try again.');
-            alert("Something went wrong while verifying the email. Please try again.")
+           console.error('Error verifying email:', error);
+           setAlertOpen(true);
+           setAlertSeverity('error');
+           setAlertMessage('Something went wrong while verifying the email. Please try again.');
+
         }
-    }
+    
     }
     return (
-        //login page setup, containing all the inputs, and buttons needed. 
+        // login page setup, containing all the inputs, and buttons needed. An alert component has also been defined
+        // to give alerts using the help of material ui
         <div className='sup'>
         <div className='signup-page'>
             <div className="sugradient-box">
@@ -91,15 +116,15 @@ const EmployeeSignup= (prop)=>{
                 <img src="/images/Logo.png" alt="Logo" width={235} height={54} className='signuplogo' /> 
                 </div>
                 <div className='signup-title'>Signup</div>
-                    <div className="login-link">
+                    <div className="login-link-signup">
                     <p>Already have an account? <Link to="/login">Login</Link></p>
                     </div>
                     <div className="required-signup">
-                    <p>* Indicates required field</p>
+                    <p style={{top:'30%', left:'40%'}}>* Indicates required field</p>
                     </div>
-                    <hr class="separator"></hr>
+                    <hr className="separator"></hr>
                     <form onSubmit={logincheck} className='loginForm'>
-                        <label className="name">Name:<span class="required-star"></span></label>
+                        <label className="name">Name:<span className="required-star"></span></label>
                         <input className="first-name"
                             type="text"
                             placeholder="First Name"
@@ -133,22 +158,14 @@ const EmployeeSignup= (prop)=>{
                         {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
                         <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
-                        <input className="confpass-inp"
+                        < input className='confpass-inp'
                             type="password"
-                            placeholder="Confrim Password"
+                            placeholder="Confirm Password"
                             value={confpassword}
                             onChange={(e) => setConfrimPassword(e.target.value)}
                             required
                         />
-                        {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)} {/*displays error if there is a password mismatch*/}
-                        {/* <label className="security-question">Security Question</label>
-                        <input className="securityQ-inp"
-                            type="text"
-                            placeholder="Some Question"
-                            value={securityQ}
-                            onChange={(e) => setSecurityQ(e.target.value)}
-                            required
-                        /> */}
+                        {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)}
                         <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
                             type="text"
@@ -165,6 +182,8 @@ const EmployeeSignup= (prop)=>{
                             onChange={(date) => setSelectedDate(date)}
                             placeholderText="Select Date"
                             dateFormat="dd/MM/yyyy" 
+                            maxDate={maxDate}
+                            minDate={minDate}
                             showYearDropdown
                             showMonthDropdown
                             dropdownMode="select"
@@ -195,16 +214,24 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setDeparment(e.target.value)}
                             required
                         />
-                        <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
-                        <select class="dropdown-inp" required>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
-                        </select>
-                        <button type="signup-button" > Signup </button>
+                       <label className='encryption-signup'>Select encryption method<span class="required-star"></span></label>
+                       <select class="dropdown-inp" required onChange={(e) => {console.log(e.target.value); 
+                           setEncryption(e.target.value)}}>
+                       <option value="AES">AES</option>
+                       <option value="AES-CBC">AES-CBC</option>
+                       <option value="AES-GCM">AES-GCM</option>
+                       </select>
+                       <button type="signup-button" > Signup </button>
                     </form>   
             </div>
         </div>
+        {/* Alert component */}
+       {alertOpen &&
+            <Alert className="alert-container-signup"severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx= {{padding: '20px', fontSize: '20px',opacity:'1',borderRadius: '10px'}}>
+               <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+               {alertMessage}
+           </Alert>
+       }
         </div>
     );
     

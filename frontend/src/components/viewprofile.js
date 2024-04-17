@@ -7,7 +7,7 @@ import Header from './header';
 import '../styles/profile.css'; // Import your CSS file
 
 const ViewProfile = () => {
-    const { email, visitingEmail } = useParams();
+    const { email, visitingEmail ,hashp} = useParams();
     const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
     const [visitorProfile, setVisitorProfile] = useState(null);
@@ -38,13 +38,13 @@ const ViewProfile = () => {
 
     return (
         <div className='profile'>
-            <Header email={email} userProfile={userProfile}/>
+            <Header email={email} userProfile={userProfile}  hashp={hashp}/>
             <div className='heading'>Profile</div>
             <img src='/ppl.jpg' className='profile-circle' alt='Profile Circle' />
             {returnStatus === "profile exists" && visitorProfile && (
                 <>
                     <div className='ellipse-27'>
-                        <img src={visitorProfile.Profile_Image} alt='Profile' className='profile-picture' />
+                            <img src={visitorProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{visitorProfile.First_Name}</div>

@@ -1,524 +1,526 @@
 .sup {
-    position: relative;
-    width: 100%;
-    height: 1000px;
-    background: linear-gradient(246.77deg, #B5E48C 13.03%, rgba(22, 138, 173, 0.82) 84.31%); /*Linear gradient background*/
-   } 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(246.77deg, #B5E48C 13.03%, rgba(22, 138, 173, 0.82) 84.31%);
+ } 
 
-  .sugradient-box {
-    top : 50%;
-    left : 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 1300px;
-    height: 700px;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
-    border-radius: 56px;
-    backdrop-filter: blur(10px);
-    border:1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  }
-/* button type=submit */
+.sugradient-box {
+  top : 50%;
+  left : 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 72%;
+  height: 70%;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  border-radius: 56px;
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
 button[type="signup-button"] {
-    background-color: #F18550;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    width: 250px; 
-    height: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    top: 85%;
-    font-family: 'Inter';
-    font-size: 20px;
-    font-weight: bold;
-    left: 75%;
-    transform: translate(-50%, 0%);
-    position: absolute;
+  background-color: #F18550;
+  color: #fff;
+  padding: 0.75% 1.45%;
+  border: none;
+  width: 21%; 
+  height: 7%;
+  border-radius: 100px;
+  cursor: pointer;
+  top: 85%;
+  font-family: 'Inter';
+  font-size: 1.04vw;
+  font-weight: bold;
+  left: 75%;
+  transform: translate(-50%, 0%);
+  position: absolute;
 
-  } 
-  button[type="signup-button"]:hover {
-    background-color: #D78B44;
-  }
-  .first-name
-  {
-      top: 45%;
-      left: 15%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-      width: 200px;
-      height: 25px;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      border: none;
-      background-color: #F0F0F0;
-      color: #000000;
-      text-align: left;
-  }
-  .last-name
-  {
-      top: 45%;
-      left: 35%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-      width: 200px;
-      height: 25px;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      border: none;
-      background-color: #F0F0F0;
-      color: #000000;
-      text-align: left;
-  }
-  .name
-  {
-      display: block;
-      margin-bottom: 10px; /* Add space below each label */
-      font-family: 'Inter';
-      font-size: 18px;
-      color: #fff;
-      text-align: left;  
-      top: 39%;
-      left: 8%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-  }
-.signupemail-inp
+} 
+button[type="signup-button"]:hover {
+  background-color: #D78B44;
+}
+.first-name
 {
-    top: 58%;
-    left: 25%;
+    top: 45%;
+    left: 15%;
     transform: translate(-50%, -50%);
     position: absolute;
-    width: 462px;
-    height: 25px;
+    width: 14.4%;
+    height: 3.3%;
     border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 0.75% 1.45%; 
+    font-size: 1.04vw;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
     border: none;
     background-color: #F0F0F0;
     color: #000000;
     text-align: left;
 }
-.signupemail
+.last-name
 {
-    display: block;
-    margin-bottom: 10px; /* Add space below each label */
-    font-family: 'Inter';
-    font-size: 18px;
-    color: #fff;
-    text-align: left;  
-    top: 52%;
-    left: 8%;
+    top: 45%;
+    left: 35%;
     transform: translate(-50%, -50%);
     position: absolute;
+    width: 14.4%;
+    height: 3.3%;
+    border-radius: 10px;
+    padding: 0.75% 1.45%; 
+    font-size: 1.04vw;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    border: none;
+    background-color: #F0F0F0;
+    color: #000000;
+    text-align: left;
+}
+.input-group-signup {
+  position: relative;
+}
+.name
+{
+    display: block;
+    margin-bottom: 1.32%; 
+    font-family: 'Inter';
+    color: #fff;
+    text-align: left;  
+    top: 40%;
+    left: 8.5%;
+    font-size: 1.0vw; 
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+.signupemail-inp
+{
+  top: 58%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 34.5%;
+  height: 3.3%;
+  border-radius: 10px;
+  padding: 0.75% 1.45%; 
+  font-size: 1.04vw;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  border: none;
+  background-color: #F0F0F0;
+  color: #000000;
+  text-align: left;
+}
+.signupemail
+{
+  display: block;
+  margin-bottom: 1.32%; 
+  font-family: 'Inter';
+  font-size: 18px;
+  color: #fff;
+  text-align: left;  
+  top: 53%;
+  left: 8.3%;
+  font-size: 1.0vw;
+  transform: translate(-50%, -50%);
+  position: absolute;
 }
 
 .signuppass-inp
 {
-  top: 71%;
-  left: 25%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  width: 462px;
-  height: 25px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  border: none;
-  background-color: #F0F0F0;
-  color: #000000;
-  text-align: left;
+top: 71%;
+left: 25%;
+transform: translate(-50%, -50%);
+position: absolute;
+width: 34.5%;
+height: 3.3%;
+border-radius: 10px;
+padding: 0.75% 1.45%; 
+font-size: 1.85vw;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
 }
 .signuppassword {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top: 65%;
-  left: 9%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 1vw;
+color: #fff;
+text-align: left;  
+top: 66%;
+left: 9.8%;
+transform: translate(-50%, -50%);
+position: absolute;
 }
 
 .confpass-inp
 {
-  top: 87%;
-  left: 25%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  width: 462px;
-  height: 25px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  border: none;
-  background-color: #F0F0F0;
-  color: #000000;
-  text-align: left;
+top: 87%;
+left: 25%;
+transform: translate(-50%, -50%);
+position: absolute;
+width: 34.5%;
+height: 3.3%;
+border-radius: 10px;
+padding: 0.75% 1.45%; 
+font-size: 1.04vw;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
 }
 .confirm-password {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top: 81.5%;
-  left: 11.5%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 1vw;
+color: #fff;
+text-align: left;  
+top: 82%;
+left: 12.6%;
+transform: translate(-50%, -50%);
+position: absolute;
 }
 .securityQ-inp
 {
-  top: 40%;
-  left: 75%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  width: 462px;
-  height: 25px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  border: none;
-  background-color: #F0F0F0;
-  color: #000000;
-  text-align: left;
+top: 40%;
+left: 75%;
+transform: translate(-50%, -50%);
+position: absolute;
+width: 462px;
+height: 25px;
+border-radius: 10px;
+padding: 10px 20px;
+font-size: 14px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 20px;
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
 }
 
 .security-question {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top: 34%;
-  left: 61%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+display: block;
+margin-bottom: 10px;
+font-family: 'Inter';
+font-size: 18px;
+color: #fff;
+text-align: left;  
+top: 34%;
+left: 61%;
+transform: translate(-50%, -50%);
+position: absolute;
 }
 .address-inp
 {
-  top: 48%;
-  left: 75%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  width: 462px;
-  height: 65px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  border: none;
-  background-color: #F0F0F0;
-  color: #000000;
-  text-align: left;
+top: 48%;
+left: 75%;
+transform: translate(-50%, -50%);
+position: absolute;
+width: 34.5%;
+height: 8.5%;
+border-radius: 10px;
+padding: 0.75% 1.45%; 
+font-size: 1.04vw;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+/* font-size: 20px; */
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
 }
 .signupaddress {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top: 39.5%;
-  left: 58.5%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 18px;
+color: #fff;
+text-align: left;  
+top: 40.5%;
+left: 59.3%;
+transform: translate(-50%, -50%);
+position: absolute;
 }
 .dob-inp
 {
-  width: 130px;
-  height: 25px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 20px;
-  font-family: 'Inter';
-  font-weight: 500;
-  border: none;
-  background-color: #F0F0F0;
-  color: #000000;
-  text-align: left;
+width: 49%;
+height: 10%;
+border-radius: 10px;
+padding: 3.3% 7%;
+font-size: 1.04vw;
+font-family: 'Inter';
+font-weight: 500;
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
 }
 .signupdob {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top: 58.5%;
-  left: 60%;
-  transform: translate(-50%, -50%);
-  position: absolute;
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 18px;
+color: #fff;
+text-align: left;  
+top: 60%;
+left: 60.7%;
+transform: translate(-50%, -50%);
+position: absolute;
 }
 .dob-picker
 {
-  top: 65%;
-  left: 62.5%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  z-index: 1;
- 
+top: 65%;
+left: 66.2%;
+transform: translate(-50%, -50%);
+position: absolute;
+z-index: 1;
+
 
 }
 .department-inp
 {
-  top: 65%;
-  left: 83%;
+top: 65%;
+left: 83%;
+transform: translate(-50%, -50%);
+position: absolute;
+width: 18.5%;
+height: 3.3%;
+border-radius: 10px;
+padding: 0.75% 1.45%; 
+font-size: 1.04vw;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+border: none;
+background-color: #F0F0F0;
+color: #000000;
+text-align: left;
+}
+.department {
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 1vw;
+color: #fff;
+text-align: left;  
+top: 60%;
+left: 76.2%;
+transform: translate(-50%, -50%);
+position: absolute;
+}
+.signupage {
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 18px;
+color: #fff;
+text-align: left;  
+top:27%;
+left: 57.7%;
+transform: translate(-50%, -50%);
+position: absolute;
+}
+.signupphone {
+display: block;
+margin-bottom: 10px; 
+font-family: 'Inter';
+font-size: 18px;
+color: #fff;
+text-align: left;  
+top:27%;
+left: 77.1%;
+transform: translate(-50%, -50%);
+position: absolute;
+}
+.age-inp
+{
+    top: 32%;
+    left: 62.5%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 9.4%;
+    height: 3.3%;
+    border-radius: 10px;
+    padding: 0.75% 1.45%; 
+    font-size: 1.04vw;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    border: none;
+    background-color: #F0F0F0;
+    color: #000000;
+    text-align: left;
+}
+.phone-inp
+{
+    top: 32%;
+    left: 83%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 18.4%;
+    height: 3.3%;
+    border-radius: 10px;
+    padding: 0.75% 1.45%; 
+    font-size: 1.04vw;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    border: none;
+    background-color: #F0F0F0;
+    color: #000000;
+    text-align: left;
+}
+.dropdown-inp {
+  top: 78%;
+  left: 75%;
   transform: translate(-50%, -50%);
   position: absolute;
-  width: 250px;
-  height: 25px;
+  width: 37.5%;
+  height: 7%;
   border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
+  padding: 0.75% 1.45%; 
+  font-size: 1.04vw;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
   border: none;
   background-color: #F0F0F0;
   color: #000000;
   text-align: left;
 }
-.department {
+.encryption-signup {
   display: block;
-  margin-bottom: 10px; /* Add space below each label */
+  margin-bottom: 10px; 
   font-family: 'Inter';
-  font-size: 18px;
+  font-size: 1vw;
   color: #fff;
   text-align: left;  
-  top: 58.5%;
-  left: 76%;
+  top: 72.5%;
+  left: 65%;
   transform: translate(-50%, -50%);
   position: absolute;
 }
-.signupage {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top:26%;
-  left: 57.5%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-}
-.signupphone {
-  display: block;
-  margin-bottom: 10px; /* Add space below each label */
-  font-family: 'Inter';
-  font-size: 18px;
-  color: #fff;
-  text-align: left;  
-  top:26%;
-  left: 76.5%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-}
-.age-inp
-  {
-      top: 32%;
-      left: 62.5%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-      width: 130px;
-      height: 25px;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      border: none;
-      background-color: #F0F0F0;
-      color: #000000;
-      text-align: left;
-  }
-  .phone-inp
-  {
-      top: 32%;
-      left: 83%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-      width: 250px;
-      height: 25px;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 14px;
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 20px;
-      border: none;
-      background-color: #F0F0F0;
-      color: #000000;
-      text-align: left;
-  }
-  .dropdown-inp {
-    top: 78%;
-    left: 75%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    width: 500px;
-    height: 45px;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    border: none;
-    background-color: #F0F0F0;
-    color: #000000;
-    text-align: left;
-  }
-  .encryption-signup {
-    display: block;
-    margin-bottom: 10px; /* Add space below each label */
-    font-family: 'Inter';
-    font-size: 18px;
-    color: #fff;
-    text-align: left;  
-    top: 71.5%;
-    left: 63.2%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-  }
 
 .signuplogo {
-    /* background-image: ('../public/images/Logo.png'); */
-    /* width: 234px;
-    height: 150px;
-    top: 10%; */
-    margin-top: 100px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
+  margin-top: 6.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 
 }
-    
+  
 .signup-title
 {
-    font-family: 'Inter';
-    font-size: 39px;
-    font-weight: bold;
-    color: #fff;
-    text-align: left;
-    top: 25%;
-    left: 10.6%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-}
-
-.login-link {
-  text-align: left;
-  margin-top: 205px;
-  margin-left: 80px;
-  font-size: 14px;
-}
-
-.login-link p {
-  margin: 0;
-}
-
-.login-link a {
-  color: #ffffff;
-  text-decoration: none;
+  font-family: 'Inter';
+  font-size: 2.03vw;
   font-weight: bold;
+  color: #fff;
+  text-align: left;
+  top: 25%;
+  left: 11%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 }
 
-.login-link a:hover {
-  text-decoration: underline;
+.login-link-signup {
+position: absolute;
+text-align: left;
+left: 15%;
+top: 30%;
+font-size: 0.9vw;
+}
+
+.login-link-signup p {
+margin: 0;
+}
+
+.login-link-signup a {
+color: #ffffff;
+text-decoration: none;
+font-weight: bold;
+}
+
+.login-link-signup a:hover {
+text-decoration: underline;
 }
 
 .required-signup
 {
-  color: rgb(255, 255, 255);;
-  font-size: 17px;
-  font-weight: 520;
-  margin-left: 80px;
-  margin-top: -8px;
-  /* position: fixed; */
-  font-family: 'Inter';
+position: absolute;
+color: rgb(255, 255, 255);;
+font-size: 0.9vw;
+font-weight: 520;
+left:13.5%;
+top:27%;
+font-family: 'Inter';
 }
 
 .required-star::after {
-  content: '*';
-  color: rgb(255, 255, 255);
-  margin-left: 3px; 
-  position: fixed;
+content: '*';
+color: rgb(255, 255, 255);
+margin-left: 0.2%; 
+position: fixed;
 
 }
 
 .separator {
- 
-  /* color: #F18550;
-  width: 1px; 
-  height: 50%;
-  position: absolute; */
-  width: 290px;
-  height: 0px;
-  left: 754px;
- 
-  margin-top: 12%;
-
-  opacity: 0.5;
-  border: 3px solid #F18550;
-  transform: rotate(89.99deg);
+position: absolute;
+width: 24%;
+left: 37%;
+top: 50%;
+opacity: 0.5;
+border: 3px solid #F18550;
+transform: rotate(89.99deg);
 }
 
 .error-message {
-  color: rgb(180, 45, 45);;
-  font-size: 12px;
-  font-weight: 550;
-  margin-top: 14px;
-  margin-left: -455px;
-  /* position: fixed; */
-  font-family: 'Inter';
+color: rgb(180, 45, 45);;
+font-size: 0.65vw;
+font-weight: 550;
+top: 92%;
+left:16.5%;
+position: absolute;
+font-family: 'Inter';
 }
 
 .strong-message {
-  color: rgb(180, 45, 45);
-  font-size: 12px;
-  font-weight: 550;
-  margin-top: 110px;
-  margin-left: 80px;
-  position: relative;
-  font-family: 'Inter';
+color: rgb(180, 45, 45);
+font-size: 0.65vw;
+font-weight: 550;
+top: 74.5%;
+left: 6.4%;
+position: absolute;
+font-family: 'Inter';
+}
+
+.alert-container-signup {
+position: fixed;
+top: 2%;
+left: 50%;
+transform: translateX(-50%);
+width: fit-content;
+min-width: 500px;
+opacity: 0.9;
+z-index: 9999;
+font-size: 20px;
+padding: 20px;
+}
+
+.input-error-signup {
+border: 2px solid red; 
 }

@@ -13,6 +13,7 @@
 }
 
 .sidebar.open {
+    z-index: 9999;
     transform: translateX(0); /* Moves the sidebar into view when open */
 }
 

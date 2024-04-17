@@ -1,0 +1,13 @@
+.error-page {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Horizontally center content */
+    align-items: center; /* Vertically center content */
+    min-height: 100vh; /* Set minimum height for full-viewport centering */
+    border-radius: 10px; /* Add rounded corners */
+    padding: 2rem; /* Add some padding for visual spacing */
+    color: white; /* Set text color to white */
+    font-family: 'Inter', sans-serif; /* Use Inter font (if available) or fallback */
+    font-size: 1.5rem; /* Adjust font size as needed */
+    position: relative;
+  }

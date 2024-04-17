@@ -169,3 +169,15 @@ button[type="login-button"] {
     transform: translate(-50%, -50%);
     position: absolute;
 }
+
+.alert-container-signup {
+    position: fixed;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    opacity: 0.9;
+    z-index: 9999;
+    font-size: 20px;
+    padding: 20px;
+  }

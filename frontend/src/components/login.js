@@ -1,10 +1,12 @@
-// Import necessary dependencies from React and other libraries
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-
+import 'crypto';
 // Import the CSS file for styling
 import '../styles/login.css';
+import { useAuth } from './Authprovider';
+import {AlertTitle, Alert} from '@mui/material';
+
 
 // Define the Login component as a functional component
 const Login = (prop) => {
@@ -12,9 +14,12 @@ const Login = (prop) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
+    const {setToken} = useAuth();
     // Access the navigate function from the useNavigate hook
     const navigate = useNavigate();
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
     // Define a function to handle form submission
     // this function is handling the form submission. 
@@ -31,21 +36,24 @@ const Login = (prop) => {
             
             // Log the response from the server
             console.log('RESPONSE FROM SERVER', response.data.status);
-            
+            // const Hashcheck = response.data.hashcheck.replace(/\//g, '');
             // Check the status of the response
             if (response.data.status === 'success') {
+                // Set the token in the AuthProvider context
+                setToken(response.data.token);
                 // If login is successful, determine user role and navigate accordingly
                 if (response.data.userrole === 'employee') {
                     // Navigate to employee home page
-                    navigate(`/employeehome/${email}`);
+                    navigate(`/employeehome/${email}/${response.data.hashcheck.replace(/\//g, '')}`);
                 }
                 else if (response.data.userrole === 'manager'){
                     // Navigate to manager home page
-                    navigate(`/managerhome/${email}`);
+                    navigate(`/managerhome/${email}/${response.data.hashcheck.replace(/\//g, '')}`);
                 }
                 else if (response.data.userrole === 'admin'){
                     // Navigate to admin home page
-                    navigate(`/adminhome/${email}`);
+                    console.log("going to admin page")
+                    navigate(`/adminhome/${email}/${response.data.hashcheck.replace(/\//g, '')}`);
                 }
                 else {
                     // If user role is not recognized, set error
@@ -57,7 +65,9 @@ const Login = (prop) => {
                 // If login fails, display appropriate error messages
                 console.log('Login failed');
                 setError('Invalid email or password');
-                alert('Invalid email or password');
+                setAlertOpen(true);
+                setAlertSeverity('error');
+                setAlertMessage('Invalid email or password');
             }
         } catch (error) {
             // Handle any errors that occur during login
@@ -98,7 +108,7 @@ const Login = (prop) => {
                     <button type="login-button">Login</button>
                 </form>
                 {/* Display error messages if any */}
-                {error && <p className="error-message">{error}</p>}
+                {/* {error && <p className="error-message">{error}</p>} */}
                 {/* Link to the forgot password page */}
                 <Link to="/forgotpassword" className="forgot-password">Forgot Password?</Link>
             </div>
@@ -108,6 +118,14 @@ const Login = (prop) => {
             </div>
             {/* Uncomment below if there's a button to navigate to home */}
             {/* <button className="sub-button" type="button" onClick={home}>Home</button> */}
+
+             {/* Alert component */}
+        {alertOpen &&
+             <Alert className="alert-container-signup"severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx= {{padding: '20px', fontSize: '20px',opacity:'1',borderRadius: '10px'}}>
+                <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                {alertMessage}
+            </Alert>
+        }
         </div>
     );
 };

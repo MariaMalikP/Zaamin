@@ -46,13 +46,16 @@ li a img {
   max-width: 40px; 
 }
 
-li a img.profile-image {
-  max-height: 100%; 
-  border-radius: 50%; 
+.profile-image {
+    max-height: 100%; 
+    border-radius: 50%; /* Make it circular */
 }
 
 li:hover {
-  background-color: rgba(22, 138, 173, 0.82);
+
+  /* background-color: rgba(147, 255, 179, 0.343);
+   */
+   transform: scale(1.1);
 }
 
 #search-bar {
@@ -109,6 +112,10 @@ li:hover {
   cursor: pointer;
 }
 
-
-
-
+.search-icon {
+  padding-top:5px;
+  height: 35px;
+  max-width: 40px;
+  border: none;
+  font-size: 16px;
+}
