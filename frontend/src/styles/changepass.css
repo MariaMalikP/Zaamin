@@ -87,11 +87,11 @@
     font-weight: 500;
     /* margin-top: 82px;
     margin-left: 150px; */
-    top: 59%;
+    top: 65%;
     left: 46.5%;
     transform: translate(-50%, -50%);
     position: absolute;
-    position: fixed;
+    /* position: fixed; */
   }
 .logoochange
 {
@@ -106,12 +106,12 @@
 {
     color: rgb(180, 45, 45);;
     font-size: 12px;
-    top: 47%;
+    top: 51%;
     left: 36%;
     font-weight: 500;
     /* margin-top: 230px;
     margin-left: 80px; */
-    position: fixed;
+    position: absolute;
 }
 .change-password-title
 {

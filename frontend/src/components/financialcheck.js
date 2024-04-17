@@ -19,8 +19,8 @@ const FinancialCheck = () => {
   const location = useLocation();
   const passedThat = location.state;
   const [alertOpen, setAlertOpen] = useState(false);
-    const [alertSeverity, setAlertSeverity] = useState('');
-    const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -150,7 +150,9 @@ const handleInputChange = (e) => {
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-financial-info', { email, editedProfile });
       setAlertOpen(true);
       setAlertSeverity('error');
-      alert('Profile Updated Successfully');
+      setAlertOpen(true);
+      setAlertSeverity('success');
+      setAlertMessage('Profile Updated Successfully');
     } catch (error) {
       console.error('Error updating profile', error);
     }
@@ -237,6 +239,12 @@ const handleInputChange = (e) => {
           )}
         </div>
         <button className='financial-edit-profile' onClick={updateProfile}>Update Profile</button>
+        {alertOpen &&
+                <Alert className="alert-container-signup" severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx={{ padding: '20px', fontSize: '20px', opacity: '1', borderRadius: '10px' }}>
+                    <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                    {alertMessage}
+                </Alert>
+            }
       </div>
     </>
   );

@@ -53,7 +53,7 @@ const ChangePass = () => {
                 {/* Display the login title */}
                 <div className="change-password-title">Change Password</div>
                 <form onSubmit={handleSubmit} className='loginForm'>
-                    <label className="signuppass-inp-change">New Password:<span className="required-star">*</span></label>
+                    <label className="signuppassword-change">New Password:<span className="required-star">*</span></label>
                     <input className="signuppass-inp-change" type="password" placeholder="New Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     {(password.length < 8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
                         (<div className="strong-messagepass">The password must be at least 8 characters long, and contain a mix of <br /> uppercase, lowercase and digits.</div>)}

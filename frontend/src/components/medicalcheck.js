@@ -34,7 +34,9 @@ const MedicalCheck = () => {
                 setUserProfilePic(response.data.profile_deets);
             }
         } catch (error) {
-            alert('Error fetching Profile Information', error);
+            setAlertOpen(true);
+            setAlertSeverity('error');
+            setAlertMessage('Error fetching Profile Information');
         }
     }
     fetchProfilePic();
@@ -52,7 +54,9 @@ const MedicalCheck = () => {
         }
       } catch (error) {
         console.error('Error fetching Medical Information', error);
-        alert('Error fetching Medical Information', error);
+        setAlertOpen(true);
+        setAlertSeverity('error');
+        setAlertMessage('Error fetching Medical Information');
       }
     };
     fetchProfile();
@@ -93,7 +97,9 @@ const MedicalCheck = () => {
     if (medicalHistoryFile) {
       updateMedicalHistory(); // Call updateMedicalHistory only if a file is selected
     } else {
-      alert('Please select a file before uploading.'); // Provide feedback to the user if no file is selected
+      setAlertOpen(true);
+      setAlertSeverity('error');
+      setAlertMessage('Please select a file before uploading');
     }
   };
   const getFileUrl = (relativePath) => {
@@ -109,26 +115,31 @@ const MedicalCheck = () => {
     formData.append('medicalHistory', medicalHistoryFile);
     try {
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-history', formData);
-      window.alert('Medical history updated successfully: ' + JSON.stringify(response.data));
+      setAlertOpen(true);
+      setAlertSeverity('success');
+      setAlertMessage('Medical history updated successfully');
       if (response.data.message === "Path Set") {
         editedProfile.medicalHistory = response.data.filePath;
         updateProfile();
-        window.alert('Medical history updated successfully 2');
+        setAlertOpen(true);
+        setAlertSeverity('success');
+        setAlertMessage('Medical history updated successfully');
       }
     } catch (error) {
       console.error('Error updating medical history', error);
-      window.alert('Error updating medical history :'+error);
+      setAlertOpen(true);
+      setAlertSeverity('error');
+      setAlertMessage('Error updating medical history');
     }
   };
   
 
   const updateProfile = async () => {
     try {
-      window.alert('editedProfile: ' + JSON.stringify(editedProfile));
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-info', { email, role, editedProfile });
       setAlertOpen(true);
-      setAlertSeverity('error');
-      alert('Profile Updated Successfully');
+      setAlertSeverity('success');
+      setAlertMessage('Invalid email or password');
     } catch (error) {
       console.error('Error updating profile', error);
     }
@@ -264,6 +275,12 @@ const MedicalCheck = () => {
           )}
         </div>
         <button className='med-edit-profile' onClick={updateProfile}>Update Profile</button>
+        {alertOpen &&
+                <Alert className="alert-container-signup" severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx={{ padding: '20px', fontSize: '20px', opacity: '1', borderRadius: '10px' }}>
+                    <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                    {alertMessage}
+                </Alert>
+            }
       </div>
     </>
   );

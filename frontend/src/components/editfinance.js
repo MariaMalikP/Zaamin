@@ -5,6 +5,7 @@ import Header from './header';
 import Modal from 'react-modal';
 import '../styles/financial.css';
 import Chart from 'chart.js/auto';
+import { AlertTitle, Alert } from '@mui/material';
 
 const FinancialEdit = () => {
   const {visitoremail, email, role, hashp} = useParams();
@@ -15,6 +16,9 @@ const FinancialEdit = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [returnStatus, setReturnStatus] = useState('');
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -25,7 +29,9 @@ const FinancialEdit = () => {
                 setUserProfilePic(response.data.profile_deets);
             }
         } catch (error) {
-            alert('Error fetching Profile Information', error);
+            setAlertOpen(true);
+            setAlertSeverity('error');
+            setAlertMessage('Error fetching Profile Information');
         }
     }
     fetchProfilePic();
@@ -216,7 +222,7 @@ const handleInputChange = (e) => {
         </div>
         <button className='financial-edit-profile' onClick={updateProfile}>Update Profile</button>
         <button className='element medical-page' onClick={handleEditProfileClick}>Go Back</button>
-        <Modal
+        {/* <Modal
           isOpen={isSuccessModalOpen}
           onRequestClose={closeModal}
           contentLabel="Success Modal"
@@ -227,7 +233,13 @@ const handleInputChange = (e) => {
             <h2>{userProfile ? userProfile.id : ''} Financial Profile has been updated successfully.</h2>
             <button className="close-button" onClick={closeModal}>Close</button>
           </div>
-        </Modal>
+        </Modal> */}
+        {alertOpen &&
+                <Alert className="alert-container-signup" severity={alertSeverity} onClose={() => setAlertOpen(false)} open={alertOpen} sx={{ padding: '20px', fontSize: '20px', opacity: '1', borderRadius: '10px' }}>
+                    <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                    {alertMessage}
+                </Alert>
+            }
       </div>
     </>
   );
