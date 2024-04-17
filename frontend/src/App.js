@@ -45,7 +45,7 @@ function App() {
             <Route path="/managerhome/:email/:hashp" element={<ManagerHome/>}/>
             <Route path="/errorpage" element={<ErrorPage/>}/> 
             <Route path="/searchres/:email/:searchTerm/:hashp" element={<SearchRes/>} />
-            <Route path="/viewprofile/:email/:visitingEmail/:hashp" element={<ViewProfile />} />
+            <Route path="/viewprofile/:email/:visitingEmail/:hashp/:searchTerm" element={<ViewProfile />} />
             <Route path ="/signuplanding" element = {<Signuplanding/>}/>
             <Route path ="/employeesignup" element = {<EmployeeSignup/>}/>
             <Route path ="/otp" element = {<OTPPage/>}/>

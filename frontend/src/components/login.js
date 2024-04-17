@@ -20,7 +20,11 @@ const Login = (prop) => {
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertSeverity, setAlertSeverity] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
-
+    
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event){
+    window.history.pushState(null, document.title,  window.location.href);
+    });
     // Define a function to handle form submission
     // this function is handling the form submission. 
     // once the form is submitted, it will send a POST request to the server with the email and password.
@@ -32,7 +36,7 @@ const Login = (prop) => {
         e.preventDefault(); // Prevent the default form submission behavior
         try {
             // Send a POST request to the login endpoint with email and password
-            const response = await axios.post('http://localhost:3000/login', { email, password });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/login', { email, password });
             
             // Log the response from the server
             console.log('RESPONSE FROM SERVER', response.data.status);

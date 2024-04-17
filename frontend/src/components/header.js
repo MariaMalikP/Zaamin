@@ -25,14 +25,16 @@ const Header = ({ email, userProfile, hashp }) => {
   };
 
   const handleSearch = async () => {
+    if(searchTerm !== '') {
     navigate(`/searchres/${email}/${searchTerm}/${hashp}`);
+    }
   };
   // console.log(userProfile)
 
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        const userResponse = await axios.post('http://localhost:3000/findrole', { email });
+        const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email });
         if (userResponse.data !== 'User profile not found') {
           setRole(userResponse.data); 
         }
@@ -55,12 +57,6 @@ const Header = ({ email, userProfile, hashp }) => {
   const handleLogout = () => {
     // Replace current entry in history with /login
     navigate("/login", { replace: true });
-
-    // Add code to prevent navigation away
-    window.history.pushState(null, document.title, window.location.href);
-    window.addEventListener('popstate', function (event){
-      window.history.pushState(null, document.title,  window.location.href);
-    });
   };
 
 
@@ -69,18 +65,18 @@ const Header = ({ email, userProfile, hashp }) => {
     (role === 'employee' || role === 'manager') {
       return (
         <>
-          <li><button onClick={() => navigate(`/financialcheck/${email}/${role}/${hashp}`)}>View/Edit Financial Records</button></li>
-          <li><button onClick={() => navigate(`/medicalcheck/${email}/${role}/${hashp}`)}>View/Edit Medical Records</button></li>
-          <li><button onClick={handleLogout}>Log out</button></li>
+          <li><button onClick={() => navigate(`/financialcheck/${email}/${role}/${hashp}`)} className='sidebar-button'>View Financial Records</button></li>
+          <li><button onClick={() => navigate(`/medicalcheck/${email}/${role}/${hashp}`)} className='sidebar-button'>View Medical Records</button></li>
+          <li><button onClick={handleLogout} className='sidebar-button'>Log out</button></li>
         </>
       );
     } 
     else if (role === 'admin') {
       return (
         <>
-          <li><button onClick={() => navigate(`/auditlogs/${email}/${role}/${hashp}`)}> View Audit Logs</button></li>
-          <li><button onClick={() => navigate(`/compliancerules/${email}/${role}/${hashp}`)}>View Regulations</button></li>
-          <li><button onClick={handleLogout}>Log out</button></li>
+          <li><button onClick={() => navigate(`/auditlogs/${email}/${role}/${hashp}`)} className='sidebar-button'> View Audit Logs</button></li>
+          <li><button onClick={() => navigate(`/compliancerules/${email}/${role}/${hashp}`)} className='sidebar-button'>View Regulations</button></li>
+          <li><button onClick={handleLogout} className='sidebar-button'>Log out</button></li>
         </>
       );
     }
@@ -119,6 +115,7 @@ const Header = ({ email, userProfile, hashp }) => {
           <img className = "search-icon" src="/search.png" alt="Search" onClick={handleSearch} />
           </li>
           <li>
+            
             <button onClick={() => navigate(getHomePage(role, email))}>
               <img src="/images/home_icon.png" alt="Home" />
             </button>
@@ -136,14 +133,14 @@ const Header = ({ email, userProfile, hashp }) => {
         </ul>
       </nav>
       {/* Sidebar */}
-      <div className={isSidebarOpen ? 'sidebar open' : 'sidebar'}>
+      <div className={isSidebarOpen ? 'sidebar open' : 'sidebar'} style={{ backgroundColor: '#7fcfb8', opacity: '0.9', fontWeight: 'bold', fontSize: '1.2em' }}>
         <ul>
           <li>
-            <button onClick={() => navigate(getHomePage(role, email))}>
+            <button onClick={() => navigate(getHomePage(role, email))} className='sidebar-button'>
               Home
             </button>
           </li>
-          <li><button onClick={() => navigate(`/profilehome/${email}/${role}/${hashp}`)}>View Profile</button></li>
+          <li><button onClick={() => navigate(`/profilehome/${email}/${role}/${hashp}`)} className='sidebar-button'>View Profile</button></li>
           <>{renderRoleBasedLinks(role, email, hashp)}</>
         </ul>
       </div>

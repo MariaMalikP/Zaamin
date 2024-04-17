@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react';
      useEffect(() => {
          const fetchProfile = async () => {
              try {
-                 const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+                 const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
                  if (response.data.status === "profile exists") {
                      setReturnStatus(response.data.status);
                      setProfile(response.data.profile_deets);
@@ -39,7 +39,7 @@ import React, { useState, useEffect } from 'react';
         let hashedOTP = null;
         console.log("successfully checked there is a page")
         try {
-            const response = await axios.post('http://localhost:3000/sendotp', {email})
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendotp', {email})
             hashedOTP = response.data
             console.log("Email sent successfully");
         } 
@@ -53,7 +53,7 @@ import React, { useState, useEffect } from 'react';
         navigate(`/auditlogs/${email}/${role}/${hashp}`, {state:{imfrom: "admprofilehome"}});
      }
      const viewregulations = () => {
-        navigate(`/compliancerules/${email}/${role}/${hashp}`);
+        navigate(`/compliancerules/${email}/${role}/${hashp}`, {state:{imfrom: "admprofilehome"}});
      }
      const changepassword = () => {
         navigate(`/changepass/${email}`);

@@ -25,7 +25,7 @@ const ChangePass = () => {
             return;
         }
         try {
-            const response = await axios.post('http://localhost:3000/changepassword', { email, newPassword: password });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/changepassword', { email, newPassword: password });
             console.log('RESPONSE FROM SERVER', response.data.message);
             if (response.data.message === 'success') {
                 console.log("password changed successfully")

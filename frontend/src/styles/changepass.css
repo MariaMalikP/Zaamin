@@ -85,10 +85,10 @@
     color: rgb(180, 45, 45);
     font-size: 12px;
     font-weight: 500;
-    margin-top: 82px;
-    margin-left: 150px;
-    top: 55%;
-    left: 39.5%;
+    /* margin-top: 82px;
+    margin-left: 150px; */
+    top: 59%;
+    left: 46.5%;
     transform: translate(-50%, -50%);
     position: absolute;
     position: fixed;
@@ -106,11 +106,11 @@
 {
     color: rgb(180, 45, 45);;
     font-size: 12px;
-    top: 20%;
-    left: 45%;
+    top: 47%;
+    left: 36%;
     font-weight: 500;
-    margin-top: 230px;
-    margin-left: 80px;
+    /* margin-top: 230px;
+    margin-left: 80px; */
     position: fixed;
 }
 .change-password-title

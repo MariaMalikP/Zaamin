@@ -1,7 +1,7 @@
 .financial_profile {
     position: fixed;
     width: 100%;
-    height: 1000px;
+    height: 100%;
     background: #E8E1E2;
 }
 
@@ -26,7 +26,14 @@
     color: #13476F;
     white-space: nowrap;
 }
-
+.fprofileback-arrow {
+    width: 40px;
+    height: 40px; 
+}
+.fprofileback-arrow:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
 .id {
     left: 600px;
     top: 270px;
@@ -134,12 +141,12 @@
     position: absolute;
     width: 222px;
     height: 49.39px;
-    left: 140px;
+    left: 10%;
     top: 709.55px;
     background: #F18550;
     border: 1px dashed #E8E1E2;
     border-radius: 100px;
-    font-family: 'Manrope';
+    font-family: 'Inter';
     font-weight: 700;
     font-size: 20px;
     line-height: 27px;
@@ -158,7 +165,7 @@
     background: #F18550;
     border: 1px dashed #E8E1E2;
     border-radius: 100px;
-    font-family: 'Manrope';
+    font-family: 'Inter';
     font-weight: 700;
     font-size: 20px;
     line-height: 27px;
@@ -253,13 +260,14 @@ body, h2, canvas {
   /* Center the container */
 .fin_container {
     position:absolute;
-    top: -60px;
-    width: 550px;
+    top: 30%;
+    width: 27%;
+    left: 2%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Adjust this as needed */
+    height: 40%;
   }
   
   /* Style for the chart title */

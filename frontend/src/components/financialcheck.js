@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Header from './header';
 import Modal from 'react-modal';
@@ -15,11 +15,14 @@ const FinancialCheck = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [returnStatus, setReturnStatus] = useState('');
+  const location = useLocation();
+  const passedThat = location.state;
+
 
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -34,7 +37,7 @@ const FinancialCheck = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/get-financial-info', { email, role });
+        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/get-financial-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           barGraph(response.data.profile_deets);
@@ -88,7 +91,22 @@ const FinancialCheck = () => {
     }
   });
 };
-  
+
+const handleGoBack = () => {
+  console.log("hereeee");
+  if(passedThat.imfrom === "managerhome")
+  {
+    navigate(`/managerhome/${email}/${hashp}`);
+  }
+  else if(passedThat.imfrom === "employeehome")
+  {
+    navigate(`/employeehome/${email}/${hashp}`);
+  }
+  else
+  {
+    navigate(`/profilehome/${email}/${role}/${hashp}`);
+  }
+};
 
 const handleInputChange = (e) => {
   const { name, value } = e.target;
@@ -125,7 +143,7 @@ const handleInputChange = (e) => {
     }
     try {
       // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
-      const response = await axios.post('http://localhost:3000/update-financial-info', { email, editedProfile });
+      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-financial-info', { email, editedProfile });
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Error updating profile', error);
@@ -136,14 +154,12 @@ const handleInputChange = (e) => {
     setIsSuccessModalOpen(false);
   };
 
-  const handleEditProfileClick = () => {
-    navigate(`/profilehome/${email}/${role}/${hashp}`);
-  };
 
   return (
     <>
       <div className='financial_profile'>
       <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
+      
         <div className='financial_heading'>Financial Centre</div>
         <div className='financial_display'>
           {userProfile && (
@@ -208,14 +224,14 @@ const handleInputChange = (e) => {
                   className='financial-output-box financial-output financial-output8'
                 />
                 <div class="fin_container">
-                {/* <h2 class="chart-title">Financial Information</h2> */}
                 <canvas id="myChart"></canvas>
                 </div>
+                <img src="/images/backarrow.png" className='fprofileback-arrow' alt="Back" onClick={handleGoBack}/>
             </>
           )}
         </div>
         <button className='financial-edit-profile' onClick={updateProfile}>Update Profile</button>
-        <button className='element medical-page' onClick={handleEditProfileClick}>Go Back</button>
+        {/* <button className='element medical-page' onClick={handleEditProfileClick}>Go Back</button> */}
         <Modal
           isOpen={isSuccessModalOpen}
           onRequestClose={closeModal}

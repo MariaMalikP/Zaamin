@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from './header';
 import '../styles/compliancerules.css'; 
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {AlertTitle, Alert} from '@mui/material';
 
@@ -17,6 +17,8 @@ const Compliancerules =() => {
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertSeverity, setAlertSeverity] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
+    const location = useLocation();
+    const passedThat = location.state;
 
     
   useEffect(() => {
@@ -25,7 +27,7 @@ const Compliancerules =() => {
     // Function to get profile picture for the header
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -50,7 +52,7 @@ const Compliancerules =() => {
     const requiredRole="admin"
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('http://localhost:3000/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         navigate("/errorpage")
@@ -60,7 +62,7 @@ const Compliancerules =() => {
     // Fucntion to get all regulations form the database table
     const fetchRegulations = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/regulations');
+            const res = await axios.get('https://urchin-app-5oxzs.ondigitalocean.app/regulations');
             setRegulations(res.data.reg);
             if(res.data==="Internal Server Error")
             {
@@ -78,7 +80,7 @@ const Compliancerules =() => {
     // Function to add a new regualtion to the database table
     const handleAddRegulation = () => {
         // Send POST request to add a new regulation
-        axios.post('http://localhost:3000/regulations', { name: regulationName, description: regulationDescription })
+        axios.post('https://urchin-app-5oxzs.ondigitalocean.app/regulations', { name: regulationName, description: regulationDescription })
             .then((res) => {
                 // Refresh regulations after adding
                 fetchRegulations();
@@ -111,12 +113,24 @@ const Compliancerules =() => {
         navigate(`/violations/${email}/${role}/${hashp}`);
       };
 
+      const handleGoBack = () => {
+        if(passedThat.imfrom === "adminhome")
+        {
+          navigate(`/adminhome/${email}/${hashp}`);
+        }
+        else
+        {
+          navigate(`/admprofilehome/${email}/${role}/${hashp}`);
+        }
+      }
+
     // Displaying the Regualtions using a map function. If the add regualtion button is clicked, a popup is shown to 
     // add regulations. Once the cross button is clicked on the popup, the handlePopupClose function is called. The submit button in the
     // is connected to handleAddRegualtion to add regulations to the database, the version number is also updated there.
     return (    
         <div className='comp-container'>
         <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
+        <img src="/images/backarrow.png" className="profileback-arrow" alt="Back" onClick={handleGoBack}/>
             <div className="Group2280" >
                 <img src="/images/compliance.png" alt="Icon" className="ClipboardIcon" />
                 <div className="ComplianceDashboardRegulations"> Compliance Dashboard / Regulations</div> 

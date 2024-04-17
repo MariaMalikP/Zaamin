@@ -24,7 +24,7 @@ const { email,role, hashp } = useParams();
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -40,7 +40,7 @@ const { email,role, hashp } = useParams();
     const fetchData = async () => {
       try {
         if (role === 'admin') {
-          const financialResponse = await axios.post('http://localhost:3000/financialprofiles');
+          const financialResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/financialprofiles');
           setFinancialProfiles(financialResponse.data.profiles);
           CustomAlert("You don't have access to this");
         }

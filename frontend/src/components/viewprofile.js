@@ -7,7 +7,7 @@ import Header from './header';
 import '../styles/profile.css'; // Import your CSS file
 
 const ViewProfile = () => {
-    const { email, visitingEmail ,hashp} = useParams();
+    const { email, visitingEmail ,hashp, searchTerm} = useParams();
     const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
     const [visitorProfile, setVisitorProfile] = useState(null);
@@ -16,15 +16,15 @@ const ViewProfile = () => {
 
 
     useEffect(() => {
-        // window.alert(`Email: ${email}, Visiting Email: ${visitingEmail}`);
+        // window.alert(Email: ${email}, Visiting Email: ${visitingEmail});
         const fetchProfiles = async () => {
             try {
-                const userResponse = await axios.post('http://localhost:3000/viewsearchprofile', { email });
+                const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewsearchprofile', { email });
                 if (userResponse.data.status === "profile exists") {
                     setUserProfile(userResponse.data.profile_deets);
                     setRole(userResponse.data.role); 
                 }
-                const visitorResponse = await axios.post('http://localhost:3000/viewsearchprofile', { email: visitingEmail });
+                const visitorResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewsearchprofile', { email: visitingEmail });
                 if (visitorResponse.data.status === "profile exists") {
                     setReturnStatus(visitorResponse.data.status);
                     setVisitorProfile(visitorResponse.data.profile_deets);
@@ -36,15 +36,24 @@ const ViewProfile = () => {
         fetchProfiles();
     }, [email, visitingEmail]);
 
+    const Backfunction = () => {
+        navigate(`/searchres/${email}/${searchTerm}/${hashp}`);
+    };
+
     return (
         <div className='profile'>
             <Header email={email} userProfile={userProfile}  hashp={hashp}/>
+            <img src="/images/backarrow.png" className="profileback-arrow" alt="Back" onClick={Backfunction}/>
             <div className='heading'>Profile</div>
             <img src='/ppl.jpg' className='profile-circle' alt='Profile Circle' />
             {returnStatus === "profile exists" && visitorProfile && (
                 <>
                     <div className='ellipse-27'>
-                            <img src={visitorProfile.Profile_Image || 'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                    {visitorProfile.Profile_Image && visitorProfile.Profile_Image!='default.png' ? (
+                            <img src={visitorProfile.Profile_Image} alt='Profile' className='profile-picture' />
+                        ) : (
+                            <img src={'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-picture' />
+                        )}
                     </div>
                     <div className='title firstname'>First Name:</div>
                     <div className='output-box output output1'>{visitorProfile.First_Name}</div>
@@ -68,8 +77,6 @@ const ViewProfile = () => {
                         {/* Description */}
                     </div>
                     <div className='output-box output output6'>Employee</div>
-                    <div className='title address'>Address:</div>
-                    <div className='big-output leftoutput output7'>{visitorProfile.Address}</div>
                 </>
             )}
         </div>

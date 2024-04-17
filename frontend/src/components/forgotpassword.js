@@ -14,13 +14,13 @@ const ForgotPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/checkingemail', { email });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/checkingemail', { email });
             console.log('RESPONSE FROM SERVER', response.data.status);
             if (response.data.status === 'success') {
                 let hashedOTP = null;
                 console.log("successfully checked there is a page")
                 try {
-                    const response = await axios.post('http://localhost:3000/sendotp', {email})
+                    const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendotp', {email})
                     hashedOTP = response.data
                     console.log("Email sent successfully");
                   } catch (error) {

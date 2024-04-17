@@ -24,7 +24,7 @@ const Violations =() => {
     // Function to get profile picture for the header
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -44,7 +44,7 @@ const Violations =() => {
     const requiredRole="admin"
     const authcheck =  async () =>{
       // Fucntion to make sure admin is accessing the page, if anyone else attempts to, they are redirected to an error page.
-      const validcheck = await axios.post('http://localhost:3000/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         navigate("/errorpage")
@@ -54,7 +54,7 @@ const Violations =() => {
     // Fucntion to get all violations form the database table
     const fetchViolations = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/violations');
+            const res = await axios.get('https://urchin-app-5oxzs.ondigitalocean.app/violations');
           setViolations(res.data.violations);
           setPercentage(res.data.percentage);
         } catch (error) {

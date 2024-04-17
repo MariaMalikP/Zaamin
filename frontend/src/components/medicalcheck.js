@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Header from './header';
 import Modal from 'react-modal';
@@ -18,12 +17,14 @@ const MedicalCheck = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [insurancePercentage, setInsurancePercentage] = useState(0);
   const [returnStatus, setReturnStatus] = useState('');
+  const location = useLocation();
+  const passedThat = location.state;
 
 
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -38,7 +39,7 @@ const MedicalCheck = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/get-medical-info', { email, role });
+        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/get-medical-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           // window.alert('response.data.profile_deets: ' + JSON.stringify(response.data.profile_deets));
@@ -103,7 +104,7 @@ const MedicalCheck = () => {
     const formData = new FormData();
     formData.append('medicalHistory', medicalHistoryFile);
     try {
-      const response = await axios.post('http://localhost:3000/update-medical-history', formData);
+      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-history', formData);
       window.alert('Medical history updated successfully: ' + JSON.stringify(response.data));
       if (response.data.message === "Path Set") {
         editedProfile.medicalHistory = response.data.filePath;
@@ -120,7 +121,7 @@ const MedicalCheck = () => {
   const updateProfile = async () => {
     try {
       window.alert('editedProfile: ' + JSON.stringify(editedProfile));
-      const response = await axios.post('http://localhost:3000/update-medical-info', { email, role, editedProfile });
+      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-info', { email, role, editedProfile });
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Error updating profile', error);
@@ -134,12 +135,27 @@ const MedicalCheck = () => {
   const handleEditProfileClick = () => {
     navigate(`/profilehome/${email}/${role}/${hashp}`);
   };
+  const handleGoBack = () => {
+    if(passedThat.imfrom === "managerhome")
+    {
+      navigate(`/managerhome/${email}/${hashp}`);
+    }
+    else if(passedThat.imfrom === "employeehome")
+    {
+      navigate(`/employeehome/${email}/${hashp}`);
+    }
+    else
+    {
+      navigate(`/profilehome/${email}/${role}/${hashp}`);
+    }
+  }
 
   return (
     <>
       
       <div className='med_profile'>
       <Header email={email} userProfile={userProfilePic} hashp={hashp}/>
+      <img src="/images/backarrow.png" className="profileback-arrow" alt="Back" onClick={handleGoBack}/>
         <div className='med_heading'>Medical Centre</div>
         <div className='med_display'>
           {userProfile && (
@@ -245,7 +261,6 @@ const MedicalCheck = () => {
           )}
         </div>
         <button className='med-edit-profile' onClick={updateProfile}>Update Profile</button>
-        <button className='element medical-page' onClick={handleEditProfileClick}>Go Back</button>
         <Modal
           isOpen={isSuccessModalOpen}
           onRequestClose={closeModal}

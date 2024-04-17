@@ -11,6 +11,7 @@ const CustomAlert = ({ message, onClose }) => (
 );
 
 const SearchRes = () => {
+  
   const [searchResults, setSearchResults] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const { email, searchTerm,hashp } = useParams();
@@ -19,7 +20,7 @@ const SearchRes = () => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        const userResponse = await axios.post('http://localhost:3000/findrole', { email });
+        const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email });
         if (userResponse.data !== 'User profile not found') {
           setRole(userResponse.data); 
         }
@@ -33,7 +34,7 @@ const SearchRes = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/searchres', { searchTerm });
+        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/searchres', { searchTerm });
         setSearchResults(response.data.profiles);
         setShowAlert(response.data.profiles.length === 0); 
       } catch (error) {
@@ -67,16 +68,25 @@ const SearchRes = () => {
                 <th>Name</th>
                 <th>Department</th>
                 <th>Email</th>
+                <th>View Profile</th> {/* Add View Profile column */}
+
               </tr>
             </thead>
             <tbody>
               {searchResults.map(profile => (
                 <tr className="search-result" key={profile._id}>
-                  <td><img src={profile.Profile_Image} alt="Profile Pic" className="profile-pic" /></td>
-                  <td>{profile.Employee_ID}</td>
+                  <td>                    {profile?.Profile_Image && profile?.Profile_Image!='default.png' ? (
+                            <img src={profile.Profile_Image} alt='Profile' className='profile-pic' />
+                        ) : (
+                            <img src={'https://i.pinimg.com/originals/c0/c2/16/c0c216b3743c6cb9fd67ab7df6b2c330.jpg'} alt='Profile' className='profile-pic' />
+                        )}</td>
+                  <td>{profile.Employee_ID || profile.Manager_ID || profile.Admin_ID}</td>
                   <td>{profile.First_Name} {profile.Last_Name}</td>
                   <td>{profile.Department}</td>
                   <td>{profile.Email}</td>
+                  <td>
+                    <Link to={`/viewprofile/${email}/${profile.Email}/${hashp}/${searchTerm}`}>View Profile</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -89,3 +99,6 @@ const SearchRes = () => {
 };
 
 export default SearchRes;
+
+
+

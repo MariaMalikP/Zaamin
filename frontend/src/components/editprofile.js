@@ -24,7 +24,7 @@ const EditProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.post('http://localhost:3000/viewprofile', { email, role });
+                const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
                 if (response.data.status === "profile exists") {
                     setUserProfile(response.data.profile_deets);
                 }
@@ -84,7 +84,7 @@ const EditProfile = () => {
     const UpdateProfile = async () => {
         try {
             // console.log()
-            const response = await axios.post('http://localhost:3000/edit_profile', { email, role, editedProfile });
+            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/edit_profile', { email, role, editedProfile });
             // setIsSuccessModalOpen(true);
             setAlertOpen(true);
             setAlertSeverity('success');

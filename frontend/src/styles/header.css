@@ -119,3 +119,25 @@ li:hover {
   border: none;
   font-size: 16px;
 }
+.sidebar-button {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 1.0em;
+  color: white;
+  /* color: #b5ecdc99; */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left; /* Adjust as needed */
+  padding: 10px; /* Adjust as needed */
+}
+
+.sidebar-button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Lighten the background color on hover */
+}
+
+.search-icon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
