@@ -132,9 +132,6 @@ const MedicalCheck = () => {
     setIsSuccessModalOpen(false);
   };
 
-  const handleEditProfileClick = () => {
-    navigate(`/profilehome/${email}/${role}/${hashp}`);
-  };
   const handleGoBack = () => {
     if(passedThat.imfrom === "managerhome")
     {

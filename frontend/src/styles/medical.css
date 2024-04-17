@@ -3,6 +3,7 @@
   width: 100%;
   height: 100%;
   background: #E8E1E2;
+  overflow-y: auto;
 }
 
 .med_heading {
