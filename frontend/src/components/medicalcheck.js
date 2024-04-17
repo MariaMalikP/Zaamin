@@ -5,6 +5,7 @@ import Header from './header';
 import Modal from 'react-modal';
 import '../styles/medical.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { AlertTitle, Alert } from '@mui/material';
 
 
 const MedicalCheck = () => {
@@ -19,6 +20,9 @@ const MedicalCheck = () => {
   const [returnStatus, setReturnStatus]= useState('');
   const location = useLocation();
   const passedThat = location.state;
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
 
 
   useEffect(() => {
@@ -122,15 +126,17 @@ const MedicalCheck = () => {
     try {
       window.alert('editedProfile: ' + JSON.stringify(editedProfile));
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-info', { email, role, editedProfile });
-      setIsSuccessModalOpen(true);
+      setAlertOpen(true);
+      setAlertSeverity('error');
+      alert('Profile Updated Successfully');
     } catch (error) {
       console.error('Error updating profile', error);
     }
   };
 
-  const closeModal = () => {
-    setIsSuccessModalOpen(false);
-  };
+  // const closeModal = () => {
+  //   setIsSuccessModalOpen(false);
+  // };
   console.log("passedThat: ", passedThat);
   const handleGoBack = () => {
     if(passedThat === null || passedThat === undefined || passedThat.imfrom === null || passedThat.imfrom === undefined)
@@ -258,19 +264,6 @@ const MedicalCheck = () => {
           )}
         </div>
         <button className='med-edit-profile' onClick={updateProfile}>Update Profile</button>
-        <Modal
-          isOpen={isSuccessModalOpen}
-          onRequestClose={closeModal}
-          contentLabel="Success Modal"
-          className="modal-content"
-    
-        >
-          <div>
-            <h2>Success!</h2>
-            <h2>Your Medical profile has been updated successfully.</h2>
-            <button className="close-button" onClick={closeModal}>Close</button>
-          </div>
-        </Modal>
       </div>
     </>
   );

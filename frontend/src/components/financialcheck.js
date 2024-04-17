@@ -5,6 +5,7 @@ import Header from './header';
 import Modal from 'react-modal';
 import '../styles/financial.css';
 import Chart from 'chart.js/auto';
+import { AlertTitle, Alert } from '@mui/material';
 
 const FinancialCheck = () => {
   const { email, role, hashp} = useParams();
@@ -17,7 +18,9 @@ const FinancialCheck = () => {
   const [returnStatus, setReturnStatus] = useState('');
   const location = useLocation();
   const passedThat = location.state;
-
+  const [alertOpen, setAlertOpen] = useState(false);
+    const [alertSeverity, setAlertSeverity] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     const fetchProfilePic = async () => {
@@ -28,7 +31,9 @@ const FinancialCheck = () => {
                 setUserProfilePic(response.data.profile_deets);
             }
         } catch (error) {
-            alert('Error fetching Profile Information', error);
+            setAlertOpen(true);
+              setAlertSeverity('error');
+              setAlertMessage('Error fetching Profile Information');
         }
     }
     fetchProfilePic();
@@ -143,15 +148,17 @@ const handleInputChange = (e) => {
     try {
       // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-financial-info', { email, editedProfile });
-      setIsSuccessModalOpen(true);
+      setAlertOpen(true);
+      setAlertSeverity('error');
+      alert('Profile Updated Successfully');
     } catch (error) {
       console.error('Error updating profile', error);
     }
   };
 
-  const closeModal = () => {
-    setIsSuccessModalOpen(false);
-  };
+  // const closeModal = () => {
+  //   setIsSuccessModalOpen(false);
+  // };
 
 
   return (
@@ -230,19 +237,6 @@ const handleInputChange = (e) => {
           )}
         </div>
         <button className='financial-edit-profile' onClick={updateProfile}>Update Profile</button>
-        {/* <button className='element medical-page' onClick={handleEditProfileClick}>Go Back</button> */}
-        <Modal
-          isOpen={isSuccessModalOpen}
-          onRequestClose={closeModal}
-          contentLabel="Success Modal"
-          className="modal-content"
-        >
-          <div>
-            <h2>Success!</h2>
-            <h2>Your Financial Profile has been updated successfully.</h2>
-            <button className="close-button" onClick={closeModal}>Close</button>
-          </div>
-        </Modal>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 .med_profile {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: #E8E1E2;
@@ -67,7 +67,7 @@
 }
 .leave_app{
   left: 600px;
-  top: 810px;
+  top: 780px;
 
 }
 .insurance_percent
@@ -160,11 +160,11 @@ border-radius: 20px;
   background-color: #E76B34; /* Darker shade of orange on hover */
 }
 .med_ellipse-27 {
-  position: absolute;
+  position: fixed;
   width: 720px;
   height: 100px;
   left: 600px;
-  top: 842px;
+  top: 832px;
   background: linear-gradient(270deg, rgba(82, 182, 154, 0.25) 1.4%, rgba(43, 137, 142, 0.25) 100%);
   border-radius: 30px;
   border: 2px solid #13476F; 
@@ -200,8 +200,8 @@ border-radius: 20px;
 }
 
 .choose-file-btn {
-  position: absolute;
-  top:855px;
+  position: fixed;
+  top:835px;
   left:1350px;
   box-sizing: border-box;
   width: 172px; 
@@ -228,8 +228,8 @@ border-radius: 20px;
 
 /* CSS for Upload button */
 .upload-btn {
-  position: absolute;
-  top:900px;
+  position: fixed;
+  top:880px;
   left:1350px;
   box-sizing: border-box;
   width: 172px; /* Keep width consistent */
@@ -253,17 +253,17 @@ border-radius: 20px;
   background-color: #FF8C6B; /* Lighter orange on hover */
 }
 .insurance-bar {
-  position: absolute;
+  position: fixed;
   top:1000px;
   text-align: center; /* Center align the content */
 }
 
 .circular-container-medical {
-  position: absolute;
+  position: fixed;
   top:400px;
   width: 200px; /* Adjust width as needed */
   height: 100px; /* Adjust height as needed */
-  display: inline-block; /* Ensure circular container remains inline */
+
 }
 
 
