@@ -139,7 +139,7 @@ const MedicalCheck = () => {
       const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-info', { email, role, editedProfile });
       setAlertOpen(true);
       setAlertSeverity('success');
-      setAlertMessage('Invalid email or password');
+      setAlertMessage('Profile updated successfully');
     } catch (error) {
       console.error('Error updating profile', error);
     }
