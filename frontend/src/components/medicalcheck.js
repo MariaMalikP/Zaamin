@@ -16,7 +16,7 @@ const MedicalCheck = () => {
   const [medicalHistoryFile, setMedicalHistoryFile] = useState();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [insurancePercentage, setInsurancePercentage] = useState(0);
-  const [returnStatus, setReturnStatus] = useState('');
+  const [returnStatus, setReturnStatus]= useState('');
   const location = useLocation();
   const passedThat = location.state;
 
@@ -131,15 +131,15 @@ const MedicalCheck = () => {
   const closeModal = () => {
     setIsSuccessModalOpen(false);
   };
-
+  console.log("passedThat: ", passedThat);
   const handleGoBack = () => {
-    if(passedThat.imfrom === "managerhome")
+    if(passedThat === null || passedThat === undefined || passedThat.imfrom === null || passedThat.imfrom === undefined)
     {
-      navigate(`/managerhome/${email}/${hashp}`);
+      navigate(`/${role}home/${email}/${hashp}`);
     }
-    else if(passedThat.imfrom === "employeehome")
+    else if(passedThat.imfrom === "employeehome" || passedThat.imfrom === "managerhome")
     {
-      navigate(`/employeehome/${email}/${hashp}`);
+      navigate(`/${role}home/${email}/${hashp}`);
     }
     else
     {

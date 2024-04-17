@@ -51,7 +51,11 @@ const SearchRes = () => {
         <div className="search-results-container">
           <div className="heading-container">
             <ul>
-              <li><Link to={`/profilehome/${email}/${role}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
+            {role === "admin" ? (
+                <li><Link to={`/admprofilehome/${email}/${role}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
+              ) : (
+                <li><Link to={`/profilehome/${email}/${role}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
+              )}
             </ul>
             <h2 className="search-results-heading">Search Results</h2>
           </div>
@@ -99,6 +103,3 @@ const SearchRes = () => {
 };
 
 export default SearchRes;
-
-
-

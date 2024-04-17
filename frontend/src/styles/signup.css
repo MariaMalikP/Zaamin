@@ -524,3 +524,24 @@ padding: 20px;
 .input-error-signup {
 border: 2px solid red; 
 }
+
+.aankh-icon
+{
+  position: absolute;
+  left: 41%;
+  top: 71%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+
+.confaankh-icon
+{
+  position: absolute;
+  left: 41%;
+  top: 87%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+}

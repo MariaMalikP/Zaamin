@@ -179,3 +179,10 @@ button[type="login-button"] {
     font-size: 20px;
     padding: 20px;
   }
+.eye-icon {
+    position: absolute;
+    left: 83%;
+    top: 60%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

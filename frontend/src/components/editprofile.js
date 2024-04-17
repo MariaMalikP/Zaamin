@@ -69,8 +69,14 @@ const EditProfile = () => {
         const stringified_imageData = JSON.stringify(imageData);
         const unstringify_imageData = JSON.parse(stringified_imageData);
         editedProfile.Profile_Image = unstringify_imageData;
-        setImage(unstringify_imageData);
-        };
+        const fileSizeKB = imageData.length / 1024; // Convert bytes to kilobytes
+        if (fileSizeKB <= 83) {
+            editedProfile.Profile_Image = imageData;
+            setImage(imageData);
+        } else {
+            setAlertOpen(true);
+            setAlertSeverity('error');
+        };};
     // Function to read image file as base64
     const readImageFileAsBase64 = (file) => {
         return new Promise((resolve, reject) => {

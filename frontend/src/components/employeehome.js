@@ -125,7 +125,7 @@ const EmployeeHome = (prop) => {
 
     const medicalnav = async () => {
         try {
-            history(`/medicalcheck/${email}/${role}/${hashp}`);
+            history(`/medicalcheck/${email}/${role}/${hashp}`, {state:{imfrom: "managerhome"}});
         } catch (error) {
             setAlertOpen(true);
             setAlertSeverity('error');
@@ -135,7 +135,7 @@ const EmployeeHome = (prop) => {
 
     const financenav = async () => {
         try {
-            history(`/financialcheck/${email}/${role}/${hashp}`);
+            history(`/financialcheck/${email}/${role}/${hashp}`, {state:{imfrom: "managerhome"}});
         } catch (error) {
             setAlertOpen(true);
             setAlertSeverity('error');

@@ -86,7 +86,11 @@ const AuditLogs = (prop) => {
     };
 
     const handleGoBack = () => {
-      if(passedThat.imfrom === "adminhome")
+      if(passedThat === null || passedThat === undefined || passedThat.imfrom === null || passedThat.imfrom === undefined)
+      {
+        navigate(`/adminhome/${email}/${hashp}`);
+      }
+      else if(passedThat.imfrom === "adminhome")
       {
         navigate(`/adminhome/${email}/${hashp}`);
       }

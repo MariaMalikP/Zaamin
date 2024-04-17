@@ -93,14 +93,13 @@ const FinancialCheck = () => {
 };
 
 const handleGoBack = () => {
-  console.log("hereeee");
-  if(passedThat.imfrom === "managerhome")
+  if(passedThat === null || passedThat === undefined || passedThat.imfrom === null || passedThat.imfrom === undefined)
   {
-    navigate(`/managerhome/${email}/${hashp}`);
+    navigate(`/${role}home/${email}/${hashp}`);
   }
-  else if(passedThat.imfrom === "employeehome")
+  else if(passedThat.imfrom === "employeehome" || passedThat.imfrom === "managerhome")
   {
-    navigate(`/employeehome/${email}/${hashp}`);
+    navigate(`/${role}home/${email}/${hashp}`);
   }
   else
   {

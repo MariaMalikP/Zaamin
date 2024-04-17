@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { enc } from 'crypto-js';
 import {AlertTitle, Alert} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material'; // Import icons for eye option
+
 
 const EmployeeSignup= (prop)=>{
      // React hooks to manage component states
@@ -27,6 +29,9 @@ const EmployeeSignup= (prop)=>{
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertSeverity, setAlertSeverity] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State to toggle confirm password visibility
+
 
     const location = useLocation();
     const maxDate = new Date(); 
@@ -58,18 +63,18 @@ const EmployeeSignup= (prop)=>{
                     setAlertSeverity('error');
                     setAlertMessage('This email is already in use, choose another email.');
                 }
-                if (response.status == 500) { //gives error if OTP can't get generated
+                else if (response.status == 500) { //gives error if OTP can't get generated
                     setAlertOpen(true);
                     setAlertSeverity('error');
                     setAlertMessage('Failed to generate OTP. Please try again later');
                 }
-                if (response.data=== "pass problem") // gives error if password isn't strong enough
+                else if (response.data=== "pass problem") // gives error if password isn't strong enough
                 {
                     setAlertOpen(true);
                     setAlertSeverity('error');
                     setAlertMessage(`Please enter a stronger password. The password must be at least 8 characters long, and contain a mix of uppercase, lowercase and digits. `);
                 }
-                if (response.data=== "password mismatch") //gives error if password and confirm password don't match
+                else if (response.data=== "password mismatch") //gives error if password and confirm password don't match
                 {
                     setAlertOpen(true);
                     setAlertSeverity('error');
@@ -147,24 +152,53 @@ const EmployeeSignup= (prop)=>{
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <label className="signuppassword">Password:<span class="required-star"></span></label>
-                        <input className="signuppass-inp"
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
-                        (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
-                        <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
-                        < input className='confpass-inp'
-                            type="password"
-                            placeholder="Confirm Password"
-                            value={confpassword}
-                            onChange={(e) => setConfrimPassword(e.target.value)}
-                            required
-                        />
+            <label className="signuppassword">Password:<span class="required-star"></span></label>
+            <input
+                className="signuppass-inp"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
+            {/* Eye icon to toggle password visibility */}
+            {showPassword ? (
+                <VisibilityOff
+                    className="aankh-icon"
+                    onClick={() => setShowPassword(false)}
+                />
+            ) : (
+                <Visibility
+                    className="aankh-icon"
+                    onClick={() => setShowPassword(true)}
+                />
+            )}
+            {(password.length<8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password)) &&
+            (<div className="strong-message">The password must be at least 8 characters long, and contain a mix of <br/> uppercase, lowercase and digits.</div>)}
+            <label className="confirm-password">Confirm Password:<span class="required-star"></span></label>
+            <input
+                className="confpass-inp"
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder="Confirm Password"
+                value={confpassword}
+                onChange={(e) => setConfrimPassword(e.target.value)}
+                required
+            />
+            {/* Eye icon to toggle confirm password visibility */}
+            {showConfirmPassword ? (
+                <VisibilityOff
+                    className="confaankh-icon"
+                    onClick={() => setShowConfirmPassword(false)}
+                />
+            ) : (
+                <Visibility
+                    className="confaankh-icon"
+                    onClick={() => setShowConfirmPassword(true)}
+
+                />
+            )}
+            {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)}
+
                         {password !== confpassword && (<div className="error-message">Password and confirm password do not match</div>)}
                         <label className="signupaddress">Address:<span class="required-star"></span></label>
                         <input className="address-inp"
