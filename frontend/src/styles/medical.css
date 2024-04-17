@@ -160,7 +160,7 @@ border-radius: 20px;
   background-color: #E76B34; /* Darker shade of orange on hover */
 }
 .med_ellipse-27 {
-  position: fixed;
+  position: absolute;
   width: 720px;
   height: 100px;
   left: 600px;
@@ -200,7 +200,7 @@ border-radius: 20px;
 }
 
 .choose-file-btn {
-  position: fixed;
+  position: absolute;
   top:855px;
   left:1350px;
   box-sizing: border-box;
@@ -228,7 +228,7 @@ border-radius: 20px;
 
 /* CSS for Upload button */
 .upload-btn {
-  position: fixed;
+  position: absolute;
   top:900px;
   left:1350px;
   box-sizing: border-box;
@@ -253,13 +253,13 @@ border-radius: 20px;
   background-color: #FF8C6B; /* Lighter orange on hover */
 }
 .insurance-bar {
-  position: fixed;
+  position: absolute;
   top:1000px;
   text-align: center; /* Center align the content */
 }
 
 .circular-container-medical {
-  position: fixed;
+  position: absolute;
   top:400px;
   width: 200px; /* Adjust width as needed */
   height: 100px; /* Adjust height as needed */
