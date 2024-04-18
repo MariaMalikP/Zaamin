@@ -1056,6 +1056,7 @@ app.post('/regulations', async (req, res) => {
 
       // Save the new regulation to the database
       await newRegulation.save();
+      logger.info(`Regulation ${name} added successfully`)
       return res.status(201).json({ message: 'Regulation added successfully' });
   }
   catch(error)
@@ -1200,7 +1201,7 @@ app.get('/violations', async (req, res)=> {
     let percentage = ((7-violation_count)/ 7)*100
     percentage = Math.round(percentage);
     console.log("percentage", percentage)
-
+    logger.info(`Violations fetched`)
     res.json({violations: violationsData, percentage: percentage});
 
   } catch (error) {
