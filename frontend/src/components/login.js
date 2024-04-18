@@ -18,6 +18,11 @@ const Login = (prop) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event){
+    window.history.pushState(null, document.title,  window.location.href);
+    });
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
