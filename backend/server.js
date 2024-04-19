@@ -1029,6 +1029,7 @@ app.delete('/removetodo/:id', async (req, res) => {
 // Function to retrieve regualtions from the DB
 app.get('/regulations', async (req, res) => {
   try {
+    logger.info("Regulations viewed")
     const regulations = await Regulation.find();
     if (!regulations) {
       // Handle the case when regulations is undefined
