@@ -35,6 +35,7 @@ function Verify() {
     {
       console.log('Sending user sign up request');
       // console.log(userData);
+      // await axios.post('http://localhost:3000/empsignup', userData)
       await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/empsignup', userData)
           .then((res) => {
               // console.log("Here" + res.data)
@@ -43,7 +44,7 @@ function Verify() {
                 // console.log('Successful')
                 history("/login")
               } 
-              else if (res.json ==="ohooo")
+              else if (res.data ==="ohooo")
               {
                   setAlertOpen(true);
                   setAlertSeverity('error');

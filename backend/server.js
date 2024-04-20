@@ -293,8 +293,6 @@ app.post('/empsignup',async(req,res)=>
       // await FinancialInfo.insertMany(financialData);
       // console.log("Financial data inserted:", financialData);
       
-
-
       //pass id to function encryptionMethod to get encryption method
       if(employeeStatus==="employee")
       {
@@ -357,10 +355,10 @@ app.post('/empsignup',async(req,res)=>
       res.json("yay")
     }
     catch(e)
-        {
-            console.log("smth happened",e)
-            res.json("ohooo")
-        }
+    {
+      console.log("smth happened",e)
+      res.json("ohooo")
+    }
     }
 });
 
