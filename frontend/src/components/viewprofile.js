@@ -13,6 +13,22 @@ const ViewProfile = () => {
     const [visitorProfile, setVisitorProfile] = useState(null);
     const [returnStatus, setReturnStatus] = useState('');
     const [role, setRole] = useState("");
+    const [visitorrole,setVisitorRole]=useState("");
+
+    useEffect(() => {
+        const fetchRole = async () => {
+          try {
+            const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email:visitingEmail });
+            if (userResponse.data !== 'User profile not found') {
+                setVisitorRole(userResponse.data); 
+            }
+          } catch (error) {
+            console.error('Error fetching role Information', error);
+          }
+        };
+    
+        fetchRole();
+      }, [visitingEmail]);
 
 
     useEffect(() => {
@@ -40,6 +56,12 @@ const ViewProfile = () => {
         navigate(`/searchres/${email}/${searchTerm}/${hashp}`);
     };
 
+    function convertToTitleCase(str) {
+        if (!str) {
+            return ""
+        }
+        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    }
     return (
         <div className='profile'>
             <Header email={email} userProfile={userProfile}  hashp={hashp}/>
@@ -76,7 +98,7 @@ const ViewProfile = () => {
                         <img src='/info.png' className='info' alt='Info' />
                         {/* Description */}
                     </div>
-                    <div className='output-box output output6'>Employee</div>
+                    <div className='output-box output output6'>{convertToTitleCase(visitorrole)}</div>
                 </>
             )}
         </div>

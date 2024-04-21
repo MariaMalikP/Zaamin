@@ -118,6 +118,12 @@ const EditProfile = () => {
             navigate(`/profilehome/${email}/${role}/${hashp}`);
         }
     };
+    function convertToTitleCase(str) {
+        if (!str) {
+            return ""
+        }
+        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    }
 
     return (
         <div className='profile'>
@@ -196,7 +202,7 @@ const EditProfile = () => {
                             <div className='description-box'> Your role in the company. Employee/Manager/Admin </div>
                         )}
                     </div>
-                    <div className='output-box output output6'>Employee</div>
+                    <div className='output-box output output6'>{convertToTitleCase(role)}</div>
                     <div className='title address'>Address:</div>
                     <textarea
                         name="Address"

@@ -101,7 +101,7 @@ import React, { useState, useEffect } from 'react';
                              <div className='description-box'> Your role in the company. Employee/Manager/Admin </div>
                          )}
                      </div>
-                     <div className='output-box output output6'>Employee</div>
+                     <div className='output-box output output6'>Admin</div>
                      <div className='title address'>Address:</div>
                      <div className='big-output leftoutput output7'>{userProfile.Address}</div>
                      <button className='edit-profile' onClick={handleEditProfileClick}>Edit Profile</button>

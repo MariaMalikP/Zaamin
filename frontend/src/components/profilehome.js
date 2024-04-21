@@ -90,6 +90,12 @@ const ProfileHome = () => {
     const Backfunction = () => {
         navigate(`/${role}home/${email}/${hashp}`);
     };
+    function convertToTitleCase(str) {
+        if (!str) {
+            return ""
+        }
+        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    }
 
     return (
         <div className='profile'>
@@ -128,7 +134,7 @@ const ProfileHome = () => {
                             <div className='description-box'> Your role in the company. Employee/Manager/Admin </div>
                         )}
                     </div>
-                    <div className='output-box output output6'>Employee</div>
+                    <div className='output-box output output6'>{convertToTitleCase(role)}</div>
                     <div className='title address'>Address:</div>
                     <div className='big-output leftoutput output7'>{userProfile.Address}</div>
                     <button className='edit-profile' onClick={handleEditProfileClick}>Edit Profile</button>
