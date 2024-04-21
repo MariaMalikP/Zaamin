@@ -142,7 +142,7 @@ const handleInputChange = (e) => {
   };
 
   const handleEditProfileClick = () => {
-    navigate(`/profilehome/${email}/${role}/${hashp}`);
+    navigate(`/searchingFinance/${email}/${role}/${hashp}`);
   };
 
   return (
@@ -165,6 +165,7 @@ const handleInputChange = (e) => {
                 type="text"
                 name="salary"
                 value={editedProfile.salary !== undefined ? editedProfile.salary : userProfile.salary}
+                onChange={handleInputChange}
                 className='financial-output-box financial-output financial-output2'
               />
               <div className='financial_title bonuses'>Bonuses:</div>

@@ -65,7 +65,14 @@ const ProfileHome = () => {
         navigate(`/medicalcheck/${email}/${role}/${hashp}`,  {state:{imfrom: "profilehome"}})
     }
     const FinanceCheck = async (e) => {
-        navigate(`/financialcheck/${email}/${role}/${hashp}`, {state:{imfrom: "profilehome"}});
+        if(role === 'employee')
+        {
+            navigate(`/financialcheck/${email}/${role}/${hashp}`, {state:{imfrom: "profilehome"}});
+        }
+        else
+        {
+            navigate(`/searchingFinance/${email}/${role}/${hashp}`, {state:{imfrom: "profilehome"}});
+        }
     }
     const handlePasswordChange = async (e) => {
         e.preventDefault();

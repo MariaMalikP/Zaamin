@@ -146,7 +146,7 @@ const ManagerHome = (prop) => {
 
     const financenav = async () => {
         try {
-            history(`/financialcheck/${email}/${role}/${hashp}`, {state:{imfrom: "managerhome"}});
+            history(`/searchingFinance/${email}/${role}/${hashp}`, {state:{imfrom: "managerhome"}});
         } catch (error) {
             setAlertOpen(true);
             setAlertSeverity('error');

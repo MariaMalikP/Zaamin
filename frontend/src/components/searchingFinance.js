@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/SearchResults.css';
 import Header from './header';
- 
 
 const CustomAlert = ({ message, onClose }) => (
   <div className="custom-alert">
@@ -14,8 +12,8 @@ const CustomAlert = ({ message, onClose }) => (
 );
 
 const SearchFinance = () => {
-  const history=useNavigate()
-const { email,role, hashp } = useParams();
+  const history = useNavigate();
+  const { email, role, hashp } = useParams();
   const [financialProfiles, setFinancialProfiles] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [userProfilePic, setUserProfilePic] = useState(null);
@@ -23,39 +21,44 @@ const { email,role, hashp } = useParams();
 
   useEffect(() => {
     const fetchProfilePic = async () => {
-        try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
-            if (response.data.status === "profile exists") {
-                setReturnStatus(response.data.status);
-                setUserProfilePic(response.data.profile_deets);
-            }
-        } catch (error) {
-            alert('Error fetching Profile Information', error);
+      try {
+        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+        if (response.data.status === "profile exists") {
+          setReturnStatus(response.data.status);
+          setUserProfilePic(response.data.profile_deets);
         }
-    }
+      } catch (error) {
+        console.error('Error fetching Profile Information:', error);
+      }
+    };
     fetchProfilePic();
-}, [email]);
+  }, [email]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (role === 'admin') {
+        if (role === 'manager') {
           const financialResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/financialprofiles');
           setFinancialProfiles(financialResponse.data.profiles);
           CustomAlert("You don't have access to this");
-        }
-        else
-        {
-          history("/errorpage")
-
+        } else {
+          history.push("/errorpage");
         }  
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
-  }, [email, role]);
+  }, [email, role, history]);
+
+  const navigateToHome = () => {
+    const passedThat = null; // Replace with the appropriate value or logic to determine the condition
+    if (!passedThat || !passedThat.imfrom || passedThat.imfrom === "managerhome") {
+      history.push(`/${role}home/${email}/${hashp}`);
+    } else {
+      history.push(`/profilehome/${email}/${role}/${hashp}`);
+    }
+  };
 
   return (
     <div className="srb">
@@ -64,7 +67,7 @@ const { email,role, hashp } = useParams();
         <div className="search-results-container">
           <div className="heading-container">
             <ul>
-              <li><Link to={`/profilehome/${email}/${"admin"}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
+              <li><Link to={`/profilehome/${email}/${"manager"}/${hashp}`}><img className="back-arrow" src="/images/backarrow.png" alt="Back" /></Link></li>
             </ul>
             <h2 className="search-results-heading"> Financial Profiles</h2>
           </div>
@@ -78,8 +81,7 @@ const { email,role, hashp } = useParams();
               </tr>
             </thead>
             <tbody>
-              {/* Render financial profiles if role is admin */}
-              {role === 'admin' && financialProfiles.map(profile => (
+              {role === 'manager' && financialProfiles.map(profile => (
                 <tr className="search-result" key={profile._id}>
                   <td>{profile.id}</td>
                   <td>{profile.email}</td>
@@ -92,6 +94,7 @@ const { email,role, hashp } = useParams();
           </table>
         </div>
       </div>
+      <button onClick={navigateToHome}>Go Home</button>
     </div>
   );
 };
