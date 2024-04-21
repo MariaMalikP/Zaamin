@@ -36,8 +36,18 @@ const EditProfile = () => {
             }
         };
         fetchProfile();
+        authcheck();
     }, [email, role]);
-
+    const requiredRole=role;
+    const authcheck =  async () =>{
+      
+      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      if(validcheck.data.message!= 'success')
+      {
+        // alert(validcheck.data)
+        navigate("/errorpage")
+      }
+    }
     const handleEditProfileClick = () => {
         if(role === 'admin')
         {

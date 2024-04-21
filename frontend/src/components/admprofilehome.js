@@ -32,8 +32,20 @@ import React, { useState, useEffect } from 'react';
              }
          }
          fetchProfile();
+         authcheck();
      }, []);
- 
+
+    const requiredRole="admin"
+    const authcheck =  async () =>{
+      
+      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      if(validcheck.data.message!= 'success')
+      {
+        // alert(validcheck.data)
+        navigate("/errorpage")
+      }
+    }
+
      const handleEditProfileClick = async () => {
         // navigate(`/editprofile/${email}/${role}/${hashp}`);
         let hashedOTP = null;

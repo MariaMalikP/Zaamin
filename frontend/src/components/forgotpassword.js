@@ -37,7 +37,7 @@ const ForgotPassword = () => {
             setError(error.message);
         }
     };
-
+    
     return (
         <div className="forgot-password-page">
             <div className="gradient-box"></div>

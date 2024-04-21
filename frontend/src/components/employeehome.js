@@ -48,8 +48,18 @@ const EmployeeHome = (prop) => {
         }
     }
     fetchProfilePic();
+    authcheck();
     }, []);
-
+    const requiredRole="employee"
+    const authcheck =  async () =>{
+      
+      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      if(validcheck.data.message!= 'success')
+      {
+        // alert(validcheck.data)
+        history("/errorpage")
+      }
+    }
     const getFullName = async () => {
         try {
             const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/getname', { email, role });
