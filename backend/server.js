@@ -381,9 +381,9 @@ app.post('/sendemail', async(req,res) => {
   }
   async function sendEmail(props) {
     var data = {
-      service_id: 'service_ght1pvl',
-      template_id: 'template_o3fo23l',
-      user_id: 'hMDaxOh2b9hIQhZ_5',
+      service_id: 'service_vz1qsgw',
+      template_id: 'template_1jmnnzn',
+      user_id: 'kY-x6uhNcEt4VJyde',
       accessToken: process.env.EMAILJS_PRIVATE,
       template_params: {
         'to_send': props.email,
@@ -419,9 +419,9 @@ app.post('/sendotp', async(req,res) => {
   console.log("pls");
   async function sendEmail(props) {
     var data = {
-      service_id: 'service_ght1pvl',
-      template_id: 'template_o3fo23l',
-      user_id: 'hMDaxOh2b9hIQhZ_5',
+      service_id: 'service_vz1qsgw',
+      template_id: 'template_1jmnnzn',
+      user_id: 'kY-x6uhNcEt4VJyde',
       accessToken: process.env.EMAILJS_PRIVATE,
       template_params: {
         'to_send': props.email,
