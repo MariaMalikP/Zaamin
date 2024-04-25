@@ -894,8 +894,8 @@ app.get('/logs', async (req, res) => {
 app.get('/birthdays-today', async (req, res) => {
   try {
     const aaa = new Date();
-    aaa.setUTCHours(0, 0, 0, 0);
-    const specificDate = aaa.toISOString();
+    aaa.setUTCHours(19, 0, 0, 0);
+    const specificDate = aaa;
     //const specificDate = new Date("2024-03-12T19:00:00.000Z"); //for testing
     
     const aggregationPipeline = [
