@@ -26,18 +26,18 @@ regulationSchema.pre('save', async function(next) {
     let maxVersion=0
     if(latestVersion.length>0)
     {
-        maxVersion = latestVersion[0].version
+      maxVersion = latestVersion[0].version
     }
 
-    // Increment the version for this regulation
+    // // Increment the version for this regulation
     // get the minor part i.e the decimal part of the version number and increment that
-    const [, minor] = maxVersion.substring(1).split('.').map(Number);
+    const [major, minor] = maxVersion.substring(1).split('.').map(Number);
 
     // Increment the minor version
     const newMinor = minor + 1;
 
     // Generate the new version string
-    const newVersion = `v${currentMajor}.${newMinor}`;
+    const newVersion = `v${major}.${newMinor}`;
     this.version = newVersion
 
     // Update all regulations with the latest version
