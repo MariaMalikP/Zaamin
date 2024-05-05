@@ -39,7 +39,7 @@ const AdminHome = () => {
         })
         const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -58,7 +58,7 @@ const AdminHome = () => {
     const requiredRole="admin"
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!== 'success')
       {
         // alert(validcheck.data)
@@ -68,7 +68,7 @@ const AdminHome = () => {
 
     const getFullName = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/getname', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/getname', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setFirstName(response.data.firstname);
@@ -84,7 +84,7 @@ const AdminHome = () => {
 
     const getBirthdays = async () => {
         try {
-            const aa = await axios.get('https://urchin-app-5oxzs.ondigitalocean.app/birthdays-today')
+            const aa = await axios.get('https://zaaminbackend.vercel.app/birthdays-today')
             setBds(aa.data)
             console.log(bds)
         } catch (error) {
@@ -94,7 +94,7 @@ const AdminHome = () => {
 
     const fetchTodoList = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/gettodo', {email});
+            const response = await axios.post('https://zaaminbackend.vercel.app/gettodo', {email});
             setTodoList(response.data);
         } catch (error) {
             console.error('Error fetching to-do list:', error);
@@ -103,7 +103,7 @@ const AdminHome = () => {
 
     const addTodo = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/addtodo', { email, task: newTodo });
+            const response = await axios.post('https://zaaminbackend.vercel.app/addtodo', { email, task: newTodo });
             fetchTodoList(email); 
             setNewTodo(''); 
         } catch (error) {
@@ -113,7 +113,7 @@ const AdminHome = () => {
 
     const removeTodo = async (id) => {
         try {
-            await axios.delete(`https://urchin-app-5oxzs.ondigitalocean.app/removetodo/${id}`);
+            await axios.delete(`https://zaaminbackend.vercel.app/removetodo/${id}`);
             fetchTodoList(email); 
         } catch (error) {
             console.error('Error removing to-do:', error);
@@ -122,7 +122,7 @@ const AdminHome = () => {
     
     const addannouncement = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/addannouncement', { eventTitle, eventDescription, eventDate, eventTime });
+            const response = await axios.post('https://zaaminbackend.vercel.app/addannouncement', { eventTitle, eventDescription, eventDate, eventTime });
             setAlertOpen(true);
             setAlertSeverity('success');
             setAlertMessage('Announcement added successfully');

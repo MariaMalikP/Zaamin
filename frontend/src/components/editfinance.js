@@ -23,7 +23,7 @@ const FinancialEdit = () => {
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -40,7 +40,7 @@ const FinancialEdit = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/get-financial-info', { email:visitoremail });
+        const response = await axios.post('https://zaaminbackend.vercel.app/get-financial-info', { email:visitoremail });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           barGraph(response.data.profile_deets);
@@ -130,7 +130,7 @@ const handleInputChange = (e) => {
     }
     try {
       // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
-      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-financial-info', { email:visitoremail ,  editedProfile });
+      const response = await axios.post('https://zaaminbackend.vercel.app/update-financial-info', { email:visitoremail ,  editedProfile });
       setIsSuccessModalOpen(true);
     } catch (error) {
       console.error('Error updating profile', error);

@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react';
      useEffect(() => {
          const fetchProfile = async () => {
              try {
-                 const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+                 const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
                  if (response.data.status === "profile exists") {
                      setReturnStatus(response.data.status);
                      setProfile(response.data.profile_deets);
@@ -38,7 +38,7 @@ import React, { useState, useEffect } from 'react';
     const requiredRole="admin"
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)
@@ -51,7 +51,7 @@ import React, { useState, useEffect } from 'react';
         let hashedOTP = null;
         console.log("successfully checked there is a page")
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendotp', {email})
+            const response = await axios.post('https://zaaminbackend.vercel.app/sendotp', {email})
             hashedOTP = response.data
             console.log("Email sent successfully");
         } 

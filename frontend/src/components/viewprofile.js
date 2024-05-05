@@ -18,7 +18,7 @@ const ViewProfile = () => {
     useEffect(() => {
         const fetchRole = async () => {
           try {
-            const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email:visitingEmail });
+            const userResponse = await axios.post('https://zaaminbackend.vercel.app/findrole', { email:visitingEmail });
             if (userResponse.data !== 'User profile not found') {
                 setVisitorRole(userResponse.data); 
             }
@@ -35,12 +35,12 @@ const ViewProfile = () => {
         // window.alert(Email: ${email}, Visiting Email: ${visitingEmail});
         const fetchProfiles = async () => {
             try {
-                const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewsearchprofile', { email });
+                const userResponse = await axios.post('https://zaaminbackend.vercel.app/viewsearchprofile', { email });
                 if (userResponse.data.status === "profile exists") {
                     setUserProfile(userResponse.data.profile_deets);
                     setRole(userResponse.data.role); 
                 }
-                const visitorResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewsearchprofile', { email: visitingEmail });
+                const visitorResponse = await axios.post('https://zaaminbackend.vercel.app/viewsearchprofile', { email: visitingEmail });
                 if (visitorResponse.data.status === "profile exists") {
                     setReturnStatus(visitorResponse.data.status);
                     setVisitorProfile(visitorResponse.data.profile_deets);

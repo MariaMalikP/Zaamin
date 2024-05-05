@@ -25,7 +25,7 @@ const FinancialCheck = () => {
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -42,7 +42,7 @@ const FinancialCheck = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/get-financial-info', { email, role });
+        const response = await axios.post('https://zaaminbackend.vercel.app/get-financial-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           barGraph(response.data.profile_deets);
@@ -100,7 +100,7 @@ const FinancialCheck = () => {
 const requiredRole=role
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)
@@ -157,7 +157,7 @@ const handleInputChange = (e) => {
     }
     try {
       // window.alert('editedProfile: ' + JSON.stringify(editedProfile));
-      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-financial-info', { email, editedProfile });
+      const response = await axios.post('https://zaaminbackend.vercel.app/update-financial-info', { email, editedProfile });
       setAlertOpen(true);
       setAlertSeverity('error');
       setAlertOpen(true);

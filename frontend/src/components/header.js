@@ -34,7 +34,7 @@ const Header = ({ email, userProfile, hashp }) => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email });
+        const userResponse = await axios.post('https://zaaminbackend.vercel.app/findrole', { email });
         if (userResponse.data !== 'User profile not found') {
           setRole(userResponse.data); 
         }

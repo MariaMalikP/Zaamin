@@ -24,7 +24,7 @@ const EditProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+                const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
                 if (response.data.status === "profile exists") {
                     setUserProfile(response.data.profile_deets);
                 }
@@ -41,7 +41,7 @@ const EditProfile = () => {
     const requiredRole=role;
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)
@@ -100,7 +100,7 @@ const EditProfile = () => {
     const UpdateProfile = async () => {
         try {
             // console.log()
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/edit_profile', { email, role, editedProfile });
+            const response = await axios.post('https://zaaminbackend.vercel.app/edit_profile', { email, role, editedProfile });
             // setIsSuccessModalOpen(true);
             setAlertOpen(true);
             setAlertSeverity('success');

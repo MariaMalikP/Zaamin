@@ -22,7 +22,7 @@ const SearchFinance = () => {
   useEffect(() => {
     const fetchProfilePic = async () => {
       try {
-        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+        const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
         if (response.data.status === "profile exists") {
           setReturnStatus(response.data.status);
           setUserProfilePic(response.data.profile_deets);
@@ -38,7 +38,7 @@ const SearchFinance = () => {
     const fetchData = async () => {
       try {
         if (role === 'manager') {
-          const financialResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/financialprofiles');
+          const financialResponse = await axios.post('https://zaaminbackend.vercel.app/financialprofiles');
           setFinancialProfiles(financialResponse.data.profiles);
           CustomAlert("You don't have access to this");
         } else {

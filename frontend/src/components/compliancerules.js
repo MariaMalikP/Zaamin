@@ -27,7 +27,7 @@ const Compliancerules =() => {
     // Function to get profile picture for the header
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -52,7 +52,7 @@ const Compliancerules =() => {
     const requiredRole="admin"
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         navigate("/errorpage")
@@ -62,7 +62,7 @@ const Compliancerules =() => {
     // Fucntion to get all regulations form the database table
     const fetchRegulations = async () => {
         try {
-            const res = await axios.get('https://urchin-app-5oxzs.ondigitalocean.app/regulations');
+            const res = await axios.get('https://zaaminbackend.vercel.app/regulations');
             setRegulations(res.data.reg);
             if(res.data==="Internal Server Error")
             {
@@ -80,7 +80,7 @@ const Compliancerules =() => {
     // Function to add a new regualtion to the database table
     const handleAddRegulation = () => {
         // Send POST request to add a new regulation
-        axios.post('https://urchin-app-5oxzs.ondigitalocean.app/regulations', { name: regulationName, description: regulationDescription })
+        axios.post('https://zaaminbackend.vercel.app/regulations', { name: regulationName, description: regulationDescription })
             .then((res) => {
                 // Refresh regulations after adding
                 fetchRegulations();

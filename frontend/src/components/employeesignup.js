@@ -56,7 +56,7 @@ const EmployeeSignup= (prop)=>{
             //if email is valid, proceed, else give an error
             if (response.data.data.result === 'deliverable') 
             {
-                const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendemail', {email,password,confpassword})
+                const response = await axios.post('https://zaaminbackend.vercel.app/sendemail', {email,password,confpassword})
                 if (response.data=== "email exists") //checks if email already exists
                 {
                     setAlertOpen(true);

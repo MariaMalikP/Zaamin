@@ -28,7 +28,7 @@ const MedicalCheck = () => {
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -45,7 +45,7 @@ const MedicalCheck = () => {
 const requiredRole=role
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)
@@ -55,7 +55,7 @@ const requiredRole=role
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/get-medical-info', { email, role });
+        const response = await axios.post('https://zaaminbackend.vercel.app/get-medical-info', { email, role });
         if (response.data.status === "profile exists") {
           setUserProfile(response.data.profile_deets);
           // window.alert('response.data.profile_deets: ' + JSON.stringify(response.data.profile_deets));
@@ -124,7 +124,7 @@ const requiredRole=role
     const formData = new FormData();
     formData.append('medicalHistory', medicalHistoryFile);
     try {
-      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-history', formData);
+      const response = await axios.post('https://zaaminbackend.vercel.app/update-medical-history', formData);
       setAlertOpen(true);
       setAlertSeverity('success');
       setAlertMessage('Medical history updated successfully');
@@ -146,7 +146,7 @@ const requiredRole=role
 
   const updateProfile = async () => {
     try {
-      const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/update-medical-info', { email, role, editedProfile });
+      const response = await axios.post('https://zaaminbackend.vercel.app/update-medical-info', { email, role, editedProfile });
       setAlertOpen(true);
       setAlertSeverity('success');
       setAlertMessage('Profile updated successfully');

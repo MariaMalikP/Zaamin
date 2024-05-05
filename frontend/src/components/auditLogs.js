@@ -22,7 +22,7 @@ const AuditLogs = (prop) => {
   useEffect(() => {
     const fetchProfilePic = async () => {
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+            const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
             if (response.data.status === "profile exists") {
                 setReturnStatus(response.data.status);
                 setUserProfilePic(response.data.profile_deets);
@@ -39,7 +39,7 @@ const AuditLogs = (prop) => {
     authcheck();
     const fetchLogs = async () => {
       try {
-        const response = await axios.get('https://urchin-app-5oxzs.ondigitalocean.app/logs', {params: {email: email}});
+        const response = await axios.get('https://zaaminbackend.vercel.app/logs', {params: {email: email}});
         console.log(response.data)
         setLogs(response.data);
         setFirstFifteen(response.data.slice().reverse().slice(0,15))
@@ -55,7 +55,7 @@ const AuditLogs = (prop) => {
     const requiredRole="admin"
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)

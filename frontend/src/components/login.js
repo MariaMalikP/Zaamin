@@ -26,7 +26,7 @@ const Login = (prop) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/login', { email, password });
+            const response = await axios.post('https://zaaminbackend.vercel.app/login', { email, password });
             console.log('RESPONSE FROM SERVER', response.data.status);
             if (response.data.status === 'success') {
                 setToken(response.data.token);

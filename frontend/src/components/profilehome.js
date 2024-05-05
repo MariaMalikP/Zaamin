@@ -23,7 +23,7 @@ const ProfileHome = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/viewprofile', { email, role });
+                const response = await axios.post('https://zaaminbackend.vercel.app/viewprofile', { email, role });
                 if (response.data.status === "profile exists") {
                     setReturnStatus(response.data.status);
                     setProfile(response.data.profile_deets);
@@ -40,7 +40,7 @@ const ProfileHome = () => {
     const requiredRole=role
     const authcheck =  async () =>{
       
-      const validcheck = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/validcheck', { email, hashp, role,requiredRole });
+      const validcheck = await axios.post('https://zaaminbackend.vercel.app/validcheck', { email, hashp, role,requiredRole });
       if(validcheck.data.message!= 'success')
       {
         // alert(validcheck.data)
@@ -52,7 +52,7 @@ const ProfileHome = () => {
         let hashedOTP = null;
         console.log("successfully checked there is a page")
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendotp', {email})
+            const response = await axios.post('https://zaaminbackend.vercel.app/sendotp', {email})
             hashedOTP = response.data
             console.log("Email sent successfully");
         } 
@@ -77,13 +77,13 @@ const ProfileHome = () => {
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/checkingemail', { email });
+            const response = await axios.post('https://zaaminbackend.vercel.app/checkingemail', { email });
             console.log('RESPONSE FROM SERVER', response.data.status);
             if (response.data.status === 'success') {
                 let hashedOTP = null;
                 console.log("successfully checked there is a page")
                 try {
-                    const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/sendotp', {email})
+                    const response = await axios.post('https://zaaminbackend.vercel.app/sendotp', {email})
                     hashedOTP = response.data
                     console.log("Email sent successfully");
                   } catch (error) {

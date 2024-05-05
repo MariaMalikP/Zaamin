@@ -36,7 +36,7 @@ function Verify() {
       console.log('Sending user sign up request');
       // console.log(userData);
       // await axios.post('http://localhost:3000/empsignup', userData)
-      await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/empsignup', userData)
+      await axios.post('https://zaaminbackend.vercel.app/empsignup', userData)
           .then((res) => {
               // console.log("Here" + res.data)
               if (res.data === "yay") 

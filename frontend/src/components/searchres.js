@@ -20,7 +20,7 @@ const SearchRes = () => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
-        const userResponse = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/findrole', { email });
+        const userResponse = await axios.post('https://zaaminbackend.vercel.app/findrole', { email });
         if (userResponse.data !== 'User profile not found') {
           setRole(userResponse.data); 
         }
@@ -34,7 +34,7 @@ const SearchRes = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.post('https://urchin-app-5oxzs.ondigitalocean.app/searchres', { searchTerm });
+        const response = await axios.post('https://zaaminbackend.vercel.app/searchres', { searchTerm });
         setSearchResults(response.data.profiles);
         setShowAlert(response.data.profiles.length === 0); 
       } catch (error) {
