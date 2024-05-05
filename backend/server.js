@@ -173,6 +173,10 @@ async function getEncryptionMethodById(id) {
   }
 }
 
+app.get('/', async(req,res) => {
+  res.json("Server is running")
+})
+
 app.post('/empsignup',async(req,res)=>
 {
   const {firstname,lastname,email,password,confpassword,age,phone,securityQ,address,selectedDate,department,employeeStatus,encryption} = req.body;
